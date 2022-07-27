@@ -62,6 +62,7 @@ export function SignIn({navigation}) {
     navigationAxios
   },[password])
 
+  //mensagem exibida no modal
   useEffect(()=>{
     if(message != null){
       setBoxAlert(true)
