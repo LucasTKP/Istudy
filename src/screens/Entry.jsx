@@ -29,7 +29,7 @@ export function Entry({ navigation }) {
 
   //Verifica se existe o token e se é valido
  async  function verifyUser() {
-  if(dataFilterGlobal.token){
+  if(dataFilterGlobal){
       const data = {
         token: dataFilterGlobal.token
       }
@@ -42,7 +42,7 @@ export function Entry({ navigation }) {
         setVisible(false)
       }
     } else {
-      navigation.navigate("Login")
+      navigation.navigate("SignIn")
     }
 }
 

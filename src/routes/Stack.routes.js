@@ -20,25 +20,9 @@ export function StackRoutes() {
   return (
       <Navigator>
 
-      <Screen
-          name="TabBar"
-          component={TabBar}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerShown: false
-          }}
-        />
+      
 
-          <Screen
-          name="Home"
-          component={Home}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerShown: false
-          }}
-        />
+        
 
         <Screen
           name="Entry"
@@ -49,10 +33,17 @@ export function StackRoutes() {
           }}
         />
 
-        <Screen
-          name="TradeAvatar"
-          component={TradeAvatar}
+      <Screen
+          name="TabBar"
+          component={TabBar}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerShown: false
+          }}
         />
+
+        
 
         <Screen
           name="SignUp"
@@ -76,6 +67,15 @@ export function StackRoutes() {
           component={ResetPassword}
           />    
         
+        <Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerShown: false
+          }}
+        />
 
         <Screen
           name="Profile"
@@ -98,6 +98,11 @@ export function StackRoutes() {
           name="Filter"
           component={Filter}
           />
+
+        <Screen
+          name="TradeAvatar"
+          component={TradeAvatar}
+        />
 
       </Navigator>
   )

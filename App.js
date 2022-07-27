@@ -7,9 +7,11 @@ export const UserContext = React.createContext();
 
 export default function App() {
   const [dataUser, setDataUser] = React.useState ({})
+  const [modal, setModal] = React.useState (false)
+  const [alert, setAlert] = React.useState (false)
 
   return (
-    <UserContext.Provider value={{dataUser, setDataUser}}>
+    <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert}} >
       <Routes />
     </UserContext.Provider>
     

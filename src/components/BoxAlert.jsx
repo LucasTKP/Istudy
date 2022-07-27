@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Alert, Modal, StyleSheet, Text, Image } from "react-native";
 import styled from 'styled-components/native'
 import  Icon  from 'react-native-vector-icons/MaterialIcons'
+import { UserContext } from '../../App';
 
 
-export default function ConfirmationCode({message, type, On}) {
-    const [modalVisible, setModalVisible] = useState(true)
+export default function ConfirmationCode({message, type}) {
+
+  //Variavel global
+  const {setAlert, alert} = useContext(UserContext)
+  console.log(alert)
     var name = ""
     if(type === 'sucesso'){
       name = 'file-download-done'
@@ -17,19 +21,19 @@ export default function ConfirmationCode({message, type, On}) {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={alert}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
+          setAlert(!alert);
         }}>
 
-        <ButtonSair onPress={() => setModalVisible(!modalVisible)}>
+        <ButtonSair onPress={() => setAlert(!alert)}>
           <Box>
           <Icon style={{marginTop:10,  marginRight: 5, color: 'white'}} name={name} size= {50}/>
 
             <TextWarning>{message}</TextWarning>
               
-            <ButtonEnviar onPress={() => setModalVisible(!modalVisible)}>
+            <ButtonEnviar onPress={() => setAlert(!alert)}>
               <TextButtonEnviar>OK</TextButtonEnviar>
             </ButtonEnviar>
           </Box>
