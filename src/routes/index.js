@@ -3,7 +3,7 @@ import { StackRoutes } from './Stack.routes'
 
 export function Routes() {
     return (
-    <NavigationContainer>
+    <NavigationContainer>    
         <StackRoutes />
     </NavigationContainer>
     )   

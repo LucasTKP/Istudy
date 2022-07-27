@@ -5,42 +5,100 @@ import { SignIn } from '../screens/SignIn';
 import { SignUp} from '../screens/SignUp';
 import { Home } from '../screens/Home';
 import { Entry } from '../screens/Entry';
-import { Confirmation } from '../screens/Confirmation';
-
+import { ResetPassword } from '../screens/ResetPassword';
+import { Profile } from '../screens/Profile';
+import { AllConquest } from '../screens/AllConquest';
+import { CreateNewDeck } from '../screens/CreateNewDeck';
+import { ShowFlashCard } from '../screens/ShowFlashCard';
+import { Filter } from '../screens/Filter';
+import { TradeAvatar } from '../screens/TradeAvatar';
+import { TabBar } from '../screens/TabBar';
+ 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function StackRoutes() {
   return (
       <Navigator>
 
-        <Screen
-          name="Entry"
-          component={Entry}
+      <Screen
+          name="TabBar"
+          component={TabBar}
           options={{
-            title: 'IStudy',
+            title: '',
+            headerTransparent: true,
+            headerShown: false
+          }}
+        />
+
+          <Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: '',
+            headerTransparent: true,
             headerShown: false
           }}
         />
 
         <Screen
-          name="Login"
-          component={SignIn}
+          name="Entry"
+          component={Entry}
+          options={{
+            title: 'IStudy',
+            headerShown: false,       
+          }}
         />
 
         <Screen
-          name="Cadastro"
+          name="TradeAvatar"
+          component={TradeAvatar}
+        />
+
+        <Screen
+          name="SignUp"
           component={SignUp}
+          options={{
+          headerStyle:{
+            backgroundColor:'white', height:100
+          }
+          }}
         />
+        
+        
 
         <Screen
-          name="Confirmation"
-          component={Confirmation}
+          name="SignIn"
+          component={SignIn}
+        />  
+          
+        <Screen
+          name="ResetPassword"
+          component={ResetPassword}
+          />    
+        
+
+        <Screen
+          name="Profile"
+          component={Profile}
+        />   
+
+        
+
+        <Screen
+          name="ShowFlashCard"
+          component={ShowFlashCard}
           />
 
         <Screen
-          name="Home"
-          component={Home}
-        />
+          name="CreateNewDeck"
+          component={CreateNewDeck}
+          />
+
+        <Screen
+          name="Filter"
+          component={Filter}
+          />
+
       </Navigator>
   )
 }
