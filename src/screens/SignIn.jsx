@@ -61,7 +61,7 @@ export function SignIn({navigation}) {
 
   //mensagem exibida no modal
   useEffect(()=>{
-    if(message != null){
+    if(message != null && message != ""){
       setAlert(true)
     }
   },[message])
@@ -96,7 +96,7 @@ export function SignIn({navigation}) {
     } 
     setPage('Home')
     try{
-      await callAxios ("user/Login", data, "post", 'Home')
+      await callAxios ("user/Login", data, "post")
     }catch(e){
       console.log(e)
     }finally{

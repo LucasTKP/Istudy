@@ -1,110 +1,110 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Text } from 'react-native';
-import logo from '../../assets/logo.png'
-import { StatusBar } from 'expo-status-bar';
-import styled from 'styled-components/native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserContext } from '../../App';
-import useAxios from '../hooks/useAxios'
-import Loading from '../components/Loading'
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-export function Entry({ navigation }) {
-  //Variavel global
-  const {setDataUser} = useContext(UserContext)
-  //Variavel Informação do axios
-  const {callAxios, answerAxios} = useAxios()
-  //Variavel Loading
-  const [visible, setVisible] = useState(false)
-  //Variavel do que contem no chache
-  const [dataFilterGlobal, setDataFilterGlobal] = useState()
+import * as Animatable from 'react-native-animatable'
 
-  GetCache()
 
-  //Puxa oque esta no chache
-  async function GetCache(){
-    const data =  await AsyncStorage.getItem('User');
-    const dataFilter = (JSON.parse(data));
-    setDataFilterGlobal(dataFilter)
-  }
+export function Entry({navigation}) {
+    return (
+        <View style={styles.background}>
+           
+            <View style={styles.containerLogo}>
+                <Animatable.Image delay={100}
+                    animation="flipInY"
+                    source={require('../../assets/logo.png')}
+                    style={{ width: '100%' }}
+                    resizeMode="contain"
+                />
+            </View>
 
-  //Verifica se existe o token e se é valido
- async  function verifyUser() {
-  if(dataFilterGlobal){
-      const data = {
-        token: dataFilterGlobal.token
-      }
-      setVisible(true)
-      try{
-        await callAxios ("user/token", data, "post", 'Home')
-      }catch(e){
-        console.log(e)
-      }finally{
-        setVisible(false)
-      }
-    } else {
-      navigation.navigate("SignIn")
-    }
+            <View style={styles.containerForm}>
+                <Text style={styles.title}>
+                Seja bem-vindo ao Istudy
+                seu aplicativo de estudo com
+                flashcards!
+                </Text>
+
+                <View style={styles.containerButton}> 
+
+                <TouchableOpacity style={styles.buttonSingUp}
+                     onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={styles.buttonText}>Cadastrar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.buttonSingIn}
+                    onPress={() => navigation.navigate('SignIn')}>
+                    
+                    <Text style={styles.buttonText}>Logar</Text>
+                </TouchableOpacity>
+
+                
+
+                </View>
+
+            </View>
+
+        </View>
+    );
 }
 
-//Executa apos vim uma resposta do axios
-useEffect(()=>{
-  if(answerAxios.status === 200){
-    setDataUser(dataFilterGlobal)
-  } 
-},[answerAxios])
+const styles = StyleSheet.create({
+    background: {
+        flex:1,
+        backgroundColor: '#004973',
+    },
+    containerLogo:{
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 75,
+    },
+    containerForm:{
+        flex:2,
+        alignItems: 'center',
+    },
+    title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#FFFF',
+    marginLeft: 62,
+    marginRight: 62,
+    marginTop: 78,
+    },
+    containerButton:{
+    flexDirection: "row",
+    width: 260,
+    marginTop: 120,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(50, 50, 50, 0.48)',
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#fff',
 
-  return (
-    // Container = View / Body (html), criado com o styled component na linha 28.
-    <Container>
-      <Loading visible={visible} />
-       {/* ImageIcon = Image do react-native */}
-        <ImageIcon source={logo}/>
-        <TextEntry>Conheça e estude com outros alunos </TextEntry>
-        <Text2>Faça Já seu cadastro e venha estudar conosco: </Text2>
-        {/* LoginButton = TouchableOpacity */}
-         <ButtonEntry onPress={() => verifyUser()}>
-        {/* Text puxado direto do react-native */}
-          <TextButton>Vamos la!</TextButton>
-        </ButtonEntry>
-
-        <StatusBar style="auto" />
-    </Container>
-  );
-}
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-`
-
-const ImageIcon = styled.Image`
-  margin-top: 30px;
-`
-
-const TextEntry = styled.Text `
-font-size: 20px;
-`
-
-const Text2 = styled.Text `
-font-size: 17px;
-padding-top: 20px;
-padding-bottom: 20px;
-`
-
-const TextButton = styled.Text `
-font-size: 20px;
-color: #fff;
-align-items: center;
-margin: 0 auto;
-margin-top:10px;
-`
-
-const ButtonEntry= styled.TouchableOpacity `
-  background: #0353BF;
-  width: 200px;
-  height: 50px;
-  align-items: center;
-  margin: 25px 10px 25px 10px;
-  border-radius: 20px;
-`
+    },
+    
+    buttonSingUp:{
+    marginTop: -2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#007FC7',
+    borderRadius: 20,
+    height: 62,
+    width: 130,
+    borderWidth: 2,
+    borderColor: '#fff'
+    },
+    buttonSingIn:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 20,
+    width: 130,
+    height: 60,
+    },
+    buttonText:{
+    fontSize: 16,
+    color: '#FFF',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    },
+})
