@@ -13,7 +13,7 @@ import BoxAlert from '../components/BoxAlert'
 export function SignIn({navigation}) {
 
   //Variavel global
-  const {setDataUser} = useContext(UserContext)
+  const {setDataUser, setModal, setAlert} = useContext(UserContext)
   // Variavel que recebe o campo email e o campo senha
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -31,8 +31,6 @@ export function SignIn({navigation}) {
   const [page, setPage] = useState("")
   //Variavel Informação do StoreCache
   const {callStoreCache} = useStoreCache()
-  //Variavel BoxCode visible
-  const [boxCode, setBoxCode] = useState(false)
   //codigo que chega no email
   const [codeEmail, setCodeEmail] = useState("")
   //Variavel Alert Visible
@@ -48,11 +46,10 @@ export function SignIn({navigation}) {
   //executa apos o answerAxios e o navigationAxios alterar
   useEffect(()=>{
     
-    setBoxCode(false)
     if(answerAxios.data){
       setDataUser(answerAxios.data)
     } else if(navigationAxios === 'Modal'){
-      setBoxCode(true)
+      setModal(true)
       setCodeEmail(answerAxios.code)
     }
   },[navigationAxios, answerAxios])
@@ -64,8 +61,8 @@ export function SignIn({navigation}) {
 
   //mensagem exibida no modal
   useEffect(()=>{
-    if(message != null){
-      setBoxAlert(true)
+    if(message != null && message != ""){
+      setAlert(true)
     }
   },[message])
 
@@ -99,7 +96,7 @@ export function SignIn({navigation}) {
     } 
     setPage('Home')
     try{
-      await callAxios ("user/Login", data, "post", 'Home')
+      await callAxios ("user/Login", data, "post")
     }catch(e){
       console.log(e)
     }finally{
@@ -139,8 +136,8 @@ export function SignIn({navigation}) {
   return (
     <Container>
         <Loading visible={visible} />
-        {boxCode ? <BoxCode codeEmail={codeEmail} page={'ResetPassword'} email={email} /> : <Text></Text> }
-        {boxAlert ? <BoxAlert message={message} type={'erro'} /> : <Text></Text>}
+        <BoxCode codeEmail={codeEmail} page={'ResetPassword'} email={email} />
+        <BoxAlert message={message} type={'erro'} />
             <TextLogar> Login </TextLogar>
 
                 <Input  
@@ -180,7 +177,7 @@ export function SignIn({navigation}) {
                 onPress={() => Login()}>
               <TextButton>Login</TextButton>
               </ButtonLogin>
-              <Text style={{fontSize: 16, marginTop:20, textAlign: 'right'}} onPress={() => navigation.navigate('Cadastro')}>Quero me cadastrar</Text>
+              <Text style={{fontSize: 16, marginTop:20, textAlign: 'right'}} onPress={() => navigation.navigate('SignUp')}>Quero me cadastrar</Text>
     </Container>
   );
 }

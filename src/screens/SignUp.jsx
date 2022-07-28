@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components/native'
 import { Text, View, Button, Alert, KeyboardAvoidingView, Image } from 'react-native';
 import { CheckBox } from 'react-native-elements'
@@ -7,8 +7,11 @@ import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 import Pencil from '../../assets/Pencil.png'
 import BoxCode from '../components/BoxCode'
+import { UserContext } from '../../App';
 
 export function SignUp({navigation}) {
+  //Variavel global
+  const {setDataUser, setModal} = useContext(UserContext)
   //Variavel CheckBox
   const [checked, setChecked] = useState(false);
   //Variaveis Dados recebidos do Input
@@ -29,8 +32,6 @@ export function SignUp({navigation}) {
   const [page, setPage] = useState("")
   //Variavel NameIcon
   const [nameIcon, setNameIcon] = useState("eye-off");
-  //Variavel BoxCode visible
-  const [boxCode, setBoxCode] = useState(false)
   //codigo que chega no email
   const [codeEmail, setCodeEmail] = useState("")
   //executa apos o answerAxios alterar
@@ -58,9 +59,8 @@ export function SignUp({navigation}) {
  
   //Muda de pagina apos a confirmação
   useEffect(()=>{
-    setBoxCode(false)
     if(navigationAxios === 'Modal'){
-      setBoxCode(true)
+      setModal(true)
       setCodeEmail(answerAxios.code)
     }
   },[navigationAxios, answerAxios])
@@ -134,7 +134,7 @@ export function SignUp({navigation}) {
   return (
     <BugTeclado behavior='position' >
       <Loading visible={visible} />
-      {boxCode ? <BoxCode codeEmail={codeEmail} email={email} page={'Login'} password={password} name={name} /> : <Text></Text> }
+      <BoxCode codeEmail={codeEmail} email={email} page={'SignIn'} password={password} name={name} />
       <Image source={Pencil} style={{width: '100%'}}></Image>
       <TextCadastrar> Cadastrar </TextCadastrar>
          <Input  

@@ -20,16 +20,6 @@ export function StackRoutes() {
   return (
       <Navigator>
 
-      <Screen
-          name="TabBar"
-          component={TabBar}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerShown: false
-          }}
-        />
-
           <Screen
           name="Home"
           component={Home}
@@ -40,48 +30,16 @@ export function StackRoutes() {
           }}
         />
 
-        <Screen
-          name="Entry"
-          component={Entry}
-          options={{
-            title: 'IStudy',
-            headerShown: false,       
-          }}
-        />
-
-        <Screen
-          name="TradeAvatar"
-          component={TradeAvatar}
-        />
-
-        <Screen
-          name="SignUp"
-          component={SignUp}
-          options={{
-          headerStyle:{
-            backgroundColor:'white', height:100
-          }
-          }}
-        />
-        
-        
-
-        <Screen
-          name="SignIn"
-          component={SignIn}
-        />  
-          
-        <Screen
-          name="ResetPassword"
-          component={ResetPassword}
-          />    
-        
 
         <Screen
           name="Profile"
           component={Profile}
         />   
 
+        <Screen
+          name="TradeAvatar"
+          component={TradeAvatar}
+        />
         
 
         <Screen

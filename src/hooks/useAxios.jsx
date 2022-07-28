@@ -4,14 +4,17 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
 
+
 function useAxios() {
   const navigation = useNavigation();
   // Variavel de resposta do axios
   const  [navigationAxios, setNavigationAxios] = useState(false)
   let answer
-  const [message, setMessage] = useState(null)  
+  const [message, setMessage] = useState("")  
 
   const  [answerAxios, setanswerAxios] = useState({})
+
+  
 
   const callAxios = React.useCallback(async(url, data, type, page) =>{
     
@@ -55,7 +58,8 @@ function useAxios() {
           } 
           
           if (answer.data.status === 201){
-              setMessage(answer.data.message)
+            setMessage("")
+            setMessage(answer.data.message)
           }
            
         }

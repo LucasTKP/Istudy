@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Alert, Modal, StyleSheet, Text, Image } from "react-native";
 import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
+import { UserContext } from '../../App';
+
 
 
 export default function ConfirmationCode({codeEmail, email, password, name, page}) {
+  console.log(codeEmail)
     //variavel de navegação
     const navigation = useNavigation();
-    const [modalVisible, setModalVisible] = useState(true)
     const [error, setError] = useState(false)
     const [bordererror, setBorderError] = useState('white')
     //Variavel Informação do axios
     const {navigationAxios, callAxios, answerAxios} = useAxios()
 
+    const {modal, setModal} = useContext(UserContext)
     //Variavel do codigo digitado
     const [input1, setInput1] = useState("")
     const [input2, setInput2] = useState("")
@@ -35,7 +38,7 @@ export default function ConfirmationCode({codeEmail, email, password, name, page
             }
             setVisible(true)
             try{
-              await callAxios ("user/", data, "post", 'Login')
+              await callAxios ("user/", data, "post", 'SignIn')
             }catch(e){
               console.log(e)
             }finally{
@@ -43,7 +46,7 @@ export default function ConfirmationCode({codeEmail, email, password, name, page
             }
           }
           codeEmail = null //Zera o codigo
-          setModalVisible(!modalVisible)
+          setModal(!modal)
           navigation.navigate(page, {email: email, password:password, name:name})
         } else {
           setError(true)
@@ -57,14 +60,14 @@ export default function ConfirmationCode({codeEmail, email, password, name, page
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
+        visible={modal}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
+          setModal(!modal);
         }}
       >
 
-      <ButtonSair onPress={() => setModalVisible(!modalVisible)}>
+      <ButtonSair onPress={() => setModal(!modal)}>
           <Loading visible={visible} />
           <Box color = {bordererror}>
           <Image source={{uri: 'https://cdn.discordapp.com/attachments/964683470842499182/999797344465854579/Group_38.png'}} style={{width: 60, height: 50}}></Image>

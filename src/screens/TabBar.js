@@ -19,11 +19,12 @@ export function TabBar() {
         backBehavior='history'
         
         screenOptions={{
-            tabBarStyle: { position: 'absolute', backgroundColor: '#91BDD8' },
+            tabBarStyle: { position: 'absolute', backgroundColor: '#91BDD8'},
             tabBarActiveTintColor: '#fff',
             tabStyle:{
                 paddingBottom: 5,
                 paddingTop: 5,
+                marginTop: 10,
             }
           }}
         >
