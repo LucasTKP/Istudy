@@ -1,36 +1,49 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, Image } from "react-native";
 import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import { UserContext } from '../../App';
+import BoxAlert from './BoxAlert'
 
 
 
-export default function ConfirmationCode({codeEmail, email, password, name, page}) {
+
+export default function ConfirmationCode({codeEmail, email, password, name, funcao}) {
   console.log(codeEmail)
     //variavel de navegação
     const navigation = useNavigation();
     const [error, setError] = useState(false)
     const [bordererror, setBorderError] = useState('white')
     //Variavel Informação do axios
-    const {navigationAxios, callAxios, answerAxios} = useAxios()
+    const { callAxios, answerAxios} = useAxios()
+    //Variavel de mensagem
+    const [message, setMessage] = useState()
 
-    const {modal, setModal} = useContext(UserContext)
+    const {modal, setModal, setAlert} = useContext(UserContext)
     //Variavel do codigo digitado
     const [input1, setInput1] = useState("")
     const [input2, setInput2] = useState("")
     const [input3, setInput3] = useState("")
     const [input4, setInput4] = useState("")
 
+    useEffect(()=>{
+      if(answerAxios.status === 200){
+        navigation.navigate('SignIn')
+      } else if (answerAxios.status === 201){
+        setMessage(answerAxios.message)
+      }
+    },[answerAxios])
+
+    
     //Variavel Loading
     const [visible, setVisible] = useState(false)
       //Verifica se o codigo digitado é o enviado no email
       async function VerifyCode(){ 
         var code = (input1 + input2 + input3 + input4)
         if (code == codeEmail){
-          if(page === 'Login'){
+          if(funcao === 'Cadastro'){
             const data = {
               name: name,
               email: email,
@@ -38,16 +51,18 @@ export default function ConfirmationCode({codeEmail, email, password, name, page
             }
             setVisible(true)
             try{
-              await callAxios ("user/", data, "post", 'SignIn')
+              await callAxios ("user/", data, "post")
             }catch(e){
               console.log(e)
             }finally{
               setVisible(false)
             }
-          }
-          codeEmail = null //Zera o codigo
+            setModal(!modal)
+            codeEmail = null //Zera o codigo
+          } else {
           setModal(!modal)
-          navigation.navigate(page, {email: email, password:password, name:name})
+          navigation.navigate('ResetPassword', {email: email, password:password})
+          }
         } else {
           setError(true)
           setBorderError('#FC0004')
@@ -56,7 +71,7 @@ export default function ConfirmationCode({codeEmail, email, password, name, page
 
 
   return (
-
+      
       <Modal
         animationType="slide"
         transparent={true}
@@ -66,7 +81,7 @@ export default function ConfirmationCode({codeEmail, email, password, name, page
           setModal(!modal);
         }}
       >
-
+      <BoxAlert message={message} type={"erro"}/>
       <ButtonSair onPress={() => setModal(!modal)}>
           <Loading visible={visible} />
           <Box color = {bordererror}>

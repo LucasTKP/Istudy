@@ -9,14 +9,12 @@ function useAxios() {
   const navigation = useNavigation();
   // Variavel de resposta do axios
   const  [navigationAxios, setNavigationAxios] = useState(false)
-  let answer
-  const [message, setMessage] = useState("")  
 
   const  [answerAxios, setanswerAxios] = useState({})
 
   
 
-  const callAxios = React.useCallback(async(url, data, type, page) =>{
+  const callAxios = React.useCallback(async(url, data, type) =>{
     
     const urlAxios = "https://istudy-back-production.up.railway.app/api/v1/" + url 
 
@@ -29,38 +27,40 @@ function useAxios() {
       try {
         if (url != ""){
           if(type === "post") {
-            answer = await axios.post(urlAxios, data, config)
+            const answer = await axios.post(urlAxios, data, config)
+            setanswerAxios(answer.data)
           } else if (type === "get"){
-            answer = await axios.get(urlAxios, config)
+            const answer = await axios.get(urlAxios, config)
+            setanswerAxios(answer.data)
           }  else if (type === "put"){
-            answer = await axios.put(urlAxios, data, config)  
+            const answer = await axios.put(urlAxios, data, config)
+            setanswerAxios(answer.data)  
           }
-          setanswerAxios(answer.data)
           
-          if (answer.data.status === 200){
-            if(answer.data.message){ 
-              Alert.alert(
-                "Sucesso ",
-                answer.data.message,
-                [{ text: "OK"}]
-              ) 
-            }
-            if(page != undefined){
-              if(page === 'Modal'){
+          // if (answer.data.status === 200){
+          //   if(answer.data.message){ 
+          //     Alert.alert(
+          //       "Sucesso ",
+          //       answer.data.message,
+          //       [{ text: "OK"}]
+          //     ) 
+          //   }
+          //   if(page != undefined){
+          //     if(page === 'Modal'){
               
-                setNavigationAxios("Modal")
-              } else {
-                navigation.navigate(page)
-              }
-            } 
+          //       setNavigationAxios("Modal")
+          //     } else {
+          //       navigation.navigate(page)
+          //     }
+          //   } 
             
             
-          } 
+          // } 
           
-          if (answer.data.status === 201){
-            setMessage("")
-            setMessage(answer.data.message)
-          }
+          // if (answer.data.status === 201){
+          //   setMessage("")
+          //   setMessage(answer.data.message)
+          // }
            
         }
         } catch (e) {
@@ -69,7 +69,6 @@ function useAxios() {
     },[])
   return { 
     navigationAxios,
-    message,
     answerAxios,
     callAxios
   }

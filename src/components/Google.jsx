@@ -27,7 +27,6 @@ function Google() {
                 }
     
                 const resposta = await axios.post(urlCadastrar, data, config)
-                console.log(resposta.data)
     
                 if (resposta.data.status == 200){
                   StoreCache(resposta)

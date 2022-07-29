@@ -10,7 +10,6 @@ export function Confirmation({navigation, route}) {
     const [code, setCode] = useState("")
     //Codigo enviao no email
     var codeEmail = route.params.code
-    console.log(codeEmail)
     //Variavel Informação do axios
     const {navigationAxios, callAxios, answerAxios} = useAxios()
     //Variavel com nome da Pagina no navigation.navigate

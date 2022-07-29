@@ -43,7 +43,6 @@ function useAlterPhoto() {
 
         try{
             const resp = await uploadImage(image)
-            console.log(resp)
             dataUser.image = resp.url
             const newData = dataUser
             setDataUser(newData)
