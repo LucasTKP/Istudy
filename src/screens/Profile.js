@@ -4,33 +4,20 @@ import styled from 'styled-components/native'
 import  Icon  from 'react-native-vector-icons/Ionicons'
 import Salvar from '../../assets/Salvar.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ImagePicker from 'expo-image-picker';
 import { UserContext } from '../../App';
 import Loading from '../components/Loading'
-import {uploadImage} from '../components/UpdateImage'
 import useAxios from '../hooks/useAxios'
-import useAlterPhoto from '../hooks/useAlterPhoto'
-import Input from '../components/Input'
-import { TradeAvatar } from './TradeAvatar';
-
-
 
 export function Profile({ navigation, route }) {
-  
     //Variavel global
     const {dataUser} = useContext(UserContext)
     const {setDataUser} = useContext(UserContext)
 
-    //variavel de photo e name
-    const [photoProfile, setPhotoProfile] = useState(dataUser.image)
     const [name, setName] = useState(dataUser.name)
    //Variavel que executa o Loading
     const [visible, setVisible] = useState(false)
     //Variavel Informação do axios
     const {callAxios, answerAxios} = useAxios()
-
-    //Variavel Informação das Fotos
-    const {callAlterPhoto, answerAlterPhoto} = useAlterPhoto()
 
     const [urlAvatar, setUrlAvatar] = useState(dataUser.image)
 
@@ -42,14 +29,17 @@ export function Profile({ navigation, route }) {
     useEffect(()=>{
       if (route.params){
         UpdateImage()
+        setUrlAvatar(route.params.urlAvatar)
       }
     },[route])
 
     //Troca avatar apos armazenar no banco de dados
     useEffect(()=>{
       if (answerAxios.status === 200){
-      UpdateImageCache()
-      setUrlAvatar(route.params.urlAvatar)
+        UpdateImageCache()
+        setUrlAvatar(route.params.urlAvatar)
+      } else if(answerAxios.status === 201) {
+        
       }
     },[answerAxios])
 
@@ -69,14 +59,13 @@ export function Profile({ navigation, route }) {
       } 
       try{
         setVisible(true)
-        await callAxios ("user/image/" + dataUser.id, data, "put", false) 
+        await callAxios ("user/image/" + dataUser.id, data, "put") 
       } catch(e) {
         console.log(e)
       } finally {
         setVisible(false)
       }
     }
-
     //Armazena o avatar no cache
     async function UpdateImageCache(){
       dataUser.image = route.params.urlAvatar
@@ -181,7 +170,7 @@ export function Profile({ navigation, route }) {
                     </DivStatistics>  
                     </DivTextStatistics>
                     <Text style={{fontSize: 18}}>Conquistas</Text>
-                    <Text style={{fontSize: 18, color: '#000AFF'}} onPress={() => navigation.navigate('Conquistas')}>Ver minhas conquistas</Text>
+                    <Text style={{fontSize: 18, color: '#000AFF'}} onPress={() => navigation.navigate('AllConquest')}>Ver minhas conquistas</Text>
                       
                 </DivInformations>
             </DivProfile>

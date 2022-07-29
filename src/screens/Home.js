@@ -13,7 +13,7 @@ export function Home({ navigation }) {
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
-        <ButtonHeader>
+        <ButtonHeader onPress={() => navigation.navigate('Profile')}>
           <ImageProfile></ImageProfile>
           <TextName>Bons Estudos {'Natã 🤞'}</TextName>
           <ButtonProfile>

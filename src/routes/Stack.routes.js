@@ -20,6 +20,26 @@ export function StackRoutes() {
   return (
       <Navigator>
 
+<Screen
+          name="Entry"
+          component={Entry}
+        />
+
+        <Screen
+          name="SignIn"
+          component={SignIn}
+        />  
+
+        <Screen
+          name="SignUp"
+          component={SignUp}
+        />
+
+        <Screen
+          name="ResetPassword"
+          component={ResetPassword}
+          />    
+
           <Screen
           name="Home"
           component={Home}
@@ -41,6 +61,10 @@ export function StackRoutes() {
           component={TradeAvatar}
         />
         
+        <Screen
+          name="AllConquest"
+          component={AllConquest}
+        />
 
         <Screen
           name="ShowFlashCard"

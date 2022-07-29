@@ -26,45 +26,33 @@ export function SignIn({navigation}) {
   //Variavel NameIcon
   const [nameIcon, setNameIcon] = useState("eye-off");
   //Variavel Informação do axios
-  const {navigationAxios, message, callAxios, answerAxios} = useAxios()
-  //Variavel com nome da Pagina no navigation.navigate
-  const [page, setPage] = useState("")
+  const {callAxios, answerAxios} = useAxios()
   //Variavel Informação do StoreCache
   const {callStoreCache} = useStoreCache()
   //codigo que chega no email
   const [codeEmail, setCodeEmail] = useState("")
-  //Variavel Alert Visible
-  const [boxAlert, setBoxAlert] = useState(false)
+  //Variavel de mensagem
+  const [message, setMessage] = useState()
 
   //executa apos o answerAxios alterar
   useEffect(()=>{
     if(answerAxios.data){
+      if(answerAxios.data.status === 200)
       StoreCache()
-    }
-  },[answerAxios])
-
-  //executa apos o answerAxios e o navigationAxios alterar
-  useEffect(()=>{
-    
-    if(answerAxios.data){
-      setDataUser(answerAxios.data)
-    } else if(navigationAxios === 'Modal'){
+      navigation.navigate('Home')
+    } else if(answerAxios.status === 201){
+      setAlert(true)
+      setMessage(answerAxios.message)
+    }else if(answerAxios.status === 200){
       setModal(true)
       setCodeEmail(answerAxios.code)
     }
-  },[navigationAxios, answerAxios])
+},[answerAxios])
 
   //executa apos o password ser mudado
   useEffect(()=>{
-    navigationAxios
+    Validate()
   },[password])
-
-  //mensagem exibida no modal
-  useEffect(()=>{
-    if(message != null && message != ""){
-      setAlert(true)
-    }
-  },[message])
 
   //Valida a senha de acordo com o regex
    function Validate(){
@@ -94,7 +82,6 @@ export function SignIn({navigation}) {
       email: email,
       senha: password
     } 
-    setPage('Home')
     try{
       await callAxios ("user/Login", data, "post")
     }catch(e){
@@ -111,7 +98,7 @@ export function SignIn({navigation}) {
       email: email
     } 
     try{
-      await callAxios ("user/password", data, "post", 'Modal') 
+      await callAxios ("user/password", data, "post") 
     } catch(e) {
       console.log(e)
     } finally {
@@ -136,7 +123,7 @@ export function SignIn({navigation}) {
   return (
     <Container>
         <Loading visible={visible} />
-        <BoxCode codeEmail={codeEmail} page={'ResetPassword'} email={email} />
+        <BoxCode codeEmail={codeEmail} funcao={'Esqueceu a senha'} email={email} />
         <BoxAlert message={message} type={'erro'} />
             <TextLogar> Login </TextLogar>
 

@@ -9,7 +9,6 @@ export default function ConfirmationCode({message, type}) {
 
   //Variavel global
   const {setAlert, alert} = useContext(UserContext)
-  console.log(alert)
     var name = ""
     if(type === 'sucesso'){
       name = 'file-download-done'

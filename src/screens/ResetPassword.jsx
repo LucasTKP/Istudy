@@ -1,10 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components/native'
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 import Input from '../components/Input'
+import BoxAlert from '../components/BoxAlert'
+import { UserContext } from '../../App';
 
 export function ResetPassword({navigation, route}) {
+     //Variavel global
+  const {setAlert} = useContext(UserContext)
     //Variaveis de senha e confirmação de senha
     const [password, setPassword] = useState("")
     const [confirmationPassword, setConfirmationPassword] = useState("")
@@ -16,11 +20,30 @@ export function ResetPassword({navigation, route}) {
     //Variavel Icon/View Password
     const [viewPassword, setViewPassword] = useState(true); 
     //Variavel Informação do axios
-    const {navigationAxios, callAxios, answerAxios} = useAxios()
-    //Variavel para mudar de pagina
-    const [page, setPage] = useState("")
+    const {callAxios, answerAxios} = useAxios()
     //Variavel NameIcon
     const [nameIcon, setNameIcon] = useState("eye-off");
+    //Variavei do alert
+    const [message, setMessage] = useState()
+    const [typeAlert, setTypeAlert] = useState()
+
+
+
+    useEffect(()=>{
+      if(answerAxios.status === 200){
+        setTypeAlert("sucesso")
+        setMessage(answerAxios.message)
+        setAlert(true)
+        setTimeout(() => {
+          setAlert(false)
+          navigation.navigate('SignIn')
+        }, 1000)
+      } else if(answerAxios.status === 201) {
+        setTypeAlert("erro")
+        setMessage(answerAxios.message)
+        setAlert(true)
+      }
+    },[answerAxios])
 
 
     //Função para executar a validação da senha
@@ -63,7 +86,6 @@ export function ResetPassword({navigation, route}) {
     }  
     //função para trocar a senha
   async function AlterPassword(){ 
-    console.log(isEqualsPasswords)
     if (errorEqualsPassword === false){
 
       setVisible(true)
@@ -71,7 +93,7 @@ export function ResetPassword({navigation, route}) {
         senha: password
       } 
       try{
-        await callAxios ("user/password/" + route.params.email, data, "put", 'Login')
+        await callAxios ("user/password/" + route.params.email, data, "put")
       }catch(e){
         console.log(e)
       }finally{
@@ -82,6 +104,7 @@ export function ResetPassword({navigation, route}) {
 
   return (
     <Container>
+      <BoxAlert message={message} type={typeAlert} />
      <Text> Redefinir Senha</Text>
       <Loading visible={visible} />
         <Input 

@@ -1,17 +1,18 @@
 import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components/native'
-import { Text, View, Button, Alert, KeyboardAvoidingView, Image } from 'react-native';
+import { Text, Image, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import Input from '../components/Input'
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 import Pencil from '../../assets/Pencil.png'
 import BoxCode from '../components/BoxCode'
+import BoxAlert from '../components/BoxAlert'
 import { UserContext } from '../../App';
 
 export function SignUp({navigation}) {
   //Variavel global
-  const {setDataUser, setModal} = useContext(UserContext)
+  const {setModal, setAlert} = useContext(UserContext)
   //Variavel CheckBox
   const [checked, setChecked] = useState(false);
   //Variaveis Dados recebidos do Input
@@ -27,14 +28,13 @@ export function SignUp({navigation}) {
   //Variavel Icon/View Password
   const [viewPassword, setViewPassword] = useState(true); 
   //Variavel Informação do axios
-  const {navigationAxios, callAxios, answerAxios} = useAxios()
-  //Variavel com nome da Pagina no navigation.navigate
-  const [page, setPage] = useState("")
+  const {callAxios, answerAxios} = useAxios()
   //Variavel NameIcon
   const [nameIcon, setNameIcon] = useState("eye-off");
   //codigo que chega no email
   const [codeEmail, setCodeEmail] = useState("")
-  //executa apos o answerAxios alterar
+  //Message of Alert
+  const [message, setMessage] = useState()
   //Termos de uso
   const termosDeUso = "VOCÊ DEVE LER E CONCORDAR COM ESTAS CONDIÇÕES DE USO PARA ACESSAR AO REGISTRAR-SE E/OU AO COMPARTILHAR DADOS OU INFORMAÇÃO NESTE SITE. SE VOCÊ NÃO CONCORDAR COM TODA OU QUALQUER PARTE DESTAS CONDIÇÕES DE USO, POR FAVOR, NÃO USE ESSE SITE.  Avisos importantes que você deve ler  Você reside fora do Brasil e de Portugal Nós preparamos esta informação para Usuários que falam português, residentes no Brasil ou em Portugal, de forma que essas informações (ou parte delas) podem não se aplicar a você. Por favor, dedique um momento para verificar nossos outros sites e políticas e os territórios aos quais eles se aplicam.  Existe alguma coisa que você não entende? Fizemos o melhor que pudemos para preparar essas informações para Usuários de todas as idades e estamos comprometidos com uma constante revisão e aprimoramento do idioma que usamos para ser o mais simples e claro possível. Caso tenha algum problema com o significado de uma palavra, frase ou parte de qualquer uma das informações abaixo, consulte as perguntas frequentes do Site e peça ajuda aos seus representantes legais, pais ou tutores. Além disso, avise-nos se houver algo que possamos fazer para tornar essas informações mais amigáveis e compreensíveis. Nós apreciamos qualquer ajuda que você possa nos dar!  1.1. – Introdução Estas condições (“ Condições ”) definem os termos e condições sob os quais você pode se registrar, ou usar o nosso app, incluindo as informações e recursos fornecidos pelo App. Tanto o App como as informações e recursos do App estão disponíveis para qualquer pessoa interessada (o “ Usuário ”), sob as condições e restrições fornecidas nestas Condições.   1.2. – Quem pode usar este App? Este Site é destinado principalmente a alunos, professores e, ainda, aos pais ou representantes legais que falem o idioma dos menores. Se você tiver 13 anos de idade ou mais no Brasil, ou 16 anos de idade ou mais em Portugal, poderá se registrar e aceitar estes Termos de Serviço autonomamente. Se você residir no Brasil ou em Portugal e não tiver pelo menos 13 anos de idade no Brasil ou 16 anos de idade em Portugal, por favor pare de usar o App e não se registre e/ou use o App sem a devida autorização de seus pais ou representantes legais. Podemos pedir-lhe para confirmar a sua idade, país de residência e também para nos fornecer detalhes adicionais em relação à data de nascimento e ao nível de escolaridade"
 
@@ -59,11 +59,14 @@ export function SignUp({navigation}) {
  
   //Muda de pagina apos a confirmação
   useEffect(()=>{
-    if(navigationAxios === 'Modal'){
-      setModal(true)
+    if(answerAxios.code){
       setCodeEmail(answerAxios.code)
+      setModal(true)
+    } else if (answerAxios.message){
+      setMessage(answerAxios.message)
+      setAlert(true)
     }
-  },[navigationAxios, answerAxios])
+  },[answerAxios])
   
   //Validação dos inputs com regex
   function Validar(){
@@ -100,7 +103,7 @@ export function SignUp({navigation}) {
       email: email
     } 
     try{
-      await callAxios ("user/verify", data, "post", 'Modal')
+      await callAxios ("user/verify", data, "post")
     }catch(e){
       console.log(e)
     }finally{
@@ -115,11 +118,8 @@ export function SignUp({navigation}) {
         Axios() 
       }
     } else {
-      Alert.alert(
-        "Não foi possivel cadastrar",
-        "Aceite os termos de verificação",
-        [{text:"OK"}]
-      )
+      setMessage("Aceite os termos de verificação")
+      setAlert(true)
     }
   }     
   
@@ -134,7 +134,8 @@ export function SignUp({navigation}) {
   return (
     <BugTeclado behavior='position' >
       <Loading visible={visible} />
-      <BoxCode codeEmail={codeEmail} email={email} page={'SignIn'} password={password} name={name} />
+      <BoxCode codeEmail={codeEmail} email={email} funcao={'Cadastro'} password={password} name={name} />
+      <BoxAlert message={message} type={"erro"}/>
       <Image source={Pencil} style={{width: '100%'}}></Image>
       <TextCadastrar> Cadastrar </TextCadastrar>
          <Input  
