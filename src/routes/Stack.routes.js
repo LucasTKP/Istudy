@@ -12,17 +12,27 @@ import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
 import { TradeAvatar } from '../screens/TradeAvatar';
-import { TabBar } from '../screens/TabBar';
  
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function StackRoutes() {
   return (
       <Navigator>
+       
 
 <Screen
           name="Entry"
           component={Entry}
+        />
+
+<Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerShown: false
+          }}
         />
 
         <Screen
@@ -40,15 +50,7 @@ export function StackRoutes() {
           component={ResetPassword}
           />    
 
-          <Screen
-          name="Home"
-          component={Home}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerShown: false
-          }}
-        />
+          
 
 
         <Screen

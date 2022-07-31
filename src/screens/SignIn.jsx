@@ -36,10 +36,11 @@ export function SignIn({navigation}) {
 
   //executa apos o answerAxios alterar
   useEffect(()=>{
+    
     if(answerAxios.data){
-      if(answerAxios.data.status === 200)
+      if(answerAxios.status === 200){
       StoreCache()
-      navigation.navigate('Home')
+      }
     } else if(answerAxios.status === 201){
       setAlert(true)
       setMessage(answerAxios.message)
@@ -119,6 +120,7 @@ export function SignIn({navigation}) {
         defeats: answerAxios.statistics[0].loses
       }
      callStoreCache(User)
+     navigation.navigate('Home')
     }
   return (
     <Container>

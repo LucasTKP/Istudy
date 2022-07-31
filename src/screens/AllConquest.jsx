@@ -4,7 +4,6 @@ import styled from 'styled-components/native'
 import  axios  from 'axios'
 import { UserContext } from '../../App';
 import Loading from '../components/Loading'
-import NavBar from '../components/NavBar'
 
 
 export function AllConquest() {

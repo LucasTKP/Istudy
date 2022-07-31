@@ -28,12 +28,10 @@ export function CreateNewDeck({ navigation, route }) {
   const [Counter, setCounter] = useState(1)
   //Variavel Global
   const {dataUser} = useContext(UserContext)
-  //Variavel com nome da Pagina no navigation.navigate
-  const [page, setPage] = useState("")
   //Variavel Loading
   const [visible, setVisible] = useState(false)
   //Variavel Informação do axios
-  const {navigationAxios, callAxios, answerAxios} = useAxios()
+  const {callAxios, answerAxios} = useAxios()
   //Variavel de alert
   const [alert, setAlert] = useState(false)
 
@@ -49,7 +47,7 @@ export function CreateNewDeck({ navigation, route }) {
   async function SalvarCard(){
     try{
       setVisible(true)
-      await callAxios ("cards/answers/" + answerAxios.createCard.id , flashCard, "post", 'Home')
+      await callAxios ("cards/answers/" + answerAxios.createCard.id , flashCard, "post")
     }catch(e){
       console.log(e)
     }finally{
@@ -85,7 +83,7 @@ export function CreateNewDeck({ navigation, route }) {
 
         try{
           setVisible(true)
-          await callAxios ("cards", data, "post", false) 
+          await callAxios ("cards", data, "post") 
         }catch(e){
           console.log(e)
         }finally{
