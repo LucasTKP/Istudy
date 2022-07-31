@@ -3,17 +3,19 @@ import styled from 'styled-components/native'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/Arrow.png'
+import { Tste } from '../components/Tste'
 
 
 export function Home({ navigation }) {
-  const {setDataUser} = useContext(UserContext)
+  const {setDataUser, profile, setProfile} = useContext(UserContext)
   const {dataUser} = useContext(UserContext)
   const [name, setName] = useState(dataUser.name)
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
+      {profile ? <Tste /> : <Text style={{display: 'none'}}></Text> }
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
-        <ButtonHeader onPress={() => navigation.navigate('Profile')}>
+        <ButtonHeader onPress={() => setProfile(true)}>
           <ImageProfile></ImageProfile>
           <TextName>Bons Estudos {'Natã 🤞'}</TextName>
           <ButtonProfile>

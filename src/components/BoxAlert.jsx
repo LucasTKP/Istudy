@@ -5,7 +5,7 @@ import  Icon  from 'react-native-vector-icons/MaterialIcons'
 import { UserContext } from '../../App';
 
 
-export default function ConfirmationCode({message, type}) {
+export default function BoxAlert({message, type}) {
 
   //Variavel global
   const {setAlert, alert} = useContext(UserContext)

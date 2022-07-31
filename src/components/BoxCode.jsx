@@ -10,8 +10,7 @@ import BoxAlert from './BoxAlert'
 
 
 
-export default function ConfirmationCode({codeEmail, email, password, name, funcao}) {
-  console.log(codeEmail)
+export default function BoxCode({codeEmail, email, password, name, funcao}) {
     //variavel de navegação
     const navigation = useNavigation();
     const [error, setError] = useState(false)

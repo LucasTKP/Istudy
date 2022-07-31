@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components/native'
 import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import { UserContext } from '../../App';
+import { Tste } from '../components/Tste';
 
 
 export function TradeAvatar({ navigation }) {
     const [urlAvatar, setUrlAvatar] = React.useState("undefined")
-    React.useEffect(() => {
+    const {setProfile, profile} = useContext(UserContext)
+    useEffect(() => {
         if(urlAvatar != 'undefined') {
-            navigation.navigate("Profile", {urlAvatar: urlAvatar})
+            setProfile(true)
         }
         },[urlAvatar])
 
     
   return (
     <BugTeclado>
+        {profile ? <Tste urlAvatar={urlAvatar} /> : <Text style={{display: 'none'}}></Text> }
         <ScrollView>
             <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 20, marginBottom: 59, textAlign: 'center' }}>Selecione a Matéria</Text>
             <DivFilterOut>

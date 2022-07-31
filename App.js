@@ -9,9 +9,10 @@ export default function App() {
   const [dataUser, setDataUser] = React.useState ({})
   const [modal, setModal] = React.useState (false)
   const [alert, setAlert] = React.useState (false)
+  const [profile, setProfile] = React.useState (false)
 
   return (
-    <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert}} >
+    <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert, profile, setProfile}} >
       <Routes />
     </UserContext.Provider>
     

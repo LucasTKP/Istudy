@@ -8,6 +8,7 @@ import { UserContext } from '../../App';
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 
+
 export function Profile({ navigation, route }) {
     //Variavel global
     const {dataUser} = useContext(UserContext)
