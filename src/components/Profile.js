@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import  BoxAlert  from '../components/BoxAlert'
 
 
-export function Tste() {
+export function Profile() {
   
   const {setProfile, dataUser, setDataUser, setAlert} = useContext(UserContext)
   const [name, setName] = useState(dataUser.name)
@@ -21,11 +21,18 @@ export function Tste() {
   const [urlAvatar, setUrlAvatar] = useState(dataUser.image)
   const [tradeName, setTradeName] = useState(false)
   const [message, setMessage] = useState("")
+  const [newName, setNewName] = useState("")
 
    //executa o validar apos o nome ser trocado
    useEffect(()=>{
     Validar()
   },[name])
+
+   //executa o validar apos o nome ser trocado
+   useEffect(()=>{
+    Validar()
+  },[newName])
+
   //Troca a photo da pagina se vim uma nova url de foto
   useEffect(()=>{
     if (urlAvatar != dataUser.image){
@@ -40,9 +47,15 @@ export function Tste() {
   //Verifica se o nome que esta sendo trocado esta correto de acordo com a regex
   function Validar(){
     const regexName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/
-     if ( name.length > 4 && regexName.test(name)){
+     if ( name.length > 4 && regexName.test(name) && newName.length === 0){
         return true
       } 
+
+    if ( newName.length > 4 && regexName.test(newName)){
+        return true
+    }  
+
+
       return false
   }
   //Armazena o avatar no banco de dados
@@ -77,7 +90,7 @@ export function Tste() {
       Validar()
       if (Validar() === true) {
           const data = {
-            name: name
+            name: newName
           } 
           try{
             setVisible(true)
@@ -88,7 +101,7 @@ export function Tste() {
             setVisible(false)
           }
       } else {
-        setMessage("Não foi possivel alterar seu nome nao é possivel um nome com caracter especial")
+        setMessage("Não foi possivel alterar seu nome, utilize um nome com 5 letras e nenhum caracter especial")
         setAlert(true)
       }  
   } 
@@ -96,12 +109,16 @@ export function Tste() {
 useEffect(()=>{
   if(answerAxios.type === 'userName'){
     if(answerAxios.status === 200){
-      dataUser.name = name
+      setName(newName)
+      dataUser.name = newName
       const newData = dataUser
       setDataUser(newData)
       StorageCache(newData)
+      setTradeName(false)
     } else {
       setName(dataUser.name)
+      setAlert(true)
+      setMessage(answerAxios.message)
     }
   } else if(answerAxios.type === 'userImage'){
     if (answerAxios.status === 200){
@@ -213,8 +230,14 @@ async function StorageCache(newData){
           <View style={{marginTop: 10}}>
             <Text style={{color:'#91BDD8', fontSize: 20, textAlign: "left"}}>Nome</Text>
             {tradeName ?
-            <View style={{borderWidth: 2, borderColor: '#F9B84F', alignItems: 'center', borderRadius: 10, width: 200}}>
-              <TextInput style={{ width: '90%', fontSize: 16}} onChangeText={(Text) => setName(Text)} placeholder="Digite o Nome"></TextInput>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{borderWidth: 2, borderColor: '#F9B84F', alignItems: 'center', borderRadius: 10, width: 150}}>
+                <TextInput style={{ width: '90%', fontSize: 16}} onChangeText={(Text) => setNewName(Text)} placeholder="Digite o Nome"></TextInput>
+              </View>
+                <TouchableOpacity style={styles.AlterCancel} onPress={() => (setTradeName(false)) }>
+                    <Text style={{fontSize: 20, color:'#972F2F', fontWeight: 'bold'}}> X </Text>
+                </TouchableOpacity>
+              
             </View>
             : <View style={{flexDirection: 'row'}}>
                 <Text style={{color:'white', fontSize: 20, textAlign: "left"}}>{name}</Text>
@@ -292,6 +315,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   }, 
+  AlterCancel: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#91BDD8',
+    borderRadius: 8,
+    marginLeft: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#972F2F',
+  },
   Statistics: {
     justifyContent: 'center',
     alignItems: 'center',
