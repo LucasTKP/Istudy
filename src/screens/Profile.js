@@ -3,13 +3,14 @@ import { Text, TouchableOpacity, Inpu, Image, KeyboardAvoidingView, Alert, Scrol
 import styled from 'styled-components/native'
 import  Icon  from 'react-native-vector-icons/Ionicons'
 import Salvar from '../../assets/Salvar.png'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import useStoreCache from '../hooks/useStoreCache';
 import { UserContext } from '../../App';
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 
 
 export function Profile({ navigation, route }) {
+    const {callStoreCache} = useStoreCache()
     //Variavel global
     const {dataUser} = useContext(UserContext)
     const {setDataUser} = useContext(UserContext)
@@ -73,8 +74,7 @@ export function Profile({ navigation, route }) {
       const newData = dataUser
       setDataUser(newData)
       try {
-      await AsyncStorage.clear()
-      await AsyncStorage.setItem('User', JSON.stringify(newData));
+        callStoreCache(newData)
       } catch(e) {
       console.log(e)
       }  
@@ -126,8 +126,7 @@ export function Profile({ navigation, route }) {
   //Altera o nome no cache
   async function StorageCache(newData){     
     try {
-      await AsyncStorage.clear()
-      await AsyncStorage.setItem('User', JSON.stringify(newData));
+      callStoreCache(newData)
     } catch(e) {
       console.log(e)
     }
@@ -223,7 +222,7 @@ margin-top: 20px;
 
 const ButtonChangeImage = styled.TouchableOpacity `
 font-size: 23px;
-margin-top: 10px
+margin-top: 10px;
 font-weight: bold;
 width: 200px;
 height: 35px;
@@ -262,7 +261,7 @@ margin-top: 10px;
 
 const DivTextStatistics = styled.View `
 width: 90%;
-height: 150px
+height: 150px;
 flex-direction: row;
 justifyContent: center;
 `
