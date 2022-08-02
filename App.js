@@ -13,14 +13,12 @@ export default function App() {
   const [alert, setAlert] = React.useState (false)
   const [profile, setProfile] = React.useState (false)
 
-  const [data, setData] = React.useState([])
-
     React.useEffect(() => {
         const bootstrapAsync = async () => {
-          let userToken;
+          let user;
           try {
-            userToken = await SecureStore.getItemAsync('User');
-            setData(userToken)
+            user = await SecureStore.getItemAsync('User');
+            setDataUser(JSON.parse(user))
           } catch (e) {
             console.log(e)
           }
@@ -32,7 +30,7 @@ export default function App() {
   return (
     <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert, profile, setProfile}} >
       <NavigationContainer>
-            {data == null ? <AuthRoutes /> : <NavRoutes />}
+            {dataUser == null ? <AuthRoutes /> : <NavRoutes />}
       </NavigationContainer>
     </UserContext.Provider>
     

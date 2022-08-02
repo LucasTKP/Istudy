@@ -146,8 +146,8 @@ export function Profile({ navigation, route }) {
                     <ButtonChangeImage onPress={() => navigation.navigate('TradeAvatar')}><TextButtonImage>Alterar Imagem</TextButtonImage></ButtonChangeImage>
                     <DivInputNameChange>
                         <InputChangeName 
-                        value= {name}
-                        placeholder="Alterar Nome"
+                        value= {dataUser.name}
+                        placeholder={dataUser.name}
                         onChangeText={(Text)=> (setName(Text))}
                         ></InputChangeName>
                         <Icon style={{marginTop:5,  marginRight: 0}} name="pencil" size={22} color={"#444"} /> 
