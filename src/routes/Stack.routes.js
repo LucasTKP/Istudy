@@ -6,18 +6,25 @@ import { SignUp} from '../screens/SignUp';
 import { Home } from '../screens/Home';
 import { Entry } from '../screens/Entry';
 import { ResetPassword } from '../screens/ResetPassword';
-import { Profile } from '../screens/Profile';
 import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
-import { TradeAvatar } from '../screens/TradeAvatar';
  
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function StackRoutes() {
   return (
       <Navigator>
+        <Screen
+          name="CreateNewDeck"
+          component={CreateNewDeck}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerTintColor: '#FFF',
+          }}
+          />
        
 
 <Screen
@@ -49,19 +56,6 @@ export function StackRoutes() {
           name="ResetPassword"
           component={ResetPassword}
           />    
-
-          
-
-
-        <Screen
-          name="Profile"
-          component={Profile}
-        />   
-
-        <Screen
-          name="TradeAvatar"
-          component={TradeAvatar}
-        />
         
         <Screen
           name="AllConquest"
@@ -73,10 +67,7 @@ export function StackRoutes() {
           component={ShowFlashCard}
           />
 
-        <Screen
-          name="CreateNewDeck"
-          component={CreateNewDeck}
-          />
+        
 
         <Screen
           name="Filter"
