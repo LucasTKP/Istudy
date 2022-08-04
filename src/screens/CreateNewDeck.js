@@ -17,20 +17,9 @@ export function CreateNewDeck({ navigation, route }) {
   const {setDataUser, setModal, setAlert} = useContext(UserContext)
   //Variavei com informação dos flashCards
   const [title, setTitle] = useState("")
-  const [question, setQuestion] = useState("")
-  const [answer, setAnswer] = useState("")
+  //Infos da categoria
   const [nameCategory, setNameCategory] = useState("")
   const [idCategory, setIdCategory] = useState("")
-  const [nameIcon, setNameIcon] = useState('https://istudy.sfo3.cdn.digitaloceanspaces.com/Categorys/ImageDefault.png')
-  //Variavel para verificar se é a primeira pagina, onde se cria o titulo, imagem entre outros
-  const [pageOne, setPageOne] = useState(true)
-  //Variavel que muda components após passar da primeira pagina
-  const [justify, setJustify] = useState("space-between")
-  //Variavel que junta as informações dos flash e envia para o banco de dados
-  const [flashCard, setFlashCard] = useState(null)
-  //Variaveis para limitar a quantidade de flash cards criadas
-  const [maxPage, setMaxPage] = useState(false)
-  const [Counter, setCounter] = useState(1)
   //Variavel Global
   const {dataUser} = useContext(UserContext)
   //Variavel Loading
@@ -44,76 +33,6 @@ export function CreateNewDeck({ navigation, route }) {
   const [portugues, setPortugues] = useState(false)
   const [ciencias, setCiencias] = useState(false)
   const [ingles, setIngles] = useState(false)
-
-  // //Seta o id e o nome da materia selecionada 
-  // useEffect(()=>{
-  //   if(route.params != undefined){
-  //     setIdCategoria(route.params.idFilter)
-  //     setNameCategory(route.params.nameFilter)
-  //   }
-  // },[route.params])
-
-  // //Função que salva o flashCard no banco de dados
-  // async function SalvarCard(){
-  //   try{
-  //     setVisible(true)
-  //     await callAxios ("cards/answers/" + answerAxios.createCard.id , flashCard, "post")
-  //   }catch(e){
-  //     console.log(e)
-  //   }finally{
-  //   setVisible(false)
-  //   }
-  // }
-
-  // //Função que cria executa em ordem a função de criar e a de salvar no banco de dados
-  // async function Create(){
-  //   await Salvar()
-  //   SalvarCard()
-  // }
-  
-  // //Função que salva o flash card na Variavel flashCard
-  // async function Salvar(){
-  //   if (title != "" && question != "" && answer != "" && idCategoria != ""){
-  //     if (pageOne === false ){
-  //       const flashCardEnd = flashCard
-  //       flashCardEnd.push({question,answer})
-  //       setFlashCard(flashCardEnd)
-  //     }
-  //     if (pageOne === true){
-  //       const flashCardEnd = [flashCard] 
-  //       flashCardEnd.push({question,answer})
-  //       setFlashCard(flashCardEnd)
-  //       flashCardEnd.shift()
-
-  //       const data = {
-  //         id_user: dataUser.id,
-  //         id_category: idCategoria,
-  //         title: title,
-  //       } 
-
-  //       try{
-  //         setVisible(true)
-  //         await callAxios ("cards", data, "post") 
-  //       }catch(e){
-  //         console.log(e)
-  //       }finally{
-  //         setVisible(false)
-  //       }
-  //     }
-  //     setPageOne(false)
-  //     setJustify("center")
-  //     setQuestion("")
-  //     setAnswer("")
-  //     setCounter(Counter + 1)
-
-  //   if (Counter > 8) {  
-  //     setMaxPage(true)
-  //   }
-  
-  // } else {
-  //   setAlert(true)
-  // }
-  // }
 
   async function CreateDeck(){
     if (Validate()){
@@ -146,7 +65,7 @@ export function CreateNewDeck({ navigation, route }) {
 
   useEffect(() => {
     if(answerAxios.status === 200){
-      navigation.navigate('ShowFlashCard')
+      navigation.navigate('InsertFlashCard', {id: answerAxios.createCard.id})
     }
   },[answerAxios])
 
