@@ -12,6 +12,7 @@ import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
 import { TradeAvatar } from '../screens/TradeAvatar';
+import { Decks } from '../screens/Decks';
  
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export function StackRoutes() {
 <Screen
           name="Entry"
           component={Entry}
+          options={{ headerShown: false}}
         />
 
 <Screen
@@ -38,21 +40,29 @@ export function StackRoutes() {
         <Screen
           name="SignIn"
           component={SignIn}
+          options={{ headerShown: false}}
         />  
 
         <Screen
           name="SignUp"
           component={SignUp}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerTintColor: '#FFF',
+          }}
         />
 
         <Screen
           name="ResetPassword"
           component={ResetPassword}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerTintColor: '#FFF',
+          }}
           />    
-
           
-
-
         <Screen
           name="Profile"
           component={Profile}
@@ -82,6 +92,17 @@ export function StackRoutes() {
           name="Filter"
           component={Filter}
           />
+          <Screen
+          name="Decks"
+          component={Decks}
+          options={{
+            title: '',
+            headerShadowVisible: false,
+            headerTintColor: '#FFF',
+            headerStyle: {backgroundColor: '#004973'}
+          }}
+          />
+
 
       </Navigator>
   )
