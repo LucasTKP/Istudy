@@ -42,8 +42,6 @@ export function Profile() {
     }
   },[urlAvatar])
 
- 
-
   //Verifica se o nome que esta sendo trocado esta correto de acordo com a regex
   function Validar(){
     const regexName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/

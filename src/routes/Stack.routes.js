@@ -10,6 +10,8 @@ import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
+import { InsertFlashCard } from '../screens/InsertFlashCard';
+import { shadow } from 'react-native-paper';
  
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -23,6 +25,17 @@ export function StackRoutes() {
             title: '',
             headerTransparent: true,
             headerTintColor: '#FFF',
+          }}
+          />
+
+      <Screen
+          name="InsertFlashCard"
+          component={InsertFlashCard}
+          options={{
+            title: '',
+            headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
           />
        
@@ -67,7 +80,7 @@ export function StackRoutes() {
           component={ShowFlashCard}
           />
 
-        
+
 
         <Screen
           name="Filter"
