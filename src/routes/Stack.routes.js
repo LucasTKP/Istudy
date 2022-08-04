@@ -8,7 +8,11 @@ import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
-import { TradeAvatar } from '../screens/TradeAvatar';
+
+import { InsertFlashCard } from '../screens/InsertFlashCard';
+
+
+
 
 export function StackRoutes() {
   return (
@@ -23,25 +27,37 @@ export function StackRoutes() {
             }}
           />
 
+
+      <Screen
+          name="InsertFlashCard"
+          component={InsertFlashCard}
+          options={{
+            title: '',
+            headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
+          }}
+          />
+
+
           <Stack.Screen
             name="Profile"
             component={Profile}
           />   
-
-          <Stack.Screen
-            name="TradeAvatar"
-            component={TradeAvatar}
-          />
           
           <Stack.Screen
             name="AllConquest"
             component={AllConquest}
           />
 
+
+
+
           <Stack.Screen
             name="ShowFlashCard"
             component={ShowFlashCard}
             />
+
 
           <Stack.Screen
             name="CreateNewDeck"
