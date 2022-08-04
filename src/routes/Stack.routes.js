@@ -26,7 +26,7 @@ export function StackRoutes() {
           />
 
 
-      <Screen
+      <Stack.Screen
           name="InsertFlashCard"
           component={InsertFlashCard}
           options={{

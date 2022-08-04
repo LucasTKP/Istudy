@@ -37,7 +37,7 @@ export function CreateNewDeck({ navigation, route }) {
   async function CreateDeck(){
     if (Validate()){
       const data = {
-        id_user: 1,
+        id_user: 26,
         id_category: idCategory,
         title: title,
       } 
