@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components/native'
-import { Text, Image, Alert } from 'react-native';
+import { Text, Image, Alert, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { CheckBox } from 'react-native-elements'
+import Google from '../components/Google'
 import Input from '../components/Input'
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
@@ -132,12 +133,22 @@ export function SignUp({navigation}) {
     );
 
   return (
-    <BugTeclado behavior='position' >
+    <View style={styles.container}>
       <Loading visible={visible} />
       <BoxCode codeEmail={codeEmail} email={email} funcao={'Cadastro'} password={password} name={name} />
       <BoxAlert message={message} type={"erro"}/>
-      <Image source={Pencil} style={{width: '100%'}}></Image>
-      <TextCadastrar> Cadastrar </TextCadastrar>
+
+
+      <View style={styles.containerLogo}>
+      <Image source={require('../../assets/imageSingUp.png')}></Image>
+      </View>
+      
+      
+      
+      <KeyboardAvoidingView style={styles.containerForm}>
+
+      <Text style={styles.textTitle}> Cadastrar </Text>
+        
          <Input  
           //Config Input
           onChangeText={(Text)=> setName(Text)} 
@@ -148,7 +159,7 @@ export function SignUp({navigation}) {
           size={26} 
           color={"#444"}
           />
-          {errorName ? <Text style={{height:0}}></Text> : <TextError>O nome tem que ter no minimo 4 letras</TextError>}
+          {errorName ? <Text style={{height:0}}></Text> : <Text style={styles.textError}>O nome tem que ter no minimo 4 letras</Text>}
         
           <Input  
           //Config Input
@@ -161,7 +172,7 @@ export function SignUp({navigation}) {
           size={26} 
           color={"#444"}
           />
-          {errorEmail ? <Text style={{height:0}}></Text> : <TextError>O email esta invalido</TextError>}   
+          {errorEmail ? <Text style={{height:0}}></Text> : <Text style={styles.textError}>O email esta invalido</Text>}   
 
           <Input 
           //Config Input
@@ -175,14 +186,15 @@ export function SignUp({navigation}) {
           size={26} 
           color={"#444"}
           />
-          {errorPassword ? <Text style={{height:0}}></Text> : <TextError>A senha deve conter 8 letras, minusculas, maiusculas e numeros</TextError>}  
+          {errorPassword ? <Text style={{height:0}}></Text> : <Text style={styles.textError}>A senha deve conter 8 letras, minusculas, maiusculas e numeros</Text>}  
          
         
           <CheckBox 
             containerStyle={{
               width: 200,
               backgroundColor:"transparent", 
-              borderColor:"transparent"
+              borderColor:"transparent",
+              width: '85%',
             }}
             center
             title={"Eu aceito os termos de serviço. Clique Aqui!"}
@@ -191,41 +203,60 @@ export function SignUp({navigation}) {
             onIconPress={() => setChecked(!checked)}
             onPress={() => alertTermos()}
           /> 
-          <ButtonCadastro onPress={() => Cadastrar()}>
-            <TextButton style={{color: 'white'}}> Cadastrar</TextButton>
-          </ButtonCadastro>
-      </BugTeclado>    
+          <TouchableOpacity style={styles.buttonLogin} 
+          onPress={() => Cadastrar()}>
+           <Image source={require('../../assets/setaDireita.png')} />
+          </TouchableOpacity>
+
+          <Google/>
+
+
+          </KeyboardAvoidingView>
+
+          </View>
+        
   );
 }
 
-const BugTeclado = styled.KeyboardAvoidingView `
-width=100%;
-height=100%;
-align-items: center;
-`
 
-const TextCadastrar = styled.Text `
-font-size: 30px;
-margin-top: 20px;
-font-weight: bold;
-`
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor: '#004973',
+  },
+  containerLogo: {
+    flex:1,
+    marginTop: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textTitle:{
+    fontSize: 30,
+    fontWeight:'bold',
+    color: '#FFFF', 
+    marginTop: 15,
+    width: '85%',
+    
+  },
+  containerForm:{
+    flex:2,
+    marginTop: 0,
+    alignItems: 'center',
+  },
+  buttonLogin:{
+    marginTop: 0,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: "#007FC7",
+    borderRadius: 100,
+    paddingVertical: 25,
+    paddingHorizontal: 35,
+    width: 30
+  },
+  textError:{
+    color: 'red',
+    width: 300,
+    textAlign: 'center',
+  },
 
-const ButtonCadastro = styled.TouchableOpacity `
-  border: 1px solid black;
-  border-radius: 20px;
-  width: 295px;
-  height: 69px;
-  justifyContent: center;
-  background-color: #0353BF;
-`
-
-const TextButton = styled.Text`
-font-size: 24px;
-text-align: center;
-`
-const TextError = styled.Text `
-color: red;
-width: 300px;
-text-align: center;
-`
-
+})

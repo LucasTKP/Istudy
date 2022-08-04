@@ -9,8 +9,10 @@ import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
 
-import { InsertFlashCard } from '../screens/InsertFlashCard';
+import { Decks } from '../screens/Decks';
+ 
 
+import { InsertFlashCard } from '../screens/InsertFlashCard';
 
 
 
@@ -28,6 +30,7 @@ export function StackRoutes() {
           />
 
 
+
       <Screen
           name="InsertFlashCard"
           component={InsertFlashCard}
@@ -39,6 +42,8 @@ export function StackRoutes() {
           }}
           />
 
+    
+          
 
           <Stack.Screen
             name="Profile"
@@ -59,10 +64,23 @@ export function StackRoutes() {
             />
 
 
+     
+          <Stack.Screen
+          name="Decks"
+          component={Decks}
+          options={{
+            title: '',
+            headerShadowVisible: false,
+            headerTintColor: '#FFF',
+            headerStyle: {backgroundColor: '#004973'}
+          }}
+          />
+
           <Stack.Screen
             name="CreateNewDeck"
             component={CreateNewDeck}
             />
+
 
           <Stack.Screen
             name="Filter"
