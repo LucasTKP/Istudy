@@ -13,7 +13,7 @@ import BoxAlert from '../components/BoxAlert'
 export function SignIn({navigation}) {
 
   //Variavel global
-  const {setDataUser, setModal, setAlert} = useContext(UserContext)
+  const {setReload, setModal, setAlert} = useContext(UserContext)
   // Variavel que recebe o campo email e o campo senha
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -120,6 +120,7 @@ export function SignIn({navigation}) {
         defeats: answerAxios.statistics[0].loses
       }
      callStoreCache(User)
+     setReload(true)
     }
   return (
     <Container>

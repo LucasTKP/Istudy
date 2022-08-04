@@ -6,8 +6,9 @@ import { Image } from 'react-native';
 import { Profile } from '../screens/Profile';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
+import { Filter } from '../screens/Filter'
+
 import { StackRoutes } from './Stack.routes'
-import { TradeAvatar } from '../screens/TradeAvatar';
 
 import Home from '../../assets/ImageNavBar/home.png'
 import pen from '../../assets/ImageNavBar/pen.png'
@@ -46,6 +47,7 @@ export function NavRoutes() {
                     marginTop: -10,
                     marginBottom: 5
                 },
+                tabBarHideOnKeyboard:"true",
                 tabBarActiveTintColor: '#4B82A3',
                 tabBarInactiveTintColor: '#23709D',
             }
@@ -74,11 +76,15 @@ export function NavRoutes() {
         <Tab.Screen
           name="Criar"
           component={CreateNewDeck}
+          options={{
+            headerTransparent: true,
+            headerShown: false
+          }}
           />
 
         <Tab.Screen
             name="Rank"
-            component={TradeAvatar}
+            component={Filter}
           />
 
       </ Tab.Navigator>

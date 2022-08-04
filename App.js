@@ -12,6 +12,7 @@ export default function App() {
   const [modal, setModal] = React.useState (false)
   const [alert, setAlert] = React.useState (false)
   const [profile, setProfile] = React.useState (false)
+  const [reload, setReload] = React.useState(false)
 
     React.useEffect(() => {
         const bootstrapAsync = async () => {
@@ -25,10 +26,10 @@ export default function App() {
         };
     
         bootstrapAsync();
-      }, [dataUser]);
+      }, [reload]);
 
   return (
-    <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert, profile, setProfile}} >
+    <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert, profile, setProfile, setReload}} >
       <NavigationContainer>
             {dataUser == null ? <AuthRoutes /> : <NavRoutes />}
       </NavigationContainer>

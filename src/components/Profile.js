@@ -40,9 +40,7 @@ export function Profile() {
       setAvatarModal(false)
       
     }
-  },[urlAvatar])
-
- 
+  },[urlAvatar]) 
 
   //Verifica se o nome que esta sendo trocado esta correto de acordo com a regex
   function Validar(){

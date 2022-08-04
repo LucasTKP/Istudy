@@ -8,7 +8,6 @@ import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
-import { TradeAvatar } from '../screens/TradeAvatar';
 
 export function StackRoutes() {
   return (
@@ -27,11 +26,6 @@ export function StackRoutes() {
             name="Profile"
             component={Profile}
           />   
-
-          <Stack.Screen
-            name="TradeAvatar"
-            component={TradeAvatar}
-          />
           
           <Stack.Screen
             name="AllConquest"
@@ -46,6 +40,11 @@ export function StackRoutes() {
           <Stack.Screen
             name="CreateNewDeck"
             component={CreateNewDeck}
+            options={{
+              title: '',
+              headerTransparent: true,
+              headerShown: false
+            }}
             />
 
           <Stack.Screen
