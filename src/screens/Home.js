@@ -5,7 +5,7 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacit
 import Arrow from '../../assets/ImageNavBar/Arrow.png'
 import { Profile } from '../components/Profile'
 
-
+import { useNavigation} from '@react-navigation/native'
 export function Home({ navigation }) {
   const {setDataUser, profile, setProfile} = useContext(UserContext)
   const {dataUser} = useContext(UserContext)
@@ -23,6 +23,12 @@ export function Home({ navigation }) {
           </ButtonProfile>
         </ButtonHeader>
       </DivHeader>
+
+      <TouchableOpacity style={{marginTop: 100,}}
+        onPress={ () => navigation.navigate('Decks')}
+      >       
+             <Text>Entrar</Text>
+      </TouchableOpacity>
     </Container>
   );
 }

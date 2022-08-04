@@ -5,7 +5,7 @@ import IconGoogle from '../../assets/iconGoogle.png'
 
 
 import React from 'react'
-import { View, Image } from 'react-native'
+import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native'
 
 function Google() {
     async function SingUpGoogle(user){
@@ -61,23 +61,34 @@ function Google() {
       }
 
   return (
-    <ButtonLogin onPress={() => handleGoogleSignIn()}>
-        <Image source={IconGoogle}  />
-    </ButtonLogin>
+    <TouchableOpacity style={styles.buttonLogin} onPress={() => handleGoogleSignIn()}>
+        <Image style={styles.buttonGoogle} source={require('../../assets/imageGoogle.png')}  />
+        <Text style={styles.buttonText}>Entrar com o Google</Text>
+    </TouchableOpacity>
   )
 }
 
+const styles = StyleSheet.create({
+  buttonLogin:{
+  marginTop: 20,
+  backgroundColor: "#FFF",
+  borderRadius: 20,
+  paddingVertical: 15,
+  paddingHorizontal: 20,
+  width: 262,
+  height: 54,
+  flexDirection: 'row',
+  },
+  buttonText:{
+    fontSize: 16,
+    color: '#004973',
+    marginLeft: 24,
+},
+buttonGoogle:{
+    alignSelf: 'center',
+},
 
-
-const ButtonLogin = styled.TouchableOpacity `
-  border-radius: 20px;
-  width: 55px;
-  height: 55px;
-  align-items: center;
-  justifyContent: center;
-  background-color: #FB8F8F;
-  margin-top: 10%;
-`
+})
 
 
 export default Google
