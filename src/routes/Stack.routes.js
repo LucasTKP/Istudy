@@ -1,98 +1,71 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
+const Stack = createStackNavigator();
 
-import { SignIn } from '../screens/SignIn';
-import { SignUp} from '../screens/SignUp';
 import { Home } from '../screens/Home';
-import { Entry } from '../screens/Entry';
-import { ResetPassword } from '../screens/ResetPassword';
 import { Profile } from '../screens/Profile';
 import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
-import { TradeAvatar } from '../screens/TradeAvatar';
+
 import { Decks } from '../screens/Decks';
  
-const { Navigator, Screen } = createNativeStackNavigator();
+
+import { InsertFlashCard } from '../screens/InsertFlashCard';
+
+
 
 export function StackRoutes() {
   return (
-      <Navigator>
-       
+    <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: '',
+              headerTransparent: true,
+              headerShown: false
+            }}
+          />
 
-<Screen
-          name="Entry"
-          component={Entry}
-          options={{ headerShown: false}}
-        />
 
-<Screen
-          name="Home"
-          component={Home}
+
+      <Screen
+          name="InsertFlashCard"
+          component={InsertFlashCard}
           options={{
             title: '',
-            headerTransparent: true,
-            headerShown: false
-          }}
-        />
-
-        <Screen
-          name="SignIn"
-          component={SignIn}
-          options={{ headerShown: false}}
-        />  
-
-        <Screen
-          name="SignUp"
-          component={SignUp}
-          options={{
-            title: '',
-            headerTransparent: true,
             headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
-        />
+          />
 
-        <Screen
-          name="ResetPassword"
-          component={ResetPassword}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerTintColor: '#FFF',
-          }}
-          />    
+    
           
-        <Screen
-          name="Profile"
-          component={Profile}
-        />   
 
-        <Screen
-          name="TradeAvatar"
-          component={TradeAvatar}
-        />
-        
-        <Screen
-          name="AllConquest"
-          component={AllConquest}
-        />
-
-        <Screen
-          name="ShowFlashCard"
-          component={ShowFlashCard}
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+          />   
+          
+          <Stack.Screen
+            name="AllConquest"
+            component={AllConquest}
           />
 
-        <Screen
-          name="CreateNewDeck"
-          component={CreateNewDeck}
-          />
 
-        <Screen
-          name="Filter"
-          component={Filter}
-          />
-          <Screen
+
+
+          <Stack.Screen
+            name="ShowFlashCard"
+            component={ShowFlashCard}
+            />
+
+
+     
+          <Stack.Screen
           name="Decks"
           component={Decks}
           options={{
@@ -103,8 +76,19 @@ export function StackRoutes() {
           }}
           />
 
+          <Stack.Screen
+            name="CreateNewDeck"
+            component={CreateNewDeck}
+            />
 
-      </Navigator>
+
+          <Stack.Screen
+            name="Filter"
+            component={Filter}
+          />
+    </Stack.Navigator>
   )
 }
+
+
 

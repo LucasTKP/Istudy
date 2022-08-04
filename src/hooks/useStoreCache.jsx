@@ -1,7 +1,6 @@
-
 import React from 'react'
 import { UserContext } from '../../App';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 function useStoreCache() {
     
@@ -9,12 +8,13 @@ function useStoreCache() {
     const {setDataUser} = React.useContext(UserContext) 
     const callStoreCache = React.useCallback(async(User) =>{    
         // Armazenando dados
-        await AsyncStorage.setItem('User', JSON.stringify(User));
+        await SecureStore.deleteItemAsync('User')
+        await SecureStore.setItemAsync('User', JSON.stringify(User))
         setDataUser(User)
         
 
         // Puxando dados do cache
-        const data =  await AsyncStorage.getItem('User');
+        const data =  await SecureStore.getItemAsync('User')
         const dataFilter = (JSON.parse(data));
         },[])
   return {

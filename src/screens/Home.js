@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/Arrow.png'
-import { Tste } from '../components/Tste'
+import { Profile } from '../components/Profile'
 
 import { useNavigation} from '@react-navigation/native'
 export function Home({ navigation }) {
@@ -13,7 +13,7 @@ export function Home({ navigation }) {
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
-      {profile ? <Tste /> : <Text style={{display: 'none'}}></Text> }
+      {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
         <ButtonHeader onPress={() => setProfile(true)}>
           <ImageProfile></ImageProfile>
