@@ -34,7 +34,6 @@ export default function BoxCode({codeEmail, email, password, name, funcao}) {
         setMessage(answerAxios.message)
       }
     },[answerAxios])
-
     
     //Variavel Loading
     const [visible, setVisible] = useState(false)

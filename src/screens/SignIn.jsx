@@ -120,7 +120,6 @@ export function SignIn({navigation}) {
         defeats: answerAxios.statistics[0].loses
       }
      callStoreCache(User)
-     navigation.navigate('Home')
     }
   return (
     <Container>
@@ -188,7 +187,7 @@ const ButtonForgetPassword = styled.TouchableOpacity `
 const TextForgetPassword = styled.Text `
 margin-top: 3px;
 margin-left: 100px;
-color: #0353BF
+color: #0353BF;
 font-size: 16px;
 text-align: right;
 `

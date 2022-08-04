@@ -1,32 +1,32 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
+const Stack = createStackNavigator();
 
-import { SignIn } from '../screens/SignIn';
-import { SignUp} from '../screens/SignUp';
 import { Home } from '../screens/Home';
-import { Entry } from '../screens/Entry';
-import { ResetPassword } from '../screens/ResetPassword';
+import { Profile } from '../screens/Profile';
 import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
+
 import { InsertFlashCard } from '../screens/InsertFlashCard';
-import { shadow } from 'react-native-paper';
- 
-const { Navigator, Screen } = createNativeStackNavigator();
+
+
+
 
 export function StackRoutes() {
   return (
-      <Navigator>
-        <Screen
-          name="CreateNewDeck"
-          component={CreateNewDeck}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerTintColor: '#FFF',
-          }}
+    <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: '',
+              headerTransparent: true,
+              headerShown: false
+            }}
           />
+
 
       <Screen
           name="InsertFlashCard"
@@ -38,56 +38,39 @@ export function StackRoutes() {
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
           />
-       
 
-<Screen
-          name="Entry"
-          component={Entry}
-        />
 
-<Screen
-          name="Home"
-          component={Home}
-          options={{
-            title: '',
-            headerTransparent: true,
-            headerShown: false
-          }}
-        />
-
-        <Screen
-          name="SignIn"
-          component={SignIn}
-        />  
-
-        <Screen
-          name="SignUp"
-          component={SignUp}
-        />
-
-        <Screen
-          name="ResetPassword"
-          component={ResetPassword}
-          />    
-        
-        <Screen
-          name="AllConquest"
-          component={AllConquest}
-        />
-
-        <Screen
-          name="ShowFlashCard"
-          component={ShowFlashCard}
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+          />   
+          
+          <Stack.Screen
+            name="AllConquest"
+            component={AllConquest}
           />
 
 
 
-        <Screen
-          name="Filter"
-          component={Filter}
-          />
 
-      </Navigator>
+          <Stack.Screen
+            name="ShowFlashCard"
+            component={ShowFlashCard}
+            />
+
+
+          <Stack.Screen
+            name="CreateNewDeck"
+            component={CreateNewDeck}
+            />
+
+          <Stack.Screen
+            name="Filter"
+            component={Filter}
+          />
+    </Stack.Navigator>
   )
 }
+
+
 
