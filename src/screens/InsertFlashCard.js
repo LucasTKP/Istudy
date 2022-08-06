@@ -25,7 +25,7 @@ export function InsertFlashCard({ navigation, route  }) {
    
     useEffect(() => {
         if(answerAxios.status === 200){
-            navigation.navigate('home')
+            navigation.navigate('Home')
         }
     },[answerAxios])
   

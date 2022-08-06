@@ -56,6 +56,7 @@ export function Profile({ navigation, route }) {
     }
     //Armazena o avatar no banco de dados
     async function UpdateImage(){
+      console.log(urlAvatar + "aaaaaaaa")
       const data = {
         image: urlAvatar
       } 
@@ -96,7 +97,7 @@ export function Profile({ navigation, route }) {
               name: name
             } 
             try{
-              await callAxios ("user/" + dataUser.id, data, "put", false) 
+              await callAxios ("user/" + dataUser.id, data, "put") 
             } catch(e) {
               console.log(e)
             } finally {

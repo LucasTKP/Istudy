@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import {StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput } from "react-native";
 import { UserContext } from '../../App';
 import { Ionicons, Feather } from '@expo/vector-icons'; 
+import useStoreCache from '../hooks/useStoreCache';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../components/Loading'
@@ -22,6 +23,8 @@ export function Profile() {
   const [tradeName, setTradeName] = useState(false)
   const [message, setMessage] = useState("")
   const [newName, setNewName] = useState("")
+  //Variavel Informação do StoreCache
+  const {callStoreCache} = useStoreCache()
 
    //executa o validar apos o nome ser trocado
    useEffect(()=>{
@@ -75,9 +78,9 @@ export function Profile() {
     dataUser.image = urlAvatar
     const newData = dataUser
     setDataUser(newData)
+    console.log(dataUser)
     try {
-    await AsyncStorage.clear()
-    await AsyncStorage.setItem('User', JSON.stringify(newData));
+    callStoreCache(newData)
     } catch(e) {
     console.log(e)
     }  
@@ -127,10 +130,9 @@ useEffect(()=>{
 
 
 //Altera o nome no cache
-async function StorageCache(newData){     
+async function StorageCache(newData){   
   try {
-    await AsyncStorage.clear()
-    await AsyncStorage.setItem('User', JSON.stringify(newData));
+    callStoreCache(newData)
   } catch(e) {
     console.log(e)
   }

@@ -7,8 +7,8 @@ import { Profile } from '../components/Profile'
 
 import { useNavigation} from '@react-navigation/native'
 export function Home({ navigation }) {
-  const {setDataUser, profile, setProfile} = useContext(UserContext)
-  const {dataUser} = useContext(UserContext)
+  const {setDataUser, dataUser, profile, setProfile} = useContext(UserContext)
+  console.log(dataUser)
   const [name, setName] = useState(dataUser.name)
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.

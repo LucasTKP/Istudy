@@ -19,6 +19,19 @@ import { InsertFlashCard } from '../screens/InsertFlashCard';
 export function StackRoutes() {
   return (
     <Stack.Navigator>
+
+          <Stack.Screen
+            name="ShowFlashCard"
+            component={ShowFlashCard}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
+          />
+
+
           <Stack.Screen
             name="Home"
             component={Home}
@@ -31,7 +44,7 @@ export function StackRoutes() {
 
 
 
-      <Screen
+      <Stack.Screen
           name="InsertFlashCard"
           component={InsertFlashCard}
           options={{
@@ -48,20 +61,29 @@ export function StackRoutes() {
           <Stack.Screen
             name="Profile"
             component={Profile}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />   
           
           <Stack.Screen
             name="AllConquest"
             component={AllConquest}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />
 
 
 
 
-          <Stack.Screen
-            name="ShowFlashCard"
-            component={ShowFlashCard}
-            />
+          
 
 
      
@@ -79,12 +101,24 @@ export function StackRoutes() {
           <Stack.Screen
             name="CreateNewDeck"
             component={CreateNewDeck}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
+            }}
             />
 
 
           <Stack.Screen
             name="Filter"
             component={Filter}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
+            }}
           />
     </Stack.Navigator>
   )

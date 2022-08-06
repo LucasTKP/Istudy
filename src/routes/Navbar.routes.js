@@ -7,7 +7,7 @@ import { Profile } from '../screens/Profile';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { StackRoutes } from './Stack.routes'
-import { TradeAvatar } from '../screens/TradeAvatar';
+import { Decks } from '../screens/Decks'
 
 import Home from '../../assets/ImageNavBar/home.png'
 import pen from '../../assets/ImageNavBar/pen.png'
@@ -74,11 +74,17 @@ export function NavRoutes() {
         <Tab.Screen
           name="Criar"
           component={CreateNewDeck}
+          options={{
+            title: 'Criar',
+            headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
+          }}
           />
 
         <Tab.Screen
             name="Rank"
-            component={TradeAvatar}
+            component={Decks}
           />
 
       </ Tab.Navigator>

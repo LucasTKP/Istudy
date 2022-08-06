@@ -37,7 +37,7 @@ export function CreateNewDeck({ navigation, route }) {
   async function CreateDeck(){
     if (Validate()){
       const data = {
-        id_user: 1,
+        id_user: 29,
         id_category: idCategory,
         title: title,
       } 
@@ -103,7 +103,7 @@ export function CreateNewDeck({ navigation, route }) {
     <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
       <Loading visible={visible}/>
       <BoxAlert message={message} type={'erro'}/>
-      <View style={{flexDirection:'row', marginTop: 50}}>
+      <View style={{flexDirection:'row'}}>
         <View style={{justifyContent: 'space-between', width:'50%'}}>
           <Text style={{fontSize: 30, color: 'white'}}>Criar</Text>
           <Text style={{width: 149, fontSize: 13, color:'#91BDD8'}}>Crie os seus próprios Flashcards para estudar como nunca antes!</Text>
