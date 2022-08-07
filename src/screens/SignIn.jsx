@@ -120,7 +120,7 @@ export function SignIn({navigation}) {
         defeats: answerAxios.statistics[0].loses
       }
      callStoreCache(User)
-    }
+    git }
   return (
     <View style={styles.container}>
         <Loading visible={visible} />
