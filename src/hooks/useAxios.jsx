@@ -36,6 +36,8 @@ function useAxios() {
             const answer = await axios.put(urlAxios, data, config)
             setanswerAxios(answer.data)  
           }
+
+          console.log(answerAxios)
           
           // if (answer.data.status === 200){
           //   if(answer.data.message){ 

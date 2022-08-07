@@ -86,6 +86,8 @@ export function Profile() {
     }  
   }
 
+  console.log(dataUser.image)
+
 //Altera o nome no banco de dados e no app
  async  function AlterTableName(){
       Validar()
