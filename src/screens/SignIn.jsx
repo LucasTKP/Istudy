@@ -233,20 +233,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
     width: 30
   }
-
-
-
-
-const TextForgetPassword = styled.Text `
-margin-top: 3px;
-margin-left: 100px;
-color: #0353BF;
-font-size: 16px;
-text-align: right;
-`
-
 })
-
 
 const TextError = styled.Text `
 color: red;
