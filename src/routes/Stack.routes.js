@@ -15,12 +15,9 @@ import { Decks } from '../screens/Decks';
 
 import { InsertFlashCard } from '../screens/InsertFlashCard';
 
-
-
 export function StackRoutes() {
   return (
-    <Stack.Navigator>
-
+    <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={Home}
@@ -30,7 +27,6 @@ export function StackRoutes() {
               headerShown: false
             }}
           />
-
           <Stack.Screen
             name="ShowFlashCard"
             component={ShowFlashCard}
@@ -54,8 +50,6 @@ export function StackRoutes() {
             }}
           />
 
-
-
       <Stack.Screen
           name="InsertFlashCard"
           component={InsertFlashCard}
@@ -66,9 +60,6 @@ export function StackRoutes() {
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
           />
-
-    
-          
 
           <Stack.Screen
             name="Profile"
@@ -91,23 +82,10 @@ export function StackRoutes() {
               headerStyle: {backgroundColor: '#005483', borderWidth:0},
             }}
           />
-
-
-
-
-          
-
-
      
           <Stack.Screen
           name="Decks"
           component={Decks}
-          options={{
-            title: '',
-            headerShadowVisible: false,
-            headerTintColor: '#FFF',
-            headerStyle: {backgroundColor: '#004973'}
-          }}
           />
 
           <Stack.Screen

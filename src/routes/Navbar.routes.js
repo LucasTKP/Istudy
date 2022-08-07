@@ -6,8 +6,11 @@ import { Image } from 'react-native';
 import { Profile } from '../screens/Profile';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
+
 import { StackRoutes } from './Stack.routes'
+
 import { Decks } from '../screens/Decks'
+
 
 import Home from '../../assets/ImageNavBar/home.png'
 import pen from '../../assets/ImageNavBar/pen.png'
@@ -46,6 +49,7 @@ export function NavRoutes() {
                     marginTop: -10,
                     marginBottom: 5
                 },
+                tabBarHideOnKeyboard:"true",
                 tabBarActiveTintColor: '#4B82A3',
                 tabBarInactiveTintColor: '#23709D',
             }
@@ -58,7 +62,14 @@ export function NavRoutes() {
 
         <Tab.Screen
             name="Seus"
-            component={Profile}
+            component={Decks}
+            options={{
+              title: 'Seus',
+              headerTintColor: '#FFF',
+              headerShown: false,
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />  
 
         <Tab.Screen
@@ -76,6 +87,7 @@ export function NavRoutes() {
           component={CreateNewDeck}
           options={{
             title: 'Criar',
+            headerShown: false,
             headerTintColor: '#FFF',
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
