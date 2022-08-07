@@ -128,12 +128,6 @@ export function SignIn({navigation}) {
         <BoxCode codeEmail={codeEmail} funcao={'Esqueceu a senha'} email={email} />
         <BoxAlert message={message} type={'erro'} />
 
-            <TouchableOpacity 
-                style={styles.seta}
-                onPress={ () => navigation.navigate('Entry')}>
-                <Image source={require('../../assets/seta.png')} />
-            </TouchableOpacity>
-
             <View style={styles.containerLogo}>
                 <Image 
                 source={require('../../assets/imageSingIn.png')} />
@@ -168,7 +162,7 @@ export function SignIn({navigation}) {
                   color={"#444"}/>
 
                   {/* Erro De senha */}
-                  {errorPassword ? <Text style={{height:0}}></Text> : <TextError>A senha deve conter 8 letras, minusculas, maiusculas e numeros</TextError>}  
+                  {errorPassword ? <Text style={{height:0}}></Text> : <Text style={styles.TextError}>A senha deve conter 8 letras, minusculas, maiusculas e numeros</Text>}  
 
               <TouchableOpacity style={styles.buttonForgetPassword} onPress={() => ForgetPassword()}>
               <Text style={styles.textForgetPassword}>Esqueci minha senha</Text>
@@ -191,11 +185,6 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: '#004973',
     
-  },
-  seta:{
-    marginTop: 40,
-    marginLeft: 40,
-
   },
   containerLogo: {
     flex:1,
@@ -231,13 +220,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 25,
     paddingHorizontal: 35,
-    width: 30
+    width: 30,
+  },
+  TextError: {
+    color: 'red',
+    width: 300,
+    textAlign: 'center'
   }
 })
-
-const TextError = styled.Text `
-color: red;
-width: 300px;
-text-align: center;
-`
 

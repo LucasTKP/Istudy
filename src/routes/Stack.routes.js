@@ -8,6 +8,7 @@ import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
+import { EndFlashCard } from '../screens/EndFlashCard';
 
 import { Decks } from '../screens/Decks';
  
@@ -17,6 +18,7 @@ import { InsertFlashCard } from '../screens/InsertFlashCard';
 export function StackRoutes() {
   return (
     <Stack.Navigator>
+
           <Stack.Screen
             name="Home"
             component={Home}
@@ -26,6 +28,29 @@ export function StackRoutes() {
               headerShown: false
             }}
           />
+          <Stack.Screen
+            name="ShowFlashCard"
+            component={ShowFlashCard}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
+          />
+
+
+        <Stack.Screen
+            name="EndFlashCard"
+            component={EndFlashCard}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
+          />
+
       <Stack.Screen
           name="InsertFlashCard"
           component={InsertFlashCard}
@@ -43,20 +68,29 @@ export function StackRoutes() {
           <Stack.Screen
             name="Profile"
             component={Profile}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />   
           
           <Stack.Screen
             name="AllConquest"
             component={AllConquest}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />
 
 
 
 
-          <Stack.Screen
-            name="ShowFlashCard"
-            component={ShowFlashCard}
-            />
+          
 
 
      
@@ -76,8 +110,9 @@ export function StackRoutes() {
             component={CreateNewDeck}
             options={{
               title: '',
-              headerTransparent: true,
-              headerShown: false
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
             }}
             />
 
@@ -85,6 +120,12 @@ export function StackRoutes() {
           <Stack.Screen
             name="Filter"
             component={Filter}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
+            }}
           />
     </Stack.Navigator>
   )

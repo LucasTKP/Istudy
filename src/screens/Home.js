@@ -7,13 +7,12 @@ import { Profile } from '../components/Profile'
 
 import { useNavigation} from '@react-navigation/native'
 export function Home({ navigation }) {
-  const {setDataUser, profile, setProfile} = useContext(UserContext)
-  const {dataUser} = useContext(UserContext)
-  const [name, setName] = useState(dataUser.name)
+  const {dataUser, profile, setProfile} = useContext(UserContext)
+  
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
-      {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
+      {/* {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
         <ButtonHeader onPress={() => setProfile(true)}>
           <ImageProfile></ImageProfile>
@@ -28,7 +27,7 @@ export function Home({ navigation }) {
         onPress={ () => navigation.navigate('Decks')}
       >       
              <Text>Entrar</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </Container>
   );
 }
