@@ -13,6 +13,11 @@ export function AuthRoutes() {
             <Stack.Screen
                 name="Entry"
                 component={Entry}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  headerStyle: {backgroundColor: '#004973', borderWidth:0},
+                }}
             />
 
             <Stack.Screen
@@ -29,6 +34,12 @@ export function AuthRoutes() {
             <Stack.Screen
             name="SignUp"
             component={SignUp}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#004973', borderWidth:0},
+            }}
             />
 
             <Stack.Screen

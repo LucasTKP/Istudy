@@ -6,7 +6,6 @@ import { Image } from 'react-native';
 import { Profile } from '../screens/Profile';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
-import { Filter } from '../screens/Filter'
 
 import { StackRoutes } from './Stack.routes'
 
@@ -25,16 +24,7 @@ export function NavRoutes() {
         initialRouteName="StackHome"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({focused}) => {
-                    if (route.name === 'StackHome') {<<<<<<< nata
-84
- 
-            headerTransparent: true,
-85
- 
-            headerShown: false
-86
- 
-=======
+                    if (route.name === 'StackHome') {
                         return <Image source={Home} style={{marginBottom: 20}}/>
                     } else if (route.name === 'Criar') {
                         let color = focused ?  '#4B82A3' : '#23709D'
@@ -72,7 +62,14 @@ export function NavRoutes() {
 
         <Tab.Screen
             name="Seus"
-            component={Profile}
+            component={Decks}
+            options={{
+              title: 'Seus',
+              headerTintColor: '#FFF',
+              headerShown: false,
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />  
 
         <Tab.Screen
@@ -90,6 +87,7 @@ export function NavRoutes() {
           component={CreateNewDeck}
           options={{
             title: 'Criar',
+            headerShown: false,
             headerTintColor: '#FFF',
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#005483', borderWidth:0},

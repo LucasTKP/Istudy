@@ -100,7 +100,7 @@ export function CreateNewDeck({ navigation, route }) {
 
 
   return (
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
+    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center', paddingTop: 60}}>
       <Loading visible={visible}/>
       <BoxAlert message={message} type={'erro'}/>
       <View style={{flexDirection:'row'}}>

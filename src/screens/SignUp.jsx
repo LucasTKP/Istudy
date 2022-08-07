@@ -226,7 +226,6 @@ const styles = StyleSheet.create({
   },
   containerLogo: {
     flex:1,
-    marginTop: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
