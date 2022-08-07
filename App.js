@@ -26,7 +26,7 @@ export default function App() {
     
         bootstrapAsync();
       }, [dataUser]);
-
+      console.log("a")
   return (
     <UserContext.Provider value={{dataUser, setDataUser, modal, setModal, alert, setAlert, profile, setProfile}} >
       <NavigationContainer>

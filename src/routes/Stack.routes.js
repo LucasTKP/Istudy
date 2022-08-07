@@ -8,6 +8,7 @@ import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
+import { EndFlashCard } from '../screens/EndFlashCard';
 
 import { Decks } from '../screens/Decks';
  
@@ -21,6 +22,16 @@ export function StackRoutes() {
     <Stack.Navigator>
 
           <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: '',
+              headerTransparent: true,
+              headerShown: false
+            }}
+          />
+
+          <Stack.Screen
             name="ShowFlashCard"
             component={ShowFlashCard}
             options={{
@@ -32,13 +43,14 @@ export function StackRoutes() {
           />
 
 
-          <Stack.Screen
-            name="Home"
-            component={Home}
+        <Stack.Screen
+            name="EndFlashCard"
+            component={EndFlashCard}
             options={{
               title: '',
-              headerTransparent: true,
-              headerShown: false
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
             }}
           />
 

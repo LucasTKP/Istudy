@@ -5,8 +5,9 @@ import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
 import  eye  from '../../assets/eye.png'
-import  correct  from '../../assets/correct.png'
-import  incorrect  from '../../assets/incorrect.png'
+import  IconCorrect  from '../../assets/correct.png'
+import  IconIncorrect  from '../../assets/incorrect.png'
+
 
 
 
@@ -22,19 +23,19 @@ export function ShowFlashCard({ navigation }) {
   //Variavel com a resposta do axios
   const [dataFlash, setDataFlash] = useState("")
   //Variavel para verificar se é pra trocar de pagina ou exibir resposta
-  const [proxPage, setProxPage] = useState(true)
+  const [incorrect, setIncorrect] = useState(false)
   //Variavel para contar as paginas que ja foram exibidas
   const [numberFlash, setNumberFlash] = useState(50)
+  const [answerIncorrect, setAnswerIncorrect] = useState([])
   //Variavel Loading
   const [visible, setVisible] = useState(false)
   const [showAnsewer, setShowAnsewer] = useState(false)
-
   //Executa a função de puxar os flahs apenas uma vez após abrir o app
+
+  const [totalPage, setTotalPage] = useState(0)
   useEffect(()=>{
     showQuestionCard()
   },[])
-
-
 
   //Seta a resposta do axios na variavel dataFlash
   useEffect(()=>{ 
@@ -42,6 +43,7 @@ export function ShowFlashCard({ navigation }) {
     setMateria(answerAxios.res.category[0].name)
     setDataFlash(answerAxios.res.card_Answer)
     setTitle(answerAxios.res.title)
+    setTotalPage(answerAxios.res.card_Answer.length)
     }
   },[answerAxios])
   //Executa a função de exibir o flash card após chegar as informaçoes dos flashcards
@@ -57,9 +59,11 @@ export function ShowFlashCard({ navigation }) {
       setFlashCard()
     }
     },[numberFlash])
-
   //Faz a logica para passar de pagina ou exibir a resposta  
   function setFlashCard(){
+    if(incorrect){
+      answerIncorrect.push({question, answer})
+    }
     if(numberFlash < dataFlash.length) {
       if(numberFlash >= 0){
         setQuestion(dataFlash[numberFlash].question)
@@ -68,12 +72,7 @@ export function ShowFlashCard({ navigation }) {
         navigation.navigate('Home')
       }
     } else{
-      setNumberFlash(numberFlash - 1)
-      Alert.alert(
-        "Falha ao ir pro proximo",
-        "Você esta na ultima pagina" ,
-        [{ text: "OK"}]
-      ) 
+      
     }
   }
 
@@ -90,15 +89,15 @@ export function ShowFlashCard({ navigation }) {
       setVisible(false)
     }
   }
-
   return (
     <View style={styles.Container}>
+      <Loading visible={visible}/>
       <View style={{width:'70%'}} >
         <Text style={styles.Title}>{title}</Text>
         <View style={styles.Incomplete}>
           <View style={styles.Complete}/>
         </View>
-        <Text style={styles.Fracao}>4/10</Text>
+        <Text style={styles.Fracao}>{numberFlash + 1}/{totalPage}</Text>
         <View style={{height: 400}}>
           <View style={styles.Question}>
               <View style={{width: '90%'}}>
@@ -113,11 +112,11 @@ export function ShowFlashCard({ navigation }) {
         </View>  
         {showAnsewer ?
         <View style={styles.Feedback}>
-          <TouchableOpacity onPress={() => setShowAnsewer(!showAnsewer)} style={styles.ButtonIncorrect}>
-            <Image source={incorrect}></Image>
+          <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1), setIncorrect(true))} style={styles.ButtonIncorrect}>
+            <Image source={IconIncorrect}></Image>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setShowAnsewer(!showAnsewer)} style={styles.ButtonCorrect}>
-            <Image source={correct}></Image>
+          <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1))} style={styles.ButtonCorrect}>
+            <Image source={IconCorrect}></Image>
           </TouchableOpacity>
         </View> 
         :
