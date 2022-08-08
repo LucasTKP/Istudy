@@ -64,6 +64,7 @@ export function NavRoutes() {
             name="Seus"
             component={Decks}
             options={{
+              unmountOnBlur: true,
               title: 'Seus',
               headerTintColor: '#FFF',
               headerShown: false,
@@ -87,10 +88,10 @@ export function NavRoutes() {
           component={CreateNewDeck}
           options={{
             title: 'Criar',
-            headerShown: false,
             headerTintColor: '#FFF',
             headerShadowVisible: false,
-            headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            headerStyle: {backgroundColor: '#005483'},
+            headerTitleStyle: {color: '#005483'}
           }}
           />
 

@@ -35,6 +35,9 @@ function useAxios() {
           }  else if (type === "put"){
             const answer = await axios.put(urlAxios, data, config)
             setanswerAxios(answer.data)  
+          } else if (type === "delete"){
+            const answer = await axios.delete(urlAxios, config)
+            setanswerAxios(answer.data) 
           }
 
           console.log(answerAxios)
