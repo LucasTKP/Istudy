@@ -14,7 +14,7 @@ import  IconIncorrect  from '../../assets/incorrect.png'
 
 export function ShowFlashCard({ navigation }) {
   //Variavel Informação do axios
-  const {navigationAxios, callAxios, answerAxios} = useAxios()
+  const {callAxios, answerAxios} = useAxios()
   //Variaveis de informação do flashCard
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
@@ -22,20 +22,22 @@ export function ShowFlashCard({ navigation }) {
   const [materia, setMateria] = useState("")  
   //Variavel com a resposta do axios
   const [dataFlash, setDataFlash] = useState("")
-  //Variavel para verificar se é pra trocar de pagina ou exibir resposta
-  const [incorrect, setIncorrect] = useState(false)
   //Variavel para contar as paginas que ja foram exibidas
   const [numberFlash, setNumberFlash] = useState(50)
-  const [answerIncorrect, setAnswerIncorrect] = useState([])
+  const [answerIncorrect, setAnswerIncorrect] = useState(0)
   //Variavel Loading
   const [visible, setVisible] = useState(false)
   const [showAnsewer, setShowAnsewer] = useState(false)
   //Executa a função de puxar os flahs apenas uma vez após abrir o app
-
   const [totalPage, setTotalPage] = useState(0)
+  const [timeEnd, setTimeEnd] = useState(0)
+
   useEffect(()=>{
     showQuestionCard()
+
+    
   },[])
+
 
   //Seta a resposta do axios na variavel dataFlash
   useEffect(()=>{ 
@@ -44,8 +46,10 @@ export function ShowFlashCard({ navigation }) {
     setDataFlash(answerAxios.res.card_Answer)
     setTitle(answerAxios.res.title)
     setTotalPage(answerAxios.res.card_Answer.length)
+    setTimeEnd(new Date())
     }
   },[answerAxios])
+ 
   //Executa a função de exibir o flash card após chegar as informaçoes dos flashcards
   useEffect(()=>{
   if(dataFlash[0]){
@@ -60,10 +64,7 @@ export function ShowFlashCard({ navigation }) {
     }
     },[numberFlash])
   //Faz a logica para passar de pagina ou exibir a resposta  
-  function setFlashCard(){
-    if(incorrect){
-      answerIncorrect.push({question, answer})
-    }
+   function setFlashCard(){
     if(numberFlash < dataFlash.length) {
       if(numberFlash >= 0){
         setQuestion(dataFlash[numberFlash].question)
@@ -72,7 +73,15 @@ export function ShowFlashCard({ navigation }) {
         navigation.navigate('Home')
       }
     } else{
-      
+      const endTime = new Date()
+      const a = new Date(timeEnd - endTime)
+      console.log(a)
+      const Statistics = {
+        erros: answerIncorrect,
+        acertos: dataFlash.length - answerIncorrect, 
+        tempo: timeEnd
+      }
+      navigation.navigate('EndFlashCard', Statistics)
     }
   }
 
@@ -112,7 +121,7 @@ export function ShowFlashCard({ navigation }) {
         </View>  
         {showAnsewer ?
         <View style={styles.Feedback}>
-          <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1), setIncorrect(true))} style={styles.ButtonIncorrect}>
+          <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1), setAnswerIncorrect(answerIncorrect + 1))} style={styles.ButtonIncorrect}>
             <Image source={IconIncorrect}></Image>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1))} style={styles.ButtonCorrect}>

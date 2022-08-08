@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Button from '../components/Button'
 import styled from 'styled-components/native'
-import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Modal} from 'react-native';
 import { UserContext } from '../../App';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
@@ -9,19 +9,19 @@ import BoxAlert from '../components/BoxAlert'
 import Cake from '../../assets/cake.png'
 import pen from '../../assets/ImageNavBar/pen.png'
 import { Feather } from '@expo/vector-icons'; 
+import { ScrollView } from 'react-native-gesture-handler';
+import { InsertFlashCard } from './InsertFlashCard';
 
 
 
-export function CreateNewDeck({ navigation, route }) {
+export function CreateNewDeck({ navigation }) {
   //Variavel global
-  const {setDataUser, setModal, setAlert} = useContext(UserContext)
+  const {setAlert, dataUser} = useContext(UserContext)
   //Variavei com informação dos flashCards
   const [title, setTitle] = useState("")
   //Infos da categoria
   const [nameCategory, setNameCategory] = useState("")
   const [idCategory, setIdCategory] = useState("")
-  //Variavel Global
-  const {dataUser} = useContext(UserContext)
   //Variavel Loading
   const [visible, setVisible] = useState(false)
   //Variavel Informação do axios
@@ -33,13 +33,16 @@ export function CreateNewDeck({ navigation, route }) {
   const [portugues, setPortugues] = useState(false)
   const [ciencias, setCiencias] = useState(false)
   const [ingles, setIngles] = useState(false)
+  const [imageDeck, setImageDeck] = useState('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png')
+  const [modalImage, setModalImage] = useState(false)
 
   async function CreateDeck(){
     if (Validate()){
       const data = {
-        id_user: 29,
+        id_user: dataUser.id,
         id_category: idCategory,
         title: title,
+        image: imageDeck,
       } 
 
       try{
@@ -98,9 +101,57 @@ export function CreateNewDeck({ navigation, route }) {
     }
   }
 
+  useEffect(()=>{
+    if(imageDeck != 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png'){
+      setModalImage(!modalImage)
+    }
+    },[imageDeck])
+
 
   return (
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
+    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center', paddingTop: 60}}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalImage}
+        onRequestClose={() => {
+          setModalImage(!modalImage);
+        }}
+      >
+        <ScrollView>
+          <TouchableOpacity onPress={() => setModalImage(!modalImage)} style={styles.PageTradeAvatar}>
+        
+            <Text style={{ fontSize: 20, fontWeight: '500', marginTop: 20, marginBottom: 20, textAlign: 'center', color: 'white' }}>Selecione A Imagem do seu Deck</Text>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2058.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2058.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2057.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2057.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2056.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2056.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2054.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2054.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2055.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2055.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png'}} />
+            </TouchableOpacity>
+        
+          </TouchableOpacity>
+        </ScrollView>
+      </Modal>
+
+
       <Loading visible={visible}/>
       <BoxAlert message={message} type={'erro'}/>
       <View style={{flexDirection:'row'}}>
@@ -110,11 +161,11 @@ export function CreateNewDeck({ navigation, route }) {
         </View>
         <Image source={Cake} />
       </View>
-      <View style={{width: 295, height:136, backgroundColor: '#7BACC9', marginTop: 50, borderRadius: 8}}>
-        <Image style={{height: '100%', width:'100%'}}source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/tom-hermans-9BoqXzEeQqM-unsplash%201.png'}}></Image>
+      <View style={{marginTop: 50}}>
+        <Image style={{width: 295, height:118}}source={{uri: imageDeck}}></Image>
         <View style={{alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 10, marginTop: -10}}>
           <View style={styles.TradeImage}>
-            <Feather name="edit-3" size={30} color="black" onPress={() => AlterTableName()} />
+            <Feather name="edit-3" size={30} color="black" onPress={() => setModalImage(!modalImage)} />
           </View>
         </View>
 
@@ -237,6 +288,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     flexDirection: 'row'
+  },
+  PageTradeAvatar: {
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.80)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  //Modal de icones
+  BackgroundIcon:{
+    backgroundColor: '#005483', 
+    borderRadius: 16, 
+    justifyContent: 'center', 
+    alignItems: 'center'  
+  }, 
+  NewImage: {
+    marginTop: 10,
+    marginBottom: 20,
   }
-  
 });

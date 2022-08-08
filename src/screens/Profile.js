@@ -56,7 +56,6 @@ export function Profile({ navigation, route }) {
     }
     //Armazena o avatar no banco de dados
     async function UpdateImage(){
-      console.log(urlAvatar + "aaaaaaaa")
       const data = {
         image: urlAvatar
       } 

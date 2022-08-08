@@ -12,7 +12,7 @@ export function Home({ navigation }) {
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
-      {/* {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
+      {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
         <ButtonHeader onPress={() => setProfile(true)}>
           <ImageProfile></ImageProfile>
@@ -27,7 +27,7 @@ export function Home({ navigation }) {
         onPress={ () => navigation.navigate('Decks')}
       >       
              <Text>Entrar</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </Container>
   );
 }
