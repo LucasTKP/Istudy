@@ -1,12 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Alert, Modal, StyleSheet, Text, Image, TouchableOpacity, View} from "react-native";
-import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import { UserContext } from '../../App';
 import BoxAlert from './BoxAlert'
-import { TextInput } from "react-native-gesture-handler";
 import CodeInput from 'react-native-confirmation-code-input';
 
 

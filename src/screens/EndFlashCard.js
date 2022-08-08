@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import flag from '../../assets/flag.png'
 import  IconCorrect  from '../../assets/correct.png'
@@ -8,7 +8,11 @@ import  Refresh from '../../assets/refresh.png'
 
 
 
-export function EndFlashCard({ navigation }) {
+export function EndFlashCard({ route, navigation  }) {
+    // const Acertos = route. params - 
+    // const Erros = 
+    const [endTime , setEndTime] = useState(new Date())
+    const [startTime , setStartTime] = useState(route.params.tempo)
   return (
     <View style={styles.Container}>
         <View style={{width:'70%'}} >
@@ -22,19 +26,19 @@ export function EndFlashCard({ navigation }) {
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30}}>
                 <View style={styles.DivResults}>
-                    <Text style={{fontSize: 24, color: '#D7E3EA'}}>3</Text>
+                    <Text style={{fontSize: 24, color: '#D7E3EA'}}>{route.params.erros}</Text>
                     <View style={styles. Stripe}></View>
                     <Image source={IconIncorrect}/>
                 </View>
 
                 <View style={styles.DivResults}>
-                    <Text style={{fontSize: 24, color: '#D7E3EA'}}>7</Text>
+                    <Text style={{fontSize: 24, color: '#D7E3EA'}}>{route.params.acertos}</Text>
                     <View style={styles. Stripe}></View>
                     <Image source={IconCorrect}/>
                 </View>
 
                 <View style={styles.DivResults}>
-                    <Text style={{fontSize: 24, color: '#D7E3EA'}}>3</Text>
+                    <Text style={{fontSize: 22, color: '#D7E3EA'}}></Text>
                     <View style={styles. Stripe}></View>
                     <Image source={Iconclock}/>
                 </View>
@@ -56,7 +60,7 @@ export function EndFlashCard({ navigation }) {
                     <View style={{marginTop: 10, flexDirection: 'row', width: '90%', alignSelf: 'center', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
 
-                            <View style={{width: 25, height: 45, borderRadius: 10, backgroundColor: '#4B82A3', alignItems: 'center', justifyContent: 'center'}}>
+                            <View style={styles.DivDataDecks}>
                                 <Text>⭐</Text>
                                 <Text style={{fontWeight: '800'}}>10</Text>
                             </View>
@@ -71,43 +75,7 @@ export function EndFlashCard({ navigation }) {
                         </TouchableOpacity>
                 </View>
             </View>
-{/* 
-            <View style={styles.DivFlashRecomendation2}>
-                <Image style={styles.ImageFlashCard}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '90%', alignSelf: 'center', marginTop:  10}}>
-                    <Text style={{ fontSize: 15, color: '#F5F5F5'}}>Revolução Francesa</Text>
-                    <View style={styles.FlashCardDificulty}>
-                        <Text style={{fontSize: 8, paddingLeft: 2}}>🔴</Text>
-                        <Text style={{fontSize: 8}}>🟡</Text>
-                        <Text style={{fontSize: 8, paddingRight: 2}}>🟢</Text>
-                    </View>
-                </View>
-                    <View style={{marginTop: 10, flexDirection: 'row', width: '90%', alignSelf: 'center', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
-
-                            <View style={{width: 25, height: 45, borderRadius: 10, backgroundColor: '#4B82A3', alignItems: 'center', justifyContent: 'center'}}>
-                                <Text>⭐</Text>
-                                <Text style={{fontWeight: '800'}}>10</Text>
-                            </View>
-
-                            <View style={{width: 25, height: 45, borderRadius: 10, backgroundColor: '#4B82A3', alignItems: 'center', justifyContent: 'center'}}>
-                                <Text>🕓</Text>
-                                <Text style={{fontWeight: '800'}}>10</Text>
-                            </View>
-                        </View>
-                        <TouchableOpacity style={{width: 77, height: 31, backgroundColor: '#005483', borderRadius: 10, borderWidth: 2, borderColor: '#007FC7', justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
-                        </TouchableOpacity>
-                </View>
-            </View> */}
         </View>
-
-
-    
-
-
-            
-
                 <TouchableOpacity style={{ width: 90, height: 60, backgroundColor: '#005483', borderWidth: 2, borderColor: '#7BACC9', alignSelf: 'center', marginTop: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
                     <Image source={Refresh }/>
                 </TouchableOpacity>
@@ -179,5 +147,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between', 
         alignItems:'center', 
         flexDirection: 'row'
+    }, 
+    DivDataDecks:{
+        width: 25, 
+        height: 45, 
+        borderRadius: 10, 
+        backgroundColor: '#4B82A3', 
+        alignItems: 'center', 
+        justifyContent: 'center'
     }
 })

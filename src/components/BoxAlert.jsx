@@ -6,7 +6,6 @@ import { UserContext } from '../../App';
 
 
 export default function BoxAlert({message, type}) {
-
   //Variavel global
   const {setAlert, alert} = useContext(UserContext)
     var name = ""

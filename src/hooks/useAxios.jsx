@@ -36,34 +36,6 @@ function useAxios() {
             const answer = await axios.put(urlAxios, data, config)
             setanswerAxios(answer.data)  
           }
-
-          console.log(answerAxios)
-          
-          // if (answer.data.status === 200){
-          //   if(answer.data.message){ 
-          //     Alert.alert(
-          //       "Sucesso ",
-          //       answer.data.message,
-          //       [{ text: "OK"}]
-          //     ) 
-          //   }
-          //   if(page != undefined){
-          //     if(page === 'Modal'){
-              
-          //       setNavigationAxios("Modal")
-          //     } else {
-          //       navigation.navigate(page)
-          //     }
-          //   } 
-            
-            
-          // } 
-          
-          // if (answer.data.status === 201){
-          //   setMessage("")
-          //   setMessage(answer.data.message)
-          // }
-           
         }
         } catch (e) {
             console.log(e)

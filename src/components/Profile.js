@@ -3,12 +3,11 @@ import {StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput } from
 import { UserContext } from '../../App';
 import { Ionicons, Feather } from '@expo/vector-icons'; 
 import useStoreCache from '../hooks/useStoreCache';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 import { useNavigation } from '@react-navigation/native';
 import  BoxAlert  from '../components/BoxAlert'
+import * as SecureStore from 'expo-secure-store';
 
 
 export function Profile() {
@@ -25,7 +24,6 @@ export function Profile() {
   const [newName, setNewName] = useState("")
   //Variavel Informação do StoreCache
   const {callStoreCache} = useStoreCache()
-
    //executa o validar apos o nome ser trocado
    useEffect(()=>{
     Validar()
@@ -48,15 +46,12 @@ export function Profile() {
   //Verifica se o nome que esta sendo trocado esta correto de acordo com a regex
   function Validar(){
     const regexName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/
-     if ( name.length > 4 && regexName.test(name) && newName.length === 0){
+    if ( name.length > 4 && regexName.test(name) && newName.length === 0){
         return true
       } 
-
     if ( newName.length > 4 && regexName.test(newName)){
         return true
     }  
-
-
       return false
   }
   //Armazena o avatar no banco de dados
@@ -78,7 +73,6 @@ export function Profile() {
     dataUser.image = urlAvatar
     const newData = dataUser
     setDataUser(newData)
-    console.log(dataUser)
     try {
     callStoreCache(newData)
     } catch(e) {
@@ -86,11 +80,12 @@ export function Profile() {
     }  
   }
 
-  console.log(dataUser.image)
-
 //Altera o nome no banco de dados e no app
  async  function AlterTableName(){
       Validar()
+    if(newName === "" || newName === name) {
+
+    } else {
       if (Validar() === true) {
           const data = {
             name: newName
@@ -106,7 +101,8 @@ export function Profile() {
       } else {
         setMessage("Não foi possivel alterar seu nome, utilize um nome com 5 letras e nenhum caracter especial")
         setAlert(true)
-      }  
+      }
+    }  
   } 
 //Altera o nome na variavel global
 useEffect(()=>{
@@ -121,7 +117,7 @@ useEffect(()=>{
     } else {
       setName(dataUser.name)
       setAlert(true)
-      setMessage(answerAxios.message)
+      setMessage(answerAxios.message) 
     }
   } else if(answerAxios.type === 'userImage'){
     if (answerAxios.status === 200){
@@ -140,6 +136,11 @@ async function StorageCache(newData){
   }
 } 
 
+async function Exit(){
+  await SecureStore.deleteItemAsync('User')
+  setDataUser()
+}
+
   return (
         <View style={{backgroundColor: 'rgba(0, 0, 0, 0.51)', height: '100%'}}>
           <Loading visible={visible} />
@@ -153,7 +154,7 @@ async function StorageCache(newData){
           setAvatarModal(!avatarModal);
         }}
       >
-      <View style={styles.PageTradeAvatar}>
+      <TouchableOpacity onPress={() => setAvatarModal(!avatarModal)} style={styles.PageTradeAvatar}>
       <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 20, marginBottom: 20, textAlign: 'center', color: 'white' }}>Selecione O Avatar</Text>
         <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={styles.BackgroundIcon}>
@@ -214,13 +215,13 @@ async function StorageCache(newData){
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
         </Modal>
         
         <Loading visible={visible} />
         <View style={styles.Modal}>
           <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'space-between', width: '90%', marginTop: '10%'}}>
-            <Ionicons name="exit-outline" size={30} color="white" />
+            <Ionicons name="exit-outline" size={30} color="white" onPress={() => Exit()} />
             <Image style={styles.ImageProfile} source={{uri: urlAvatar}}></Image>
             <Feather name="save" size={30} color="white" onPress={() => AlterTableName()} />
           </View>
@@ -236,10 +237,9 @@ async function StorageCache(newData){
               <View style={{borderWidth: 2, borderColor: '#F9B84F', alignItems: 'center', borderRadius: 10, width: 150}}>
                 <TextInput style={{ width: '90%', fontSize: 16}} onChangeText={(Text) => setNewName(Text)} placeholder="Digite o Nome"></TextInput>
               </View>
-                <TouchableOpacity style={styles.AlterCancel} onPress={() => (setTradeName(false)) }>
-                    <Text style={{fontSize: 20, color:'#972F2F', fontWeight: 'bold'}}> X </Text>
-                </TouchableOpacity>
-              
+              <TouchableOpacity style={styles.AlterCancel} onPress={() => (setTradeName(false)) }>
+                 <Text style={{fontSize: 20, color:'#972F2F', fontWeight: 'bold'}}> X </Text>
+              </TouchableOpacity>           
             </View>
             : <View style={{flexDirection: 'row'}}>
                 <Text style={{color:'white', fontSize: 20, textAlign: "left"}}>{name}</Text>
