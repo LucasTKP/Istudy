@@ -151,6 +151,7 @@ export function CreateNewDeck({ navigation }) {
         </ScrollView>
       </Modal>
 
+
       <Loading visible={visible}/>
       <BoxAlert message={message} type={'erro'}/>
       <View style={{flexDirection:'row'}}>

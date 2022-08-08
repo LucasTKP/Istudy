@@ -9,6 +9,7 @@ import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
 import { EndFlashCard } from '../screens/EndFlashCard';
+import {EditDeck} from '../screens/EditDeck'
 
 import { Decks } from '../screens/Decks';
  
@@ -91,6 +92,17 @@ export function StackRoutes() {
           <Stack.Screen
             name="CreateNewDeck"
             component={CreateNewDeck}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
+            }}
+            />
+
+          <Stack.Screen
+            name="EditDeck"
+            component={EditDeck}
             options={{
               title: '',
               headerTintColor: '#FFF',
