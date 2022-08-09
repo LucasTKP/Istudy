@@ -99,7 +99,8 @@ export function NavRoutes() {
             headerTintColor: '#FFF',
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#005483'},
-            headerTitleStyle: {color: '#005483'}
+            headerTitleStyle: {color: '#005483'},
+            unmountOnBlur: true,
           }}
           />
 

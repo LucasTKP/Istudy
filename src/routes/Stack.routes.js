@@ -9,6 +9,7 @@ import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { Filter } from '../screens/Filter';
 import { EndFlashCard } from '../screens/EndFlashCard';
 import {EditDeck} from '../screens/EditDeck'
+import {EditAnswer} from '../screens/editAnswer'
 
 import { Decks } from '../screens/Decks';
  
@@ -98,6 +99,17 @@ export function StackRoutes() {
               headerShadowVisible: false,
               headerStyle: {backgroundColor: '#005483'},
             }}
+            />
+
+          <Stack.Screen
+              name="EditAnswer"
+              component={EditAnswer}
+              options={{
+                title: '',
+                headerTintColor: '#FFF',
+                headerShadowVisible: false,
+                headerStyle: {backgroundColor: '#005483'},
+              }}
             />
 
 
