@@ -109,7 +109,7 @@ export function CreateNewDeck({ navigation }) {
 
 
   return (
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center', paddingTop: 60}}>
+    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
       <Modal
         animationType="slide"
         transparent={true}

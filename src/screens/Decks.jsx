@@ -17,7 +17,7 @@ export function Decks({ navigation }) {
 
     async function Cards (){
         try{
-            await callAxios('cards/' + 29, '', 'get')
+            await callAxios('cards/' + dataUser.id, '', 'get')
         } catch(error){
             console.log(error)
         } finally {

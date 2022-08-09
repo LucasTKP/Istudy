@@ -24,6 +24,7 @@ export function SignUp({navigation}) {
   const [errorName, setErrorName] = useState(true); 
   const [errorEmail, setErrorEmail] = useState(true); 
   const [errorPassword, setErrorPassword] = useState(true); 
+
   //Variavel Loading
   const [visible, setVisible] = useState(false)
   //Variavel Icon/View Password
