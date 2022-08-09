@@ -3,7 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 import { Home } from '../screens/Home';
-import { Profile } from '../screens/Profile';
 import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
@@ -19,7 +18,7 @@ import { InsertFlashCard } from '../screens/InsertFlashCard';
 
 export function StackRoutes() {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="Home" >
           <Stack.Screen
             name="Home"
             component={Home}
@@ -33,6 +32,7 @@ export function StackRoutes() {
             name="ShowFlashCard"
             component={ShowFlashCard}
             options={{
+              unmountOnBlur: true,
               title: '',
               headerTintColor: '#FFF',
               headerShadowVisible: false,
@@ -46,9 +46,9 @@ export function StackRoutes() {
             component={EndFlashCard}
             options={{
               title: '',
-              headerTintColor: '#FFF',
               headerShadowVisible: false,
               headerStyle: {backgroundColor: '#005483', borderWidth:0},
+              headerLeft: null
             }}
           />
 
@@ -62,17 +62,6 @@ export function StackRoutes() {
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
           />
-
-          <Stack.Screen
-            name="Profile"
-            component={Profile}
-            options={{
-              title: '',
-              headerTintColor: '#FFF',
-              headerShadowVisible: false,
-              headerStyle: {backgroundColor: '#005483', borderWidth:0},
-            }}
-          />   
           
           <Stack.Screen
             name="AllConquest"

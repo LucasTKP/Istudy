@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import { UserContext} from '../../App'
 import useAxios from '../hooks/useAxios';
 import Loading from '../components/Loading';
+import * as Animatable from 'react-native-animatable'
 
 export function Decks({ navigation }) {
     const {dataUser} = useContext(UserContext)
@@ -26,7 +27,6 @@ export function Decks({ navigation }) {
     }
 
     async function deleteCard (id){
-        console.log(id)
         try{
             setVisible(true)
             await callAxios('cards/' + id, '', 'delete')
@@ -51,14 +51,15 @@ export function Decks({ navigation }) {
                 
                 <View style={styles.line}>
                         <Text style={styles.title}>{card.title}</Text>
-                        <TouchableOpacity style={styles.buttonPlay}>
+                        <TouchableOpacity onPress={() => navigation.navigate('ShowFlashCard',answerAxios.res[index].id)} style={styles.buttonPlay}>
                             <Image 
                             style={styles.imagePlay}
                             source={require('../../assets/iconPlay.png')}/>
                         </TouchableOpacity>
                     </View>
                 { menu.on && menu.index === index ?
-                <View style={styles.editBox}>
+                <Animatable.View delay={100}
+                    animation= { menu ? "fadeInLeft" : 'fadeOutLeft'}  style={styles.editBox}>
                     <TouchableOpacity onPress={() => setMenu({on: false, index})} style={{alignItems: 'flex-end', marginTop: 6, right: '5%', padding: 5}}>       
                         <Image 
                         style={{tintColor: '#FFF'}}
@@ -78,7 +79,7 @@ export function Decks({ navigation }) {
                         <Text style={{color:'#FFF', fontSize: 18}}> Excluir </Text>
                         <View style={{backgroundColor: '#FFF', width: 22, height: 2, marginLeft: 4,}}></View>
                     </TouchableOpacity>
-                </View>
+                </Animatable.View>
             :
                 <TouchableOpacity 
                     onPress={() => setMenu({on: true, index})}
@@ -177,5 +178,6 @@ const styles = StyleSheet.create({
         marginTop: 4,
         color: '#FFF'
     },
+
 
 })

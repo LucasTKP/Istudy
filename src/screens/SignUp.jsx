@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     width: 30
   },
   textError:{
-    color: 'red',
+    color: 'white',
     width: 300,
     textAlign: 'center',
   },

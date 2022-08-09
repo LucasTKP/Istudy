@@ -44,7 +44,6 @@ export function CreateNewDeck({ navigation }) {
         title: title,
         image: imageDeck,
       } 
-
       try{
         setVisible(true)
         await callAxios ("cards", data, "post") 
@@ -109,7 +108,8 @@ export function CreateNewDeck({ navigation }) {
 
 
   return (
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
+    <ScrollView>
+    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center', paddingBottom: 50}}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -222,6 +222,7 @@ export function CreateNewDeck({ navigation }) {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 }
 

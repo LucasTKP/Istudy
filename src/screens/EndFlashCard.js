@@ -9,10 +9,6 @@ import  Refresh from '../../assets/refresh.png'
 
 
 export function EndFlashCard({ route, navigation  }) {
-    // const Acertos = route. params - 
-    // const Erros = 
-    const [endTime , setEndTime] = useState(new Date())
-    const [startTime , setStartTime] = useState(route.params.tempo)
   return (
     <View style={styles.Container}>
         <View style={{width:'70%'}} >
@@ -38,7 +34,7 @@ export function EndFlashCard({ route, navigation  }) {
                 </View>
 
                 <View style={styles.DivResults}>
-                    <Text style={{fontSize: 22, color: '#D7E3EA'}}></Text>
+                    <Text style={{fontSize: 22, color: '#D7E3EA'}}>{route.params.tempo}</Text>
                     <View style={styles. Stripe}></View>
                     <Image source={Iconclock}/>
                 </View>
@@ -65,18 +61,18 @@ export function EndFlashCard({ route, navigation  }) {
                                 <Text style={{fontWeight: '800'}}>10</Text>
                             </View>
 
-                            <View style={{width: 25, height: 45, borderRadius: 10, backgroundColor: '#4B82A3', alignItems: 'center', justifyContent: 'center'}}>
+                            <View style={styles.DivDataDecks}>
                                 <Text>🕓</Text>
                                 <Text style={{fontWeight: '800'}}>10</Text>
                             </View>
                         </View>
-                        <TouchableOpacity style={{width: 77, height: 31, backgroundColor: '#005483', borderRadius: 10, borderWidth: 2, borderColor: '#007FC7', justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity style={styles.ButtonJogar}>
                             <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
                         </TouchableOpacity>
                 </View>
             </View>
         </View>
-                <TouchableOpacity style={{ width: 90, height: 60, backgroundColor: '#005483', borderWidth: 2, borderColor: '#7BACC9', alignSelf: 'center', marginTop: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity onPress={() => navigation.navigate('ShowFlashCard', route.params.idDeck)} style={styles.ButtonRefresh}>
                     <Image source={Refresh }/>
                 </TouchableOpacity>
         </View>
@@ -155,5 +151,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#4B82A3', 
         alignItems: 'center', 
         justifyContent: 'center'
-    }
+    },
+    ButtonJogar: {
+        width: 77, 
+        height: 31, 
+        backgroundColor: '#005483', 
+        borderRadius: 10, 
+        borderWidth: 2, 
+        borderColor: '#007FC7', 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    } 
+    ,
+    ButtonRefresh: { 
+        width: 90, 
+        height: 60, 
+        backgroundColor: '#005483', 
+        borderWidth: 2, 
+        borderColor: '#7BACC9', 
+        alignSelf: 'center', 
+        marginTop: 20, 
+        borderRadius: 10, 
+        alignItems: 'center', 
+        justifyContent: 'center'
+    },
 })

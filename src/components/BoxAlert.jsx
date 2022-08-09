@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Alert, Modal, StyleSheet, Text, Image, TouchableOpacity, View } from "react-native";
-import styled from 'styled-components/native'
 import  Icon  from 'react-native-vector-icons/MaterialIcons'
 import { UserContext } from '../../App';
 
@@ -30,7 +29,7 @@ export default function BoxAlert({message, type}) {
 
             <Text style={styles.textWarning}>{message}</Text>
               
-            <TouchableOpacity style={styles.buttonOk} onPress={() => setAlert(!alert)}>
+            <TouchableOpacity style={styles.buttonOk} onPress={() => Exit()}>
               <Text style={styles.textButtonOk}>OK</Text>
             </TouchableOpacity>
           </View>
