@@ -26,7 +26,7 @@ useEffect(() => {
   //puxar e exibi todas as conquistas e as ja concluidas
   async function ImportConquestsConcluidas(){
     try{
-        const urlCadastrar = "https://istudy-back-production.up.railway.app/api/v1/user/achievement/10"            
+        const urlCadastrar = "https://istudy-back-production.up.railway.app/api/v1/user/achievement/" + dataUser.id            
         const config = {
           headers:{
             Authentication: "donos_do_codigo"

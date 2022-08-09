@@ -7,12 +7,14 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react
 import  eye  from '../../assets/eye.png'
 import  IconCorrect  from '../../assets/correct.png'
 import  IconIncorrect  from '../../assets/incorrect.png'
+import * as Animatable from 'react-native-animatable'
+import { reloadAsync } from 'expo-updates';
 
 
 
 
 
-export function ShowFlashCard({ navigation }) {
+export function ShowFlashCard({ navigation, route }) {
   //Variavel Informação do axios
   const {callAxios, answerAxios} = useAxios()
   //Variaveis de informação do flashCard
@@ -30,14 +32,14 @@ export function ShowFlashCard({ navigation }) {
   const [showAnsewer, setShowAnsewer] = useState(false)
   //Executa a função de puxar os flahs apenas uma vez após abrir o app
   const [totalPage, setTotalPage] = useState(0)
-  const [timeEnd, setTimeEnd] = useState(0)
+  const [timeStart, setTimeStart] = useState(0)
+  const [porcentageComplete, setPorcentageComplete] = useState(0)
 
-  useEffect(()=>{
-    showQuestionCard()
-
-    
-  },[])
-
+  useEffect(() => {
+    return navigation.addListener("focus", () => {
+      showQuestionCard()
+    });
+}, [navigation]);
 
   //Seta a resposta do axios na variavel dataFlash
   useEffect(()=>{ 
@@ -46,7 +48,7 @@ export function ShowFlashCard({ navigation }) {
     setDataFlash(answerAxios.res.card_Answer)
     setTitle(answerAxios.res.title)
     setTotalPage(answerAxios.res.card_Answer.length)
-    setTimeEnd(new Date())
+    setTimeStart((new Date()))
     }
   },[answerAxios])
  
@@ -65,6 +67,8 @@ export function ShowFlashCard({ navigation }) {
     },[numberFlash])
   //Faz a logica para passar de pagina ou exibir a resposta  
    function setFlashCard(){
+    
+    setPorcentageComplete(numberFlash * (100 / dataFlash.length ))
     if(numberFlash < dataFlash.length) {
       if(numberFlash >= 0){
         setQuestion(dataFlash[numberFlash].question)
@@ -74,24 +78,23 @@ export function ShowFlashCard({ navigation }) {
       }
     } else{
       const endTime = new Date()
-      const a = new Date(timeEnd - endTime)
-      console.log(a)
+      const differenceTime = new Date( endTime - timeStart )
       const Statistics = {
         erros: answerIncorrect,
         acertos: dataFlash.length - answerIncorrect, 
-        tempo: timeEnd
+        tempo: differenceTime.getMinutes() + ':' +  differenceTime.getSeconds(),
+        idDeck: route.params
       }
       navigation.navigate('EndFlashCard', Statistics)
     }
   }
-
   //Axios puxando os flashCads no banco de dados
   async function showQuestionCard(){
     const data = {
     } 
     try{
       setVisible(true)
-      await callAxios ("cards/one/" + 130, data, "get")
+      await callAxios ("cards/one/" + route.params, data, "get")
     }catch(e){
       console.log(e)
     }finally{
@@ -104,7 +107,7 @@ export function ShowFlashCard({ navigation }) {
       <View style={{width:'70%'}} >
         <Text style={styles.Title}>{title}</Text>
         <View style={styles.Incomplete}>
-          <View style={styles.Complete}/>
+          <View style={{ width: porcentageComplete + '%', height:5, backgroundColor:'#91BDD8', borderRadius: 8}}/>
         </View>
         <Text style={styles.Fracao}>{numberFlash + 1}/{totalPage}</Text>
         <View style={{height: 400}}>
@@ -113,11 +116,20 @@ export function ShowFlashCard({ navigation }) {
                   <Text style={{fontSize: 16, fontWeight: '400', color: '#fff'}}>{question}</Text>
               </View>
           </View>
+          {showAnsewer ? 
+          <Animatable.View  delay={100} animation={'fadeInDown'} style={{width:291, height: 190, backgroundColor: '#7BACC9', marginTop:-50 , borderRadius: 30, alignItems: 'center', zIndex: -1, justifyContent: 'center'}}>
+              <View style={{width: '90%', }}>
+                  <Text style={{fontSize: 16, fontWeight: '800', color: '#fff'}}>{answer}</Text>
+              </View>
+          </Animatable.View>
+          :
           <View style={{width:291, height: 190, backgroundColor: '#7BACC9', marginTop: showAnsewer ? -50 : -168, borderRadius: 30, alignItems: 'center', zIndex: -1, justifyContent: 'center'}}>
               <View style={{width: '90%', }}>
                   <Text style={{fontSize: 16, fontWeight: '800', color: '#fff'}}>{answer}</Text>
               </View>
           </View>
+          }
+
         </View>  
         {showAnsewer ?
         <View style={styles.Feedback}>
@@ -158,12 +170,6 @@ const styles = StyleSheet.create({
     marginTop: 30, 
     borderRadius: 8,
   },
-  Complete: {
-    width:'10%', 
-    height:5, 
-    backgroundColor:'#91BDD8', 
-    borderRadius: 8,
-  }, 
   Fracao: {
     alignSelf:'center', 
     color: '#91BDD8', 

@@ -15,8 +15,10 @@ export function Home({ navigation }) {
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
         <ButtonHeader onPress={() => setProfile(true)}>
-          <ImageProfile></ImageProfile>
-          <TextName>Bons Estudos {'Natã 🤞'}</TextName>
+          <View style={{width: 100, height: 100}}>
+            <ImageProfile source={{uri: dataUser.image}}></ImageProfile>
+          </View>
+          <TextName>Bons Estudos {dataUser.name}</TextName>
           <ButtonProfile>
             <Image source={Arrow}></Image>
           </ButtonProfile>
@@ -26,7 +28,6 @@ export function Home({ navigation }) {
       <TouchableOpacity style={{marginTop: 100,}}
         onPress={ () => navigation.navigate('Decks')}
       >       
-             <Text>Entrar</Text>
       </TouchableOpacity>
     </Container>
   );
@@ -55,9 +56,8 @@ flexDirection: row;
 `
 
 const ImageProfile = styled.Image `
-width:51px;
-height:51px;
-background-color: white;
+width:100%;
+height:100%;
 border-radius: 50px;
 `
 

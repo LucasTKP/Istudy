@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator()
 
 import { Image } from 'react-native';
-import { Profile } from '../screens/Profile';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 
@@ -58,6 +57,14 @@ export function NavRoutes() {
         <Tab.Screen
           name="Provas"
           component={ShowFlashCard}
+          options={{
+            unmountOnBlur: true,
+            title: 'Seus',
+            headerTintColor: '#FFF',
+            headerShown: false,
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
+          }}
         />
 
         <Tab.Screen
@@ -87,6 +94,7 @@ export function NavRoutes() {
           name="Criar"
           component={CreateNewDeck}
           options={{
+            unmountOnBlur: true,
             title: 'Criar',
             headerTintColor: '#FFF',
             headerShadowVisible: false,
