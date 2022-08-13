@@ -1,14 +1,11 @@
 import React, {useState, useEffect } from 'react';
-import Button from '../components/Button'
-import styled from 'styled-components/native'
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
-import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
-import  eye  from '../../assets/eye.png'
-import  IconCorrect  from '../../assets/correct.png'
-import  IconIncorrect  from '../../assets/incorrect.png'
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
+import  Eye  from '../../assets/ImageIcons/eye.svg'
+import  IconCorrect  from '../../assets/ImageIcons/correct.svg'
+import  IconIncorrect  from '../../assets/ImageIcons/incorrect.svg'
 import * as Animatable from 'react-native-animatable'
-import { reloadAsync } from 'expo-updates';
 
 
 
@@ -38,6 +35,8 @@ export function ShowFlashCard({ navigation, route }) {
   useEffect(() => {
     return navigation.addListener("focus", () => {
       showQuestionCard()
+      setAnswerIncorrect(0)
+      setNumberFlash(50)
     });
 }, [navigation]);
 
@@ -101,7 +100,9 @@ export function ShowFlashCard({ navigation, route }) {
       setVisible(false)
     }
   }
+
   return (
+    <ScrollView contentContainerStyle={{paddingBottom: '10%', backgroundColor: '#005483'}}>
     <View style={styles.Container}>
       <Loading visible={visible}/>
       <View style={{width:'70%'}} >
@@ -110,15 +111,15 @@ export function ShowFlashCard({ navigation, route }) {
           <View style={{ width: porcentageComplete + '%', height:5, backgroundColor:'#91BDD8', borderRadius: 8}}/>
         </View>
         <Text style={styles.Fracao}>{numberFlash + 1}/{totalPage}</Text>
-        <View style={{height: 400}}>
+        <View style={{height: 400, alignItems: 'center'}}>
           <View style={styles.Question}>
-              <View style={{width: '90%'}}>
+              <View style={{width: '90%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <Text style={{fontSize: 16, fontWeight: '400', color: '#fff'}}>{question}</Text>
               </View>
           </View>
           {showAnsewer ? 
           <Animatable.View  delay={100} animation={'fadeInDown'} style={{width:291, height: 190, backgroundColor: '#7BACC9', marginTop:-50 , borderRadius: 30, alignItems: 'center', zIndex: -1, justifyContent: 'center'}}>
-              <View style={{width: '90%', }}>
+              <View style={{width: '90%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <Text style={{fontSize: 16, fontWeight: '800', color: '#fff'}}>{answer}</Text>
               </View>
           </Animatable.View>
@@ -134,19 +135,20 @@ export function ShowFlashCard({ navigation, route }) {
         {showAnsewer ?
         <View style={styles.Feedback}>
           <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1), setAnswerIncorrect(answerIncorrect + 1))} style={styles.ButtonIncorrect}>
-            <Image source={IconIncorrect}></Image>
+            <IconCorrect />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1))} style={styles.ButtonCorrect}>
-            <Image source={IconCorrect}></Image>
+          <IconIncorrect />
           </TouchableOpacity>
         </View> 
         :
         <TouchableOpacity onPress={() => setShowAnsewer(!showAnsewer)} style={styles.ButtonEye}>
-          <Image source={eye}></Image>
+          <Eye />
         </TouchableOpacity>
         }
       </View>  
     </View>
+    </ScrollView>
   );
 }
 
@@ -160,7 +162,6 @@ const styles = StyleSheet.create({
   Title: {
     color: '#fff', 
     fontSize: 30, 
-    width:151, 
     fontWeight: '500'
   }, 
   Incomplete: {
@@ -169,6 +170,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#23709D',
     marginTop: 30, 
     borderRadius: 8,
+    alignSelf: 'center',
   },
   Fracao: {
     alignSelf:'center', 

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from 'react';
-import styled from 'styled-components/native'
 import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { UserContext } from '../../App';
 import Google from '../components/Google'
@@ -9,7 +8,8 @@ import Loading from '../components/Loading'
 import useStoreCache from '../hooks/useStoreCache';
 import BoxCode from '../components/BoxCode'
 import BoxAlert from '../components/BoxAlert'
-
+import ImageSignIn from '../../assets/ImageAutentication/imageSignIn.svg'
+import ArrowRight from '../../assets/ImageAutentication/arrowRight.svg'
 export function SignIn({navigation}) {
 
   //Variavel global
@@ -131,8 +131,7 @@ export function SignIn({navigation}) {
         <BoxAlert message={message} type={'erro'} />
 
             <View style={styles.containerLogo}>
-                <Image 
-                source={require('../../assets/imageSingIn.png')} />
+            <ImageSignIn />
             </View>
 
             <Text style={styles.textTitle}> Login </Text>
@@ -172,7 +171,7 @@ export function SignIn({navigation}) {
 
               <TouchableOpacity style={styles.buttonLogin}
                 onPress={() => Login()}>
-                <Image source={require('../../assets/setaDireita.png')} />
+                <ArrowRight />
               </TouchableOpacity>
               
               {/*<Text style={{fontSize: 16, marginTop:20, textAlign: 'right'}} onPress={() => navigation.navigate('SignUp')}>Quero me cadastrar</Text>*/}

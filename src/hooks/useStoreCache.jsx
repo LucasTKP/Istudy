@@ -11,6 +11,7 @@ function useStoreCache() {
         await SecureStore.deleteItemAsync('User')
         await SecureStore.setItemAsync('User', JSON.stringify(User))
         setDataUser(User)
+
         
 
         // Puxando dados do cache

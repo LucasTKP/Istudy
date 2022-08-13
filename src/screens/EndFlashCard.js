@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
-import flag from '../../assets/flag.png'
-import  IconCorrect  from '../../assets/correct.png'
-import  IconIncorrect  from '../../assets/incorrect.png'
-import  Iconclock  from '../../assets/Iconclock.png'
-import  Refresh from '../../assets/refresh.png'
+import  Flag from '../../assets/ImagePages/flag.svg'
+import  IconCorrect  from '../../assets/ImageIcons/correct.svg'
+import  IconIncorrect  from '../../assets/ImageIcons/incorrect.svg'
+import  Iconclock  from '../../assets/ImageIcons/iconClock.svg'
+import  Refresh from '../../assets/ImageIcons/refresh.svg'
 
 
 
@@ -14,7 +14,7 @@ export function EndFlashCard({ route, navigation  }) {
         <View style={{width:'70%'}} >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.Title}>Revolução Francesa</Text>
-                <Image source={flag} />
+                <Flag />
             </View>
 
             <Text style={styles.TextResults}>Resultados</Text>
@@ -24,19 +24,19 @@ export function EndFlashCard({ route, navigation  }) {
                 <View style={styles.DivResults}>
                     <Text style={{fontSize: 24, color: '#D7E3EA'}}>{route.params.erros}</Text>
                     <View style={styles. Stripe}></View>
-                    <Image source={IconIncorrect}/>
+                    <IconIncorrect />
                 </View>
 
                 <View style={styles.DivResults}>
                     <Text style={{fontSize: 24, color: '#D7E3EA'}}>{route.params.acertos}</Text>
                     <View style={styles. Stripe}></View>
-                    <Image source={IconCorrect}/>
+                    <IconCorrect />
                 </View>
 
                 <View style={styles.DivResults}>
                     <Text style={{fontSize: 22, color: '#D7E3EA'}}>{route.params.tempo}</Text>
                     <View style={styles. Stripe}></View>
-                    <Image source={Iconclock}/>
+                    <Iconclock />
                 </View>
             </View>
             <Text style={styles.TextResults}>Recomendações</Text>
@@ -73,7 +73,7 @@ export function EndFlashCard({ route, navigation  }) {
             </View>
         </View>
                 <TouchableOpacity onPress={() => navigation.navigate('ShowFlashCard', route.params.idDeck)} style={styles.ButtonRefresh}>
-                    <Image source={Refresh }/>
+                <Refresh />
                 </TouchableOpacity>
         </View>
     </View>

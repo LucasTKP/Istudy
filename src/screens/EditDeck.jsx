@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
-import Edit from '../../assets/edit.png'
+import Edit from '../../assets/ImagePages/edit.svg'
 import useAxios from '../hooks/useAxios';
 import Loading from '../components/Loading';
 
@@ -28,7 +28,6 @@ export function EditDeck({ navigation, route }) {
 
     async function Salvar (){
         try{
-            console.log(route.params)
             setVisible(true)
             await callAxios('cards/info/' + route.params, {title: title.text}, 'put')
             navigation.navigate('Decks')
@@ -52,7 +51,7 @@ export function EditDeck({ navigation, route }) {
                     width: 130
                 }} onPress={() => Salvar()}><Text style={{color: '#23709D', padding: 10, fontSize: 20, fontWeight: '600', textAlign: 'center'}}>Salvar</Text></TouchableOpacity>
         </View>
-        <Image source={Edit} style={{width: 120, height: 120}}/>
+        <Edit />
       </View>
 
       <View style={{borderBottomWidth: 2 , borderColor: '#FFF', width: '75%', marginTop: 25}}>

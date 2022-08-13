@@ -5,7 +5,7 @@ import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import BoxAlert from '../components/BoxAlert'
 import { Octicons, Feather } from '@expo/vector-icons'; 
-import interrogacao from '../../assets/interrogacao.png'
+import Interrogation from '../../assets/ImagePages/interrogation.svg'
 
 
 
@@ -102,7 +102,7 @@ export function InsertFlashCard({ navigation, route  }) {
                 <Text style={{fontSize: 30, color: '#fff', paddingBottom: 20}}>Perguntas</Text>
                 <Text style={{fontSize: 14, color: '#91BDD8', width: 216}}> Escreva perguntas relacionadas matéria e suas respostas com suas próprias palavras.</Text>
             </View>   
-            <Image source={interrogacao} style={{marginTop: 10, marginLeft: 20}}></Image>
+            <Interrogation />
         </View>
 
         <View style={{width:291, height: 168, backgroundColor: '#23709D', borderRadius: 30, marginTop: 38, alignItems: 'center'}}>
@@ -117,7 +117,7 @@ export function InsertFlashCard({ navigation, route  }) {
             </View>
         </View>
 
-        <View style={{width: 174, height: 45, backgroundColor: '#005483', borderWidth: 3, borderColor: '#23709D', borderRadius: 100, marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>   
+        {/* <View style={{width: 174, height: 45, backgroundColor: '#005483', borderWidth: 3, borderColor: '#23709D', borderRadius: 100, marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>   
             <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '85%', alignItems: 'center'}}>
                 <TouchableOpacity>
                     <Octicons name="pencil" size={24} color="black" />
@@ -131,9 +131,9 @@ export function InsertFlashCard({ navigation, route  }) {
                     <Text style={{fontSize: 20, fontWeight: '600', color: '#7BACC9'}}>I</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View> */}
 
-        <View style={{width: 213, height: 53, backgroundColor: '#2785BD', borderWidth: 2, borderColor: '#91BDD8', borderRadius: 20, marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{width: 213, height: 53, backgroundColor: '#2785BD', borderWidth: 2, borderColor: '#91BDD8', borderRadius: 20, marginTop: 60, alignItems: 'center', justifyContent: 'center'}}>
             <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '85%', alignItems: 'center'}}>
             {previousPage ? 
             <TouchableOpacity onPress={() => PreviousPage()}> 

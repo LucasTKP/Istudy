@@ -1,16 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Button from '../components/Button'
-import styled from 'styled-components/native'
 import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Modal} from 'react-native';
 import { UserContext } from '../../App';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import BoxAlert from '../components/BoxAlert'
-import Cake from '../../assets/cake.png'
-import pen from '../../assets/ImageNavBar/pen.png'
+import Cake from '../../assets/ImagePages/cake.svg'
+import pen from '../../assets/ImageNavBar/pen.svg'
 import { Feather } from '@expo/vector-icons'; 
 import { ScrollView } from 'react-native-gesture-handler';
-import { InsertFlashCard } from './InsertFlashCard';
 
 
 
@@ -108,8 +105,8 @@ export function CreateNewDeck({ navigation }) {
 
 
   return (
-    <ScrollView>
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center', paddingBottom: 50}}>
+    <ScrollView contentContainerStyle={{paddingBottom: 50, backgroundColor: '#005483'}} >
+    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -159,7 +156,7 @@ export function CreateNewDeck({ navigation }) {
           <Text style={{fontSize: 30, color: 'white'}}>Criar</Text>
           <Text style={{width: 149, fontSize: 13, color:'#91BDD8'}}>Crie os seus próprios Flashcards para estudar como nunca antes!</Text>
         </View>
-        <Image source={Cake} />
+        <Cake />
       </View>
       <View style={{marginTop: 50}}>
         <Image style={{width: 295, height:118}}source={{uri: imageDeck}}></Image>

@@ -17,6 +17,8 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@react-navigation/stack": "^6.2.2",
+    "@svgr/core": "^6.3.1",
+    "@svgr/plugin-svgo": "^6.3.1",
     "aws-sdk": "^2.1167.0",
     "axios": "^0.27.2",
     "buffer": "^6.0.3",
@@ -31,6 +33,7 @@
     "fs": "^0.0.1-security",
     "install": "^0.13.0",
     "npm": "^8.15.0",
+    "path-dirname": "^1.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "^0.68.2",
@@ -43,6 +46,7 @@
     "react-native-paper": "^4.12.3",
     "react-native-safe-area-context": "4.2.4",
     "react-native-screens": "~3.11.1",
+    "react-native-svg": "^12.4.4",
     "react-native-textarea": "^1.0.4",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
@@ -51,7 +55,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/styled-components": "^5.1.25"
+    "@types/styled-components": "^5.1.25",
+    "react-native-svg-transformer": "^1.0.0"
   },
   "private": true
 }

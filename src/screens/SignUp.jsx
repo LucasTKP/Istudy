@@ -1,15 +1,15 @@
 import React, {useState, useEffect, useContext} from 'react';
-import styled from 'styled-components/native'
 import { Text, Image, Alert, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import Google from '../components/Google'
 import Input from '../components/Input'
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
-import Pencil from '../../assets/Pencil.png'
 import BoxCode from '../components/BoxCode'
 import BoxAlert from '../components/BoxAlert'
 import { UserContext } from '../../App';
+import ImageSignUp from '../../assets/ImageAutentication/imageSignUp.svg'
+import ArrowRight from '../../assets/ImageAutentication/arrowRight.svg'
 
 export function SignUp({navigation}) {
   //Variavel global
@@ -141,7 +141,7 @@ export function SignUp({navigation}) {
 
 
       <View style={styles.containerLogo}>
-      <Image source={require('../../assets/imageSingUp.png')}></Image>
+      <ImageSignUp />
       </View>
       
       
@@ -206,7 +206,7 @@ export function SignUp({navigation}) {
           /> 
           <TouchableOpacity style={styles.buttonLogin} 
           onPress={() => Cadastrar()}>
-           <Image source={require('../../assets/setaDireita.png')} />
+           <ArrowRight />
           </TouchableOpacity>
 
           <Google/>

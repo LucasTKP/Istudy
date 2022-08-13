@@ -1,8 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import React from 'react'
 const Tab = createBottomTabNavigator()
 
-import { Image } from 'react-native';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 
@@ -11,32 +10,37 @@ import { StackRoutes } from './Stack.routes'
 import { Decks } from '../screens/Decks'
 
 
-import Home from '../../assets/ImageNavBar/home.png'
-import pen from '../../assets/ImageNavBar/pen.png'
-import books from '../../assets/ImageNavBar/books.png'
-import rank from '../../assets/ImageNavBar/rank.png'
-import calendar from '../../assets/ImageNavBar/calendar.png'
+import Home from '../../assets/ImageNavBar/home.svg'
+import Pen from '../../assets/ImageNavBar/pen.svg'
+import Books from '../../assets/ImageNavBar/books.svg'
+import Rank from '../../assets/ImageNavBar/rank.svg'
+import Calendar from '../../assets/ImageNavBar/calendar.svg'
 
 export function NavRoutes() {
+  const [actionBack, setActionBack] = React.useState(false)
+
+  
   return (
       <Tab.Navigator
-        initialRouteName="StackHome"
+        initialRouteName="StackHome"  
+        backBehavior='history'
             screenOptions={({ route }) => ({
                 tabBarIcon: ({focused}) => {
                     if (route.name === 'StackHome') {
-                        return <Image source={Home} style={{marginBottom: 20}}/>
+                      setActionBack(false)
+                      return <Home />
                     } else if (route.name === 'Criar') {
-                        let color = focused ?  '#4B82A3' : '#23709D'
-                        return <Image source={pen} style={{tintColor: color}} />
+                        setActionBack(true)
+                        return <Pen />
                     } else if (route.name === 'Seus') {
-                        let color = focused ?  '#4B82A3' : '#23709D'
-                        return <Image source={books} style={{tintColor: color}}/>
+                        setActionBack(true)
+                        return <Books />
                     } else if (route.name === 'Rank') {
-                        let color = focused ?  '#4B82A3' : '#23709D'
-                        return <Image source={rank} style={{tintColor: color}}/>
+                        setActionBack(true)
+                        return <Rank />
                     } else if (route.name === 'Provas') {
-                        let color = focused ?  '#4B82A3' : '#23709D'
-                        return <Image source={calendar} style={{tintColor: color}}/>
+                        setActionBack(true)
+                        return<Calendar />
                     }
                 },
                 tabBarStyle: {
@@ -54,18 +58,20 @@ export function NavRoutes() {
             }
         )}
       >
-        <Tab.Screen
+
+    <Tab.Screen
           name="Provas"
           component={ShowFlashCard}
           options={{
             unmountOnBlur: true,
-            title: 'Seus',
+            title: 'Provas',
             headerTintColor: '#FFF',
             headerShown: false,
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
         />
+        
 
         <Tab.Screen
             name="Seus"
@@ -79,6 +85,7 @@ export function NavRoutes() {
               headerStyle: {backgroundColor: '#005483', borderWidth:0},
             }}
           />  
+          
 
         <Tab.Screen
           name="StackHome"

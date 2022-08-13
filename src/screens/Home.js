@@ -2,13 +2,10 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
-import Arrow from '../../assets/ImageNavBar/Arrow.png'
+import Arrow from '../../assets/ImageNavBar/arrow.svg'
 import { Profile } from '../components/Profile'
-
-import { useNavigation} from '@react-navigation/native'
 export function Home({ navigation }) {
   const {dataUser, profile, setProfile} = useContext(UserContext)
-  
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
@@ -20,7 +17,7 @@ export function Home({ navigation }) {
           </View>
           <TextName>Bons Estudos {dataUser.name}</TextName>
           <ButtonProfile>
-            <Image source={Arrow}></Image>
+            <Arrow  />
           </ButtonProfile>
         </ButtonHeader>
       </DivHeader>
@@ -56,8 +53,8 @@ flexDirection: row;
 `
 
 const ImageProfile = styled.Image `
-width:100%;
-height:100%;
+width:75px;
+height:75px;
 border-radius: 50px;
 `
 

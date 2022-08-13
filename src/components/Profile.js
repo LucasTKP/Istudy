@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import  BoxAlert  from '../components/BoxAlert'
 import * as SecureStore from 'expo-secure-store';
 import  Icon  from 'react-native-vector-icons/MaterialIcons'
+import Medals from '../../assets/ImageNavBar/medals.svg'
 
 
 export function Profile() {
@@ -146,14 +147,14 @@ async function StorageCache(newData){
 async function Exit(){
   await SecureStore.deleteItemAsync('User')
   setDataUser()
+  setProfile(false)
 }
-console.log(exitAlert)
   return (
-    <View style={{backgroundColor: 'rgba(0, 0, 0, 0.51)', height: '100%'}}>
+    <View style={{backgroundColor: 'rgba(0, 0, 0, 0.51)', height: '100%', width: '100%'}}>
           <Loading visible={visible} />
           <BoxAlert message={message} type={'erro'}/>
         <View style={styles.Modal}>
-          <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'space-between', width: '90%', marginTop: '10%'}}>
+          <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'space-between', width: '80%', marginTop: '10%'}}>
             <Ionicons name="exit-outline" size={30} color="white" onPress={() => setExitAlert(!exitAlert)} />
             <Image style={styles.ImageProfile} source={{uri: urlAvatar}}></Image>
             <Feather name="save" size={30} color="white" onPress={() => AlterTableName()} />
@@ -205,7 +206,10 @@ console.log(exitAlert)
 
             <View style={{alignItems: 'center', justifyContent: 'center'}}> 
               <TouchableOpacity style={styles.Achievement} onPress={() => navigation.navigate('AllConquest')}>
-                <Text style={{color: '#23709D', fontSize: 20, fontWeight: 'bold'  }}>Conquistas</Text>
+                <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '70%'}}>
+                  <Text style={{color: '#91BDD8', fontSize: 20, fontWeight: 'bold'  }}>Conquistas</Text>
+                  <Medals />
+                </View>
               </TouchableOpacity>
             </View>
 
@@ -229,19 +233,19 @@ console.log(exitAlert)
               <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar7-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar7-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar7-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar8-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar8-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar8-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar9-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar9-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar9-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -249,19 +253,19 @@ console.log(exitAlert)
               <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar2-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar2-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar2-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar6-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar6-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar6-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar5-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar5-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar5-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -269,19 +273,19 @@ console.log(exitAlert)
               <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar1-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar1-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar1-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar4-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar4-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar4-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
                   <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar10-removebg-preview.png')}>
-                    <Image style={{width:100, height:100}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar10-removebg-preview.png'}} />
+                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar10-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -299,11 +303,11 @@ console.log(exitAlert)
           setExitAlert(!exitAlert);
         }}>
 
-        <TouchableOpacity style={styles.buttonSair} onPress={() => setExitAlert(!exitAlert)}>
+        <TouchableOpacity style={styles.buttonExit} onPress={() => setExitAlert(!exitAlert)}>
           <View style={styles.box}>
               <Icon style={{marginTop:10,  marginRight: 5, color: 'white'}} name='warning' size= {50}/>
               <Text style={styles.textWarning}>Tem certeza que deseja sair de sua conta?</Text>
-              <TouchableOpacity style={styles.buttonOk} onPress={() => setExitAlert(!exitAlert)}>
+              <TouchableOpacity style={styles.buttonSair} onPress={() => setExitAlert(!exitAlert)}>
               <Text onPress={() => Exit()} style={styles.textButtonSair}>Sair</Text>
             </TouchableOpacity>
           </View>
@@ -321,10 +325,11 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
     height: "80%",
+    width: '100%',
   },
   ImageProfile: {
-  width: 192,
-  height: 192,
+  width: 125,
+  height: 125,
   borderRadius: 100,
   }, 
   EditPhoto: {
@@ -345,6 +350,8 @@ const styles = StyleSheet.create({
     marginLeft: 77,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#F9B84F',
   }, 
   AlterCancel: {
     width: 32,
@@ -366,13 +373,14 @@ const styles = StyleSheet.create({
   Achievement: {
     width: 184,
     height: 46,
-    backgroundColor: '#91BDD8',
+    backgroundColor: '#005483',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 30,
     borderWidth: 2,
     borderColor: '#F9B84F',
+    flexDirection: 'row'
   },
 
 
@@ -398,7 +406,8 @@ const styles = StyleSheet.create({
 
 
 //Modal de Confirmação de saida
-  buttonSair:{
+  buttonExit:{
+    width: '100%',
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -428,7 +437,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 30,
   },
-  textButtonOk:{
+  textButtonSair:{
     color: 'black',
     fontSize: 20,
   },

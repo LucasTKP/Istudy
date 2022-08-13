@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import Logo from '../../assets/ImageAutentication/logo.svg'
 
 import * as Animatable from 'react-native-animatable'
 
@@ -9,12 +10,13 @@ export function Entry({navigation}) {
         <View style={styles.background}>
            
             <View style={styles.containerLogo}>
-                <Animatable.Image delay={100}
+                <Animatable.View delay={100}
                     animation="flipInY"
-                    source={require('../../assets/logo.png')}
                     style={{ width: '100%' }}
                     resizeMode="contain"
-                />
+                > 
+                <Logo />
+                </Animatable.View>
             </View>
 
             <View style={styles.containerForm}>
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'center',
         marginTop: 75,
     },
     containerForm:{

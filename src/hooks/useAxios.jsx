@@ -39,7 +39,6 @@ function useAxios() {
             const answer = await axios.delete(urlAxios, config)
             setanswerAxios(answer.data) 
           }
-          console.log(answerAxios)
         }
         } catch (e) {
             console.log(e)

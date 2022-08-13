@@ -29,7 +29,7 @@ export default function BoxAlert({message, type}) {
 
             <Text style={styles.textWarning}>{message}</Text>
               
-            <TouchableOpacity style={styles.buttonOk} onPress={() => Exit()}>
+            <TouchableOpacity style={styles.buttonOk} onPress={() => setAlert(!alert)}>
               <Text style={styles.textButtonOk}>OK</Text>
             </TouchableOpacity>
           </View>

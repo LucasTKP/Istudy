@@ -5,7 +5,7 @@ import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import BoxAlert from '../components/BoxAlert'
 import { Octicons, Feather } from '@expo/vector-icons'; 
-import interrogacao from '../../assets/interrogacao.png'
+
 
 
 

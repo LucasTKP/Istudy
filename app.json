@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "authApp",
@@ -10,7 +11,7 @@
     "splash": {
       "image": "./assets/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#004973"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,8 +24,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#004973"
       },
       "package": "com.yourcompany.yourappname",
       "versionCode": 1

@@ -4,6 +4,8 @@ import { UserContext} from '../../App'
 import useAxios from '../hooks/useAxios';
 import Loading from '../components/Loading';
 import * as Animatable from 'react-native-animatable'
+import IconPlay from '../../assets/ImageIcons/iconPlay.svg'
+import ArrowDeck from '../../assets/ImageIcons/arrowDeck.svg'
 
 export function Decks({ navigation }) {
     const {dataUser} = useContext(UserContext)
@@ -35,7 +37,6 @@ export function Decks({ navigation }) {
             console.log(error)
         }
     }
-
     return (
         <View style={styles.background}>
             <Loading visible={visible} />
@@ -52,18 +53,14 @@ export function Decks({ navigation }) {
                 <View style={styles.line}>
                         <Text style={styles.title}>{card.title}</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('ShowFlashCard',answerAxios.res[index].id)} style={styles.buttonPlay}>
-                            <Image 
-                            style={styles.imagePlay}
-                            source={require('../../assets/iconPlay.png')}/>
+                            <IconPlay />
                         </TouchableOpacity>
-                    </View>
+                </View>
                 { menu.on && menu.index === index ?
-                <Animatable.View delay={100}
-                    animation= { menu ? "fadeInLeft" : 'fadeOutLeft'}  style={styles.editBox}>
+                <Animatable.View delay={0} duration={500}
+                    animation="fadeInLeft"  style={styles.editBox}>
                     <TouchableOpacity onPress={() => setMenu({on: false, index})} style={{alignItems: 'flex-end', marginTop: 6, right: '5%', padding: 5}}>       
-                        <Image 
-                        style={{tintColor: '#FFF'}}
-                        source={require('../../assets/flecha.png')}/>
+                        <ArrowDeck />
                     </TouchableOpacity>
     
                     <TouchableOpacity style={styles.textEdit} onPress={() => {
@@ -84,9 +81,7 @@ export function Decks({ navigation }) {
                 <TouchableOpacity 
                     onPress={() => setMenu({on: true, index})}
                     style={{position: 'absolute', marginTop: 16, marginLeft: 22, rotation: 180}}>       
-                    <Image 
-                        style={{tintColor: '#FFF'}}
-                        source={require('../../assets/flecha.png')}/>
+                    <ArrowDeck />
                 </TouchableOpacity>
                 }     
                 </View>
@@ -154,10 +149,7 @@ const styles = StyleSheet.create({
     },
     buttonPlay:{
         position: 'absolute',
-        width: 32,
-        height: 32,
-        backgroundColor: '#23709D',
-        right: '5%',
+        right: 1,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 100,

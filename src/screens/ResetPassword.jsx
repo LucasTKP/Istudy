@@ -6,6 +6,9 @@ import useAxios from '../hooks/useAxios'
 import Input from '../components/Input'
 import BoxAlert from '../components/BoxAlert'
 import { UserContext } from '../../App';
+import ImageNewPassword from '../../assets/ImageNavBar/arrow.svg'
+import ArrowRight from '../../assets/ImageNavBar/arrow.svg'
+import ImageGoogle from '../../assets/ImageNavBar/arrow.svg'
 
 export function ResetPassword({navigation, route}) {
      //Variavel global
@@ -108,8 +111,7 @@ export function ResetPassword({navigation, route}) {
       <BoxAlert message={message} type={typeAlert} />
 
       <View style={styles.containerLogo}>
-          <Image 
-          source={require('../../assets/logoNewPassword.png')} />
+        <ImageNewPassword />
       </View>
 
      
@@ -145,7 +147,7 @@ export function ResetPassword({navigation, route}) {
      {errorEqualsPassword ? <TextError>As senhas nao estão iguais</TextError> :  <Text style={{height:0}}></Text> }
      
      <TouchableOpacity style={styles.buttonVerify} onPress={() =>  AlterPassword()}>
-      <Image source={require('../../assets/setaDireita.png')} />
+      <ArrowRight />
      </TouchableOpacity>
      </View>
 
