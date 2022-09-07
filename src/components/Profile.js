@@ -232,60 +232,60 @@ async function Exit(){
             <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 20, marginBottom: 20, textAlign: 'center', color: 'white' }}>Selecione O Avatar</Text>
               <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar7-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar7-removebg-preview.png'}} />
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-1.discordapp.net/external/oI_-Yx4DLUG2tMnWU8hO4Monn8yZOK0gXcAmjyC1pNU/%3Falt%3Dmedia%26token%3D9b334698-a1fc-4744-a400-6bdec4dac1f6/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar1-removebg-preview.png')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-1.discordapp.net/external/oI_-Yx4DLUG2tMnWU8hO4Monn8yZOK0gXcAmjyC1pNU/%3Falt%3Dmedia%26token%3D9b334698-a1fc-4744-a400-6bdec4dac1f6/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar1-removebg-preview.png'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar8-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar8-removebg-preview.png'}} />
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-1.discordapp.net/external/Lfi9HE1nPhFnK67Dauvf2CwjZqEwqll5k8CI79P66Ps/%3Falt%3Dmedia%26token%3Df064f453-56ea-4f8a-af4d-b53caa284840/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar10-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-1.discordapp.net/external/Lfi9HE1nPhFnK67Dauvf2CwjZqEwqll5k8CI79P66Ps/%3Falt%3Dmedia%26token%3Df064f453-56ea-4f8a-af4d-b53caa284840/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar10-removebg-preview.png?width=468&height=468'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar9-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar9-removebg-preview.png'}} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
-                <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar2-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar2-removebg-preview.png'}} />
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar6-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar6-removebg-preview.png'}} />
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar5-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar5-removebg-preview.png'}} />
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-2.discordapp.net/external/vMj8UhDANPO9PGUQtQWLcDrHbAlWQQstu2VA9GqW51o/%3Falt%3Dmedia%26token%3Df125ad8f-0d48-4ab7-b3db-ab5d2c5f3e6a/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar2-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-2.discordapp.net/external/vMj8UhDANPO9PGUQtQWLcDrHbAlWQQstu2VA9GqW51o/%3Falt%3Dmedia%26token%3Df125ad8f-0d48-4ab7-b3db-ab5d2c5f3e6a/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar2-removebg-preview.png?width=468&height=468'}} />
                   </TouchableOpacity>
                 </View>
               </View>
 
               <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar1-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar1-removebg-preview.png'}} />
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-1.discordapp.net/external/l-ihFc1UeLJYwhm0sNNOaLTg9-ozYG19ogiK6y_Ulwg/%3Falt%3Dmedia%26token%3D15b636b4-87b6-4841-af6c-edbe9bdc0e8e/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar3-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-1.discordapp.net/external/l-ihFc1UeLJYwhm0sNNOaLTg9-ozYG19ogiK6y_Ulwg/%3Falt%3Dmedia%26token%3D15b636b4-87b6-4841-af6c-edbe9bdc0e8e/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar3-removebg-preview.png?width=468&height=468'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar4-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar4-removebg-preview.png'}} />
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-1.discordapp.net/external/xyejw2ZZnWg8J0bXM1y-rCpidADu1Czpsi3f2k-OJAs/%3Falt%3Dmedia%26token%3D44f3999e-1506-426f-b45f-d16b9f6fe4ec/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar4-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-1.discordapp.net/external/xyejw2ZZnWg8J0bXM1y-rCpidADu1Czpsi3f2k-OJAs/%3Falt%3Dmedia%26token%3D44f3999e-1506-426f-b45f-d16b9f6fe4ec/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar4-removebg-preview.png?width=468&height=468'}} />
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.BackgroundIcon}>
-                  <TouchableOpacity onPress={() => setUrlAvatar('https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar10-removebg-preview.png')}>
-                    <Image style={{width:80, height:80}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Avatares/Avatar10-removebg-preview.png'}} />
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-2.discordapp.net/external/Ej0R7vMkQ_st43dTtrA0rhZOO2Gqm-vd8K9yNsaeeqE/%3Falt%3Dmedia%26token%3Dd1542a8f-90e2-4a2c-ba6e-450854ff44f5/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar5-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-2.discordapp.net/external/Ej0R7vMkQ_st43dTtrA0rhZOO2Gqm-vd8K9yNsaeeqE/%3Falt%3Dmedia%26token%3Dd1542a8f-90e2-4a2c-ba6e-450854ff44f5/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar5-removebg-preview.png?width=468&height=468'}} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={{width: 347, height: 150, flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={styles.BackgroundIcon}>
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-1.discordapp.net/external/iTkKb6uALTF2Ax_KS993Kjv9NJ0NlzNy2WYcbVexbaU/%3Falt%3Dmedia%26token%3D094e4602-0083-4715-8203-f6f2b361de54/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar6-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-1.discordapp.net/external/iTkKb6uALTF2Ax_KS993Kjv9NJ0NlzNy2WYcbVexbaU/%3Falt%3Dmedia%26token%3D094e4602-0083-4715-8203-f6f2b361de54/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar6-removebg-preview.png?width=468&height=468'}} />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.BackgroundIcon}>
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-2.discordapp.net/external/FIB6i4hyMsWTQsjhEMnV8yk1E0TjVuK4koaSl34CFSA/%3Falt%3Dmedia%26token%3D112ae607-f220-441f-82a7-9b8647d70126/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar7-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-2.discordapp.net/external/FIB6i4hyMsWTQsjhEMnV8yk1E0TjVuK4koaSl34CFSA/%3Falt%3Dmedia%26token%3D112ae607-f220-441f-82a7-9b8647d70126/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar7-removebg-preview.png?width=468&height=468'}} />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.BackgroundIcon}>
+                  <TouchableOpacity onPress={() => setUrlAvatar('https://images-ext-1.discordapp.net/external/PdkQCgJ7syV4qyIuXCp5vSplDc4Iz3k9p70mXmlgb3I/%3Falt%3Dmedia%26token%3D550d7b83-7ed2-4550-85c1-29bd4586581f/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar9-removebg-preview.png?width=468&height=468')}>
+                    <Image style={{width:80, height:80}} source={{uri: 'https://images-ext-1.discordapp.net/external/PdkQCgJ7syV4qyIuXCp5vSplDc4Iz3k9p70mXmlgb3I/%3Falt%3Dmedia%26token%3D550d7b83-7ed2-4550-85c1-29bd4586581f/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/avatares%252FAvatar9-removebg-preview.png?width=468&height=468'}} />
                   </TouchableOpacity>
                 </View>
               </View>

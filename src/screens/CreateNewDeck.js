@@ -30,7 +30,7 @@ export function CreateNewDeck({ navigation }) {
   const [portugues, setPortugues] = useState(false)
   const [ciencias, setCiencias] = useState(false)
   const [ingles, setIngles] = useState(false)
-  const [imageDeck, setImageDeck] = useState('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png')
+  const [imageDeck, setImageDeck] = useState('https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png')
   const [modalImage, setModalImage] = useState(false)
 
   async function CreateDeck(){
@@ -120,28 +120,28 @@ export function CreateNewDeck({ navigation }) {
         
             <Text style={{ fontSize: 20, fontWeight: '500', marginTop: 20, marginBottom: 20, textAlign: 'center', color: 'white' }}>Selecione A Imagem do seu Deck</Text>
 
-            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2058.png')}>
-              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2058.png'}} />
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png'}} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2057.png')}>
-              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2057.png'}} />
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-1.discordapp.net/external/-t1Y7c1sUOJhrJ1bOR1Li7n8Y_k36e4ALx2gkTDWy0E/%3Falt%3Dmedia%26token%3D8f056608-373c-418e-8349-55805b2ead79/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%282%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-1.discordapp.net/external/-t1Y7c1sUOJhrJ1bOR1Li7n8Y_k36e4ALx2gkTDWy0E/%3Falt%3Dmedia%26token%3D8f056608-373c-418e-8349-55805b2ead79/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%282%29.png'}} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2056.png')}>
-              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2056.png'}} />
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-2.discordapp.net/external/8pu7Kj-zkajKItaorhy9JF0AOExrDj6NpSNhFh_I1IM/%3Falt%3Dmedia%26token%3Dcea5df49-5a39-41c7-92f4-e28537c62ddc/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%283%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-2.discordapp.net/external/8pu7Kj-zkajKItaorhy9JF0AOExrDj6NpSNhFh_I1IM/%3Falt%3Dmedia%26token%3Dcea5df49-5a39-41c7-92f4-e28537c62ddc/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%283%29.png'}} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2054.png')}>
-              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2054.png'}} />
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-2.discordapp.net/external/NwP1VpZWD6gfatqF6LQZxNy3pFrnvSEpPlU-9xP6Lzg/%3Falt%3Dmedia%26token%3D11fd4d13-7cb2-4ab0-8df2-43165d6b157a/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%284%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-2.discordapp.net/external/NwP1VpZWD6gfatqF6LQZxNy3pFrnvSEpPlU-9xP6Lzg/%3Falt%3Dmedia%26token%3D11fd4d13-7cb2-4ab0-8df2-43165d6b157a/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%284%29.png'}} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2055.png')}>
-              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2055.png'}} />
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-2.discordapp.net/external/hk-6A74-wR6y7Jc9Ai7ZbH8JDTHzU23SSQ5yxE1AHFo/%3Falt%3Dmedia%26token%3D406e139e-4f8a-48b1-83c7-f14b18208959/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%285%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-2.discordapp.net/external/hk-6A74-wR6y7Jc9Ai7ZbH8JDTHzU23SSQ5yxE1AHFo/%3Falt%3Dmedia%26token%3D406e139e-4f8a-48b1-83c7-f14b18208959/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%285%29.png'}} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png')}>
-              <Image style={{width: 295, height:118}} source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png'}} />
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-1.discordapp.net/external/sSGbYf1ya2H895v9aETiaRdHSUSHjdNuvY7B9xabiZU/%3Falt%3Dmedia%26token%3D44957bd3-78fd-492b-9698-7a9ad4b9fb04/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%286%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-1.discordapp.net/external/sSGbYf1ya2H895v9aETiaRdHSUSHjdNuvY7B9xabiZU/%3Falt%3Dmedia%26token%3D44957bd3-78fd-492b-9698-7a9ad4b9fb04/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%286%29.png'}} />
             </TouchableOpacity>
         
           </TouchableOpacity>

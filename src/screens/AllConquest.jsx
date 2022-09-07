@@ -47,7 +47,6 @@ useEffect(() => {
     <Container>
         <Loading visible={visible} />
           <ScrollView >
-            
               <DivConcluded style={{borderBottomColor: 'black'}}>
                   <ImageIncomplete>
                       <ImageConcluded  porcentagemWidth = {porcentagem} />
@@ -103,7 +102,7 @@ border: 1px solid #C1C1C1;
 `
 
 const ImageConcluded = styled.View `
-width: ${props => props.porcentagemWidth}%
+width: ${props => props.porcentagemWidth}%;
 border: 1px solid blue;
 `
 

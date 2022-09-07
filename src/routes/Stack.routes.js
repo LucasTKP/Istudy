@@ -8,7 +8,7 @@ import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { EndFlashCard } from '../screens/EndFlashCard';
 import {EditDeck} from '../screens/EditDeck'
-import {EditAnswer} from '../screens/editAnswer'
+import {EditAnswer} from '../screens/EditAnswer'
 
 import { Decks } from '../screens/Decks';
  

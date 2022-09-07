@@ -144,8 +144,6 @@ export function SignUp({navigation}) {
       <ImageSignUp />
       </View>
       
-      
-      
       <KeyboardAvoidingView style={styles.containerForm}>
 
       <Text style={styles.textTitle}> Cadastrar </Text>

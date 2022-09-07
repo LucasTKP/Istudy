@@ -4,6 +4,7 @@ const Tab = createBottomTabNavigator()
 
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
+import { Ranks } from '../screens/Ranks';
 
 import { StackRoutes } from './Stack.routes'
 
@@ -112,8 +113,16 @@ export function NavRoutes() {
           />
 
         <Tab.Screen
-            name="Rank"
-            component={Decks}
+          name="Rank"
+          component={Ranks}
+          options={{
+            title: 'Rank',
+            headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#004973'},
+            headerTitleStyle: {color: '#004973'},
+            unmountOnBlur: true,
+          }}
           />
 
       </ Tab.Navigator>
