@@ -50,18 +50,16 @@ export function Ranks() {
             </View>
             
             <View style={styles.BoxRanks}>
-                {show ? answerAxios.map((player) =>{
+                {show ? answerAxios.map((player, index) =>{
                     return (
                         <>
                 <View style={styles.DetailsBoxRanks}></View>
                 <View style={styles.ContentPlayer}>
-                    <View style={styles.DivPosition}>
-                        <Text style={styles.TextRanks}>{player.id}</Text>
-                        <Text style={styles.TextRanks}>{player.user.name}</Text>
-                    </View>
+                        <Text style={styles.NumberRank}>{index + 1}º</Text>
+                        <Text style={styles.NamePlayer}>{player.user.name}</Text>
                     <View style={styles.DivPoints}>
                         <IconTrophy />
-                        <Text style={styles.TextRanks}>{player.wins}</Text>
+                        <Text style={styles.NumberPoins}>{player.wins}</Text>
                     </View>
                 </View>
                 <View style={{height: 3, width: '100%', backgroundColor: '#004973'}}></View>
@@ -85,10 +83,10 @@ const styles = StyleSheet.create({
     },
     DetailsBoxRanks: {
         height: '100%', 
-        width: 5, 
+        width: 4, 
         backgroundColor: '#004973', 
         position: 'absolute', 
-        left: 35
+        left: 40
     },
     ContentPlayer: {
         flexDirection: 'row', 
@@ -110,9 +108,21 @@ const styles = StyleSheet.create({
         width: '23%', 
         justifyContent: 'space-between'
     },
-    TextRanks: {
+    NamePlayer: {
         fontSize: 18,
         fontWeight: '500',
         color: '#7BACC9',
-    }
+         width: '50%'
+    }, 
+    NumberRank: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#7BACC9',
+         width: '20%'
+    }, 
+    NumberPoins: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#7BACC9',
+    }, 
 })

@@ -291,9 +291,6 @@ async function Exit(){
               </View>
           </TouchableOpacity>
         </Modal>
-
-
-
       {/* Modal de Confirmação de saida */}
       <Modal
         animationType="slide"
@@ -307,8 +304,8 @@ async function Exit(){
           <View style={styles.box}>
               <Icon style={{marginTop:10,  marginRight: 5, color: 'white'}} name='warning' size= {50}/>
               <Text style={styles.textWarning}>Tem certeza que deseja sair de sua conta?</Text>
-              <TouchableOpacity style={styles.buttonSair} onPress={() => setExitAlert(!exitAlert)}>
-              <Text onPress={() => Exit()} style={styles.textButtonSair}>Sair</Text>
+              <TouchableOpacity style={styles.buttonSair} onPress={() => (setExitAlert(!exitAlert), Exit())}>
+              <Text style={styles.textButtonSair}>Sair</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

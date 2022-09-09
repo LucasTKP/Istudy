@@ -98,7 +98,7 @@ export function CreateNewDeck({ navigation }) {
   }
 
   useEffect(()=>{
-    if(imageDeck != 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/Group%2053.png'){
+    if(imageDeck != 'https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png'){
       setModalImage(!modalImage)
     }
     },[imageDeck])
