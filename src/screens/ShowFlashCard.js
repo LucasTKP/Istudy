@@ -102,8 +102,8 @@ export function ShowFlashCard({ navigation, route }) {
   }
 
   return (
-    <ScrollView contentContainerStyle={{paddingBottom: '10%', backgroundColor: '#005483'}}>
     <View style={styles.Container}>
+      <ScrollView contentContainerStyle={{width: '100%', height: '100%'}}>
       <Loading visible={visible}/>
       <View style={{width:'70%'}} >
         <Text style={styles.Title}>{title}</Text>
@@ -135,10 +135,10 @@ export function ShowFlashCard({ navigation, route }) {
         {showAnsewer ?
         <View style={styles.Feedback}>
           <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1), setAnswerIncorrect(answerIncorrect + 1))} style={styles.ButtonIncorrect}>
-            <IconCorrect />
+          <IconIncorrect />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1))} style={styles.ButtonCorrect}>
-          <IconIncorrect />
+          <IconCorrect />
           </TouchableOpacity>
         </View> 
         :
@@ -147,8 +147,8 @@ export function ShowFlashCard({ navigation, route }) {
         </TouchableOpacity>
         }
       </View>  
+      </ScrollView>
     </View>
-    </ScrollView>
   );
 }
 
