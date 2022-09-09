@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/ngrok": "^4.1.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/checkbox": "^0.5.12",
     "@react-navigation/bottom-tabs": "^6.3.2",
@@ -51,6 +52,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
     "react-navigation": "^4.4.4",
+    "socket.io-client": "^4.5.2",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

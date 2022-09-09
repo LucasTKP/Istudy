@@ -8,7 +8,9 @@ import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
 import { EndFlashCard } from '../screens/EndFlashCard';
 import {EditDeck} from '../screens/EditDeck'
-import {EditAnswer} from '../screens/EditAnswer'
+import {EditAnswer} from '../screens/editAnswer'
+import {WaitingPlayer} from '../screens/WaitingPlayer'
+import {GameQuestion} from '../screens/GameQuestion'
 
 import { Decks } from '../screens/Decks';
  
@@ -61,6 +63,17 @@ export function StackRoutes() {
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
           />
+
+        <Stack.Screen
+          name="WaitingPlayer"
+          component={WaitingPlayer}
+          options={{
+            title: '',
+            headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
+          }}
+          />
           
           <Stack.Screen
             name="AllConquest"
@@ -84,6 +97,19 @@ export function StackRoutes() {
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
+          />
+
+          <Stack.Screen
+            name="GameQuestions"
+            component={GameQuestion}
+            options={{
+              unmountOnBlur: true,
+              title: 'Seus',
+              headerTintColor: '#FFF',
+              headerShown: false,
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
           />
 
           <Stack.Screen

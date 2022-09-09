@@ -1,12 +1,58 @@
-import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent} from 'react-native';
+import React, {useEffect, useState} from 'react'
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent, Image} from 'react-native';
 import  TipHalf from '../../assets/ImageIcons/tipHalf.svg'
 import  TipCarts  from '../../assets/ImageIcons/tipCarts.svg'
+import useAxios from '../hooks/useAxios';
+import io from "socket.io-client/dist/socket.io";
 
-export function GameQuestion({navigation}) {
-  let teste = 'TEXTO I É evidente que a vitamina D é importante — mas como obtê-la? Realmente, a vitamina D pode ser produzida naturalmente pela exposição à luz do sol, mas ela também existe em alguns alimentos comuns. Entretanto, como fonte dessa vitamina, certos alimentos são melhores do que outros. Alguns possuem uma quantidade significativa de vitamina D, naturalmente, e são alimentos que talvez você não queira exagerar: manteiga, nata, gema de ovo e fígado. TEXTO II Todos nós sabemos que a vitamina D (colecalciferol) é crucial para sua saúde. Mas a vitamina D é realmente uma vitamina? Está presente nas comidas que os humanos normalmente consomem? Embora exista em algum percentual na gordura do peixe, a vitamina D não está em nossas dietas, a não ser que os humanos artificialmente incrementem um produto alimentar, como o leite enriquecido com vitamina D. A natureza planejou que você a produzisse em sua pele, e não a colocasse direto em sua boca. Então, seria a vitamina D realmente uma vitamina? '
+export function GameQuestion({route ,navigation}) {
+  const {callAxios, answerAxios} = useAxios()
+  const [answered, setAnswered] = useState({letter: '', already: false, correct: false})
+  const [question, setQuestion] = useState(0)
+  const {roomId, flashId} = route.params
+  const [already, setAlready] = useState(false)
+  const [waiting, setWaiting] = useState(false)
+  const [corrects, setCorrects] = useState(0)
+  const [wrongs, setWrongs] = useState(0)
+
+  useEffect(() => {
+    async function questions() {
+      await callAxios('cards/questions/' + flashId, '', 'get')
+    }
+    questions()
+  }, [])
+
+  function answer(letter) {
+    if(answerAxios.res[0].questions[question].correct_letter == letter) {
+     setAnswered({letter: letter, already: true, correct: true})
+     setAlready(true)
+     setCorrects(corrects + 1)
+    } else {
+      setAnswered({letter: letter, already: true, correct: false})
+      setAlready(true)
+      setWrongs(wrongs + 1)
+    }
+    socket.emit('answer_game', {room_id: roomId})
+  }
+
+  const socket = io("https://istudy-online.fly.dev", {
+    transports: ["websocket"]
+  });
+
+  socket.on('resAnswer', (msg) => {
+    if(msg.ready) {
+      setQuestion(question + 1)
+      setAnswered({letter: '', already: false, correct: false})
+      setAlready(false)
+      setWaiting(false)
+    } else {
+      setWaiting(true)
+    }
+  })
+
   return (
     <View style={{flex:1, backgroundColor: '#005483'}}>
+      {answerAxios.res && answerAxios.res[0] ?
         <ScrollView contentContainerStyle={{width: '100%', alignItems: 'center'}}>
           <View style={styles.header}>
             <Text onPress={() => navigation.navigate('GameAnswer')} style={{color: '#fff', fontSize: 20, fontWeight: '500', marginTop: 25}}>0:30</Text>
@@ -16,13 +62,12 @@ export function GameQuestion({navigation}) {
           </View>
 
        <View style={{width: '80%', alignItems: 'center'}}>
-        <Text style={styles.initialText}> Historia</Text>
-        <Text style={styles.initialText}> Revolução Francesa </Text>
+        {waiting ? <Text style={{fontSize: 20, color: 'white'}}>Aguardando o outro jogador...</Text> : <Text></Text>}
         <Text style={styles.initialText}> 1/10 </Text>
 
         <View style={styles.textArea}>
           <ScrollView nestedScrollEnabled contentContainerStyle={{width: '100%'}}>
-          <Text  multiline={true} style={{fontSize: 16, fontWeight: '500', margin:20}}>{teste}</Text>
+          <Text  multiline={true} style={{fontSize: 16, fontWeight: '500', margin:20}}>{answerAxios.res[0].questions[question].text}</Text>
           </ScrollView>
         </View>
 
@@ -34,26 +79,83 @@ export function GameQuestion({navigation}) {
           <View style={styles.answerArea}>
             <View style={styles.configAnswer}>
               <View style={styles.divLetterAnswer}><Text style={styles.letterAnswer}>A</Text></View>
-              <View style={styles.divAnswer}><Text style={styles.answer}> Comprova cientificamente que a vitamina D não é uma vitamina. </Text></View>
+              <View style={{
+                width: 230, 
+                height: 40, 
+                backgroundColor:  'rgba(158, 222, 254, 1)', 
+                borderRadius: 8, 
+                alignItems:'center', 
+                justifyContent: 'center', 
+                color: 'rgba(35, 112, 157, 1)',
+                borderWidth: 3,
+                borderColor: answered.already && answered.letter == 'A' && answered.correct ? '#35A700' : answered.correct == false && answered.letter == 'A' && answered.already? '#C53D34' :'#007FC7'
+              }} onTouchStart={() => {
+                if(already == false) {
+                  answer('A')
+                }
+              }}><Text style={styles.answer}>{answerAxios.res[0].questions[question].letter_a}</Text></View>
             </View>
 
             <View style={styles.configAnswer}>
               <View style={styles.divLetterAnswer}><Text style={styles.letterAnswer}>B</Text></View>
-              <View style={styles.divAnswer}><Text style={styles.answer}>Demonstra a verdadeira importância da vitamina D para a saúde. </Text></View>
+              <View style={{
+                width: 230, 
+                height: 40, 
+                backgroundColor: 'rgba(158, 222, 254, 1)', 
+                borderRadius: 8, 
+                alignItems:'center', 
+                justifyContent: 'center', 
+                color: 'rgba(35, 112, 157, 1)',
+                borderWidth: 3,
+                borderColor: answered.already && answered.letter == 'B' && answered.correct ? '#35A700' : answered.correct == false && answered.letter == 'B' && answered.already? '#C53D34' :'#007FC7'
+              }} onTouchStart={() => {
+                if(already == false) {
+                  answer('B')
+                }
+              }}><Text style={styles.answer}>{answerAxios.res[0].questions[question].letter_b}</Text></View>
             </View>
 
             <View style={styles.configAnswer}>
               <View style={styles.divLetterAnswer}><Text style={styles.letterAnswer}>C</Text></View>
-              <View style={styles.divAnswer}><Text style={styles.answer}>Enfatiza que a vitamina D é mais comumente produzida pelo corpo que absorvida por meio de alimentos. </Text></View>
+              <View style={{
+                width: 230, 
+                height: 40, 
+                backgroundColor: 'rgba(158, 222, 254, 1)', 
+                borderRadius: 8, 
+                alignItems:'center', 
+                justifyContent: 'center', 
+                color: 'rgba(35, 112, 157, 1)',
+                borderWidth: 3,
+                borderColor: answered.already && answered.letter == 'C' && answered.correct ? '#35A700' : answered.correct == false && answered.letter == 'C' && answered.already? '#C53D34' :'#007FC7'
+              }} onTouchStart={() => {
+                if(already == false) {
+                  answer('C')
+                }
+              }}><Text style={styles.answer}>{answerAxios.res[0].questions[question].letter_c}</Text></View>
             </View>
 
             <View style={styles.configAnswer}>
               <View style={styles.divLetterAnswer}><Text style={styles.letterAnswer}>D</Text></View>
-              <View style={styles.divAnswer}><Text style={styles.answer}>Afirma que a vitamina D existe na gordura dos peixes e no leite, não em seus derivados. </Text></View>
+              <View style={{
+                width: 230, 
+                height: 40, 
+                backgroundColor: 'rgba(158, 222, 254, 1)', 
+                borderRadius: 8, 
+                alignItems:'center', 
+                justifyContent: 'center', 
+                color: 'rgba(35, 112, 157, 1)',
+                borderWidth: 3,
+                borderColor: answered.already && answered.letter == 'D' && answered.correct ? '#35A700' : answered.correct == false && answered.letter == 'D' && answered.already? '#C53D34' :'#007FC7'
+              }} onTouchStart={() => {
+                if(already == false) {
+                  answer('D')
+                }
+              }}><Text style={styles.answer}>{answerAxios.res[0].questions[question].letter_d}</Text></View>
             </View>
           </View>
         </View> 
       </ScrollView>
+      : <Text></Text>}
     </View>
   )
 }
@@ -113,17 +215,6 @@ const styles = StyleSheet.create({
   letterAnswer: {
     fontSize: 20, 
     fontWeight: '800'
-  },
-  divAnswer: {
-    width: 230, 
-    height: 40, 
-    backgroundColor: 'rgba(158, 222, 254, 1)', 
-    borderRadius: 8, 
-    alignItems:'center', 
-    justifyContent: 'center', 
-    color: 'rgba(35, 112, 157, 1)',
-    borderWidth: 3,
-    borderColor: '#007FC7'
   },
   answer: {
     fontSize: 14, 

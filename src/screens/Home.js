@@ -1,12 +1,45 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components/native'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/arrow.svg'
 import { Profile } from '../components/Profile'
 import { ScrollView } from 'react-native-gesture-handler';
+import useAxios from '../hooks/useAxios';
+import io from "socket.io-client/dist/socket.io";
+
 export function Home({ navigation }) {
+  const {callAxios, answerAxios} = useAxios()
+  const [select, setSelect] = useState({on: false, index: 5})
+
   const {dataUser, profile, setProfile} = useContext(UserContext)
+
+  useEffect(() => {
+      async function topCards() {
+        await callAxios('cards/top', '', 'get')
+      }
+
+      topCards()
+  }, [])
+
+  function play(id, title) {
+    try{
+      const socket = io("https://istudy-online.fly.dev", {
+        transports: ["websocket"]
+      });
+      socket.emit('find_room', {flash_id: id, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
+      socket.on('resFindRoom', (msg) => {
+      if(msg.ready) {
+          navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
+        } else {
+          navigation.navigate('WaitingPlayer', {name: title})
+        }
+      })
+    } catch (e) {
+      console(e)
+    }
+  }
+
   return (
     <View style={styles.Container}>
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
@@ -29,94 +62,32 @@ export function Home({ navigation }) {
             <Text style={{fontSize: 20, fontWeight: '400', color: '#91BDD8'}}>Ver Mais</Text>
           </View>
           <View style={{flexDirection: 'row', width: 235, height: 211,}}>
-            <View style={{width: 235, height: 211, backgroundColor: '#23709D', borderRadius: 20, position: 'absolute', zIndex: 3}}>
-                  <Image style={styles.ImageFlashCard}/>
+            {answerAxios.top3 && answerAxios.top3[0] ? answerAxios.top3.map((card, index) => {
+              return (
+                <View key={index} onTouchStart={() => setSelect({on: true, index: index})} style={{width: 235, marginTop: 10 ,height: 211, backgroundColor: select.index == index && select.on == true ? '#23709D' : '#20638A' ,borderRadius: 20, position: 'absolute', zIndex: select.index == index && select.on == true ? 100 : card.stars, left: index == 1 ? 65 : index == 2 ? 135 : 0}}>
+                  <Image style={styles.ImageFlashCard} source={{uri: card.image_url}}/>
                   <View style={styles.DivConfigComponents}>
-                      <Text style={{ fontSize: 15, color: '#F5F5F5'}}>Revolução Francesa</Text>
-                      <View style={styles.FlashCardDificulty}>
-                          <Text style={{fontSize: 8, paddingLeft: 2}}>🔴</Text>
-                          <Text style={{fontSize: 8}}>🟡</Text>
-                          <Text style={{fontSize: 8, paddingRight: 2}}>🟢</Text>
-                      </View>
+                    <Text style={{ fontSize: 15, color: '#F5F5F5'}}>{card.title}</Text>
                   </View>
-                      <View style={styles.DivConfigComponents}>
-                          <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
+                    <View style={styles.DivConfigComponents}>
+                        <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
 
-                              <View style={styles.DivDataDecks}>
-                                  <Text>⭐</Text>
-                                  <Text style={{fontWeight: '800'}}>10</Text>
-                              </View>
-
-                              <View style={styles.DivDataDecks}>
-                                  <Text>🕓</Text>
-                                  <Text style={{fontWeight: '800'}}>10</Text>
-                              </View>
-                          </View>
-                          <TouchableOpacity style={styles.ButtonJogar}>
-                              <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
-                          </TouchableOpacity>
+                            <View style={styles.DivDataDecks}>
+                                <Text>⭐</Text>
+                                <Text style={{fontWeight: '800'}}>{card.stars}</Text>
+                            </View>
+                            <View style={styles.DivDataDecks}>
+                                <Text>🕓</Text>
+                                <Text style={{fontWeight: '800'}}>10</Text>
+                            </View>
+                        </View>
+                        <TouchableOpacity style={styles.ButtonJogar} onPress={() => play(card.id, card.title)}>
+                            <Text style={{color: 'white', fontSize: 20}}>Jogar</Text>
+                        </TouchableOpacity>
                   </View>
-            </View>
-
-            <View style={{width: 235, height: 211, backgroundColor: '#23709D', borderRadius: 20, position: 'absolute',zIndex: 2, left: 65}}>
-                  <Image style={styles.ImageFlashCard}/>
-                  <View style={styles.DivConfigComponents}>
-                      <Text style={{ fontSize: 15, color: '#F5F5F5'}}>Revolução Francesa</Text>
-                      <View style={styles.FlashCardDificulty}>
-                          <Text style={{fontSize: 8, paddingLeft: 2}}>🔴</Text>
-                          <Text style={{fontSize: 8}}>🟡</Text>
-                          <Text style={{fontSize: 8, paddingRight: 2}}>🟢</Text>
-                      </View>
-                  </View>
-                  <View style={styles.DivConfigComponents}>
-                          <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
-
-                              <View style={styles.DivDataDecks}>
-                                  <Text>⭐</Text>
-                                  <Text style={{fontWeight: '800'}}>10</Text>
-                              </View>
-
-                              <View style={styles.DivDataDecks}>
-                                  <Text>🕓</Text>
-                                  <Text style={{fontWeight: '800'}}>10</Text>
-                              </View>
-                          </View>
-                          <TouchableOpacity style={styles.ButtonJogar}>
-                              <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
-                          </TouchableOpacity>
-                  </View>
-            </View>
-
-            <View style={{width: 235, height: 211, backgroundColor: '#23709D', borderRadius: 20, position: 'absolute',zIndex: 1, left: 130}}>
-                  <Image style={styles.ImageFlashCard}/>
-                  <View style={styles.DivConfigComponents}>
-                      <Text style={{ fontSize: 15, color: '#F5F5F5'}}>Revolução Francesa</Text>
-                      <View style={styles.FlashCardDificulty}>
-                          <Text style={{fontSize: 8, paddingLeft: 2}}>🔴</Text>
-                          <Text style={{fontSize: 8}}>🟡</Text>
-                          <Text style={{fontSize: 8, paddingRight: 2}}>🟢</Text>
-                      </View>
-                  </View>
-                  <View style={styles.DivConfigComponents}>
-                          <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
-
-                              <View style={styles.DivDataDecks}>
-                                  <Text>⭐</Text>
-                                  <Text style={{fontWeight: '800'}}>10</Text>
-                              </View>
-
-                              <View style={styles.DivDataDecks}>
-                                  <Text>🕓</Text>
-                                  <Text style={{fontWeight: '800'}}>10</Text>
-                              </View>
-                          </View>
-                          <TouchableOpacity style={styles.ButtonJogar}>
-                              <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
-                          </TouchableOpacity>
-                  </View>
-            </View>
+                </View>
+            )}) : <Text></Text>}
           </View>
-
         <Text style={{fontSize: 20, fontWeight: '400', color: '#D7E3EA', marginTop: 20}}>Matérias</Text>
         <View style={{width: 50, height: 3, backgroundColor: '#D7E3EA'}}></View>
           <View style={{width: '90%', alignSelf: 'center'}}>
