@@ -3,7 +3,7 @@ import React from 'react'
 const Tab = createBottomTabNavigator()
 
 import { CreateNewDeck } from '../screens/CreateNewDeck';
-import { ShowFlashCard } from '../screens/ShowFlashCard';
+import { Tests } from '../screens/Tests';
 import { Ranks } from '../screens/Ranks';
 
 import { StackRoutes } from './Stack.routes'
@@ -46,13 +46,13 @@ export function NavRoutes() {
                 },
                 tabBarStyle: {
                     backgroundColor: '#91BDD8',
-                    height: 70,
+                    height: '9%',
                 },
                 tabBarLabelStyle: {
                     fontSize: 14,
                     marginTop: -10,
                     marginBottom: 5
-                },
+                }, 
                 tabBarHideOnKeyboard:"true",
                 tabBarActiveTintColor: '#4B82A3',
                 tabBarInactiveTintColor: '#23709D',
@@ -62,18 +62,18 @@ export function NavRoutes() {
 
     <Tab.Screen
           name="Provas"
-          component={ShowFlashCard}
+          component={Tests}
           options={{
             unmountOnBlur: true,
             title: 'Provas',
+            headerTitleStyle: {color: '#004973'},
             headerTintColor: '#FFF',
-            headerShown: false,
+            headerShown: true,
             headerShadowVisible: false,
-            headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            headerStyle: {backgroundColor: '#004973', borderWidth:0, height: 10},
           }}
         />
         
-
         <Tab.Screen
             name="Seus"
             component={Decks}
@@ -116,18 +116,14 @@ export function NavRoutes() {
           name="Rank"
           component={Ranks}
           options={{
-            title: 'Rank',
+            title: 'Ranks',
             headerTintColor: '#FFF',
             headerShadowVisible: false,
-            headerStyle: {backgroundColor: '#004973'},
-            headerTitleStyle: {color: '#004973'},
-            unmountOnBlur: true,
+            headerStyle: {backgroundColor: '#004973', borderWidth:0},
           }}
-          />
+        />  
 
       </ Tab.Navigator>
   )
 }
-
-
 
