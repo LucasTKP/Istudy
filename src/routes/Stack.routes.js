@@ -11,6 +11,7 @@ import {EditDeck} from '../screens/EditDeck'
 import {EditAnswer} from '../screens/editAnswer'
 import {WaitingPlayer} from '../screens/WaitingPlayer'
 import {GameQuestion} from '../screens/GameQuestion'
+import {GameResult} from '../screens/GameResult'
 
 import { Decks } from '../screens/Decks';
  
@@ -102,6 +103,19 @@ export function StackRoutes() {
           <Stack.Screen
             name="GameQuestions"
             component={GameQuestion}
+            options={{
+              unmountOnBlur: true,
+              title: 'Seus',
+              headerTintColor: '#FFF',
+              headerShown: false,
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
+          />
+
+        <Stack.Screen
+            name="GameResult"
+            component={GameResult}
             options={{
               unmountOnBlur: true,
               title: 'Seus',

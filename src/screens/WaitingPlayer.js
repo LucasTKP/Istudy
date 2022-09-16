@@ -1,10 +1,44 @@
-import React, {useEffect} from 'react'
-import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react'
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import Clock from '../../assets/ImagePages/clock.svg'
+import io from "socket.io-client/dist/socket.io";
 
 
 export function WaitingPlayer({route, navigation}) {
+  const [socket, setSocket] = useState('')
   const {name} = route.params
+  const {roomId} = route.params
+
+  useEffect(() => {
+    setSocket(io("https://istudy-online.fly.dev", {
+      transports: ["websocket"]
+    }))
+  }, [])
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+
+        Alert.alert(
+          'Sair?',
+          'Deseja mesmo deixar a fila de espera?',
+          [
+            { text: "Não sair", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Sair',
+              style: 'destructive',
+              onPress: () => {
+                socket.emit('finish_game', {room_id: roomId})
+                socket.on('disconnect')
+                navigation.dispatch(e.data.action)
+              },
+            },
+          ]
+        );
+      }),
+    [navigation, socket]
+  );
 
   return (
     <ScrollView contentContainerStyle={{width: '100%', height: '100%', backgroundColor: '#005483', alignItems: 'center'}}>

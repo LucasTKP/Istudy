@@ -1,7 +1,23 @@
-import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent} from 'react-native';
+import React, {useState, useEffect, useContext} from 'react'
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent, Image} from 'react-native';
 import IconHouse from '../../assets/ImageIcons/iconHouse.svg'
-export function GameResult() {
+import { UserContext } from '../../App';
+
+export function GameResult({route ,navigation}) {
+  const {dataUser} = useContext(UserContext)
+  const [finalText, setFinalText] = useState('')
+
+  useEffect(() => {
+    const myResults = route.params.result.find((stats) => stats.name == dataUser.name)
+    const otherResults = route.params.result.find((stats) => stats.name != dataUser.name)
+
+    if(myResults.correct >= otherResults.correct) {
+      setFinalText('PARABENS!!!')
+    } else {
+      setFinalText('DERROTA!!!')
+    }
+  }, [])
+
   return (
     <View style={{width: '100%', height: '100%', backgroundColor: '#005483'}}>
         <ScrollView contentContainerStyle={{width: '100%', height: '100%', alignItems: 'center'}}>
@@ -11,29 +27,29 @@ export function GameResult() {
             </View>
           </View>
 
-        <Text style={{fontSize:50, fontWeight: '500', color:'#fff', marginTop: '12%'}}>PARABÉNS!!!</Text>
+        <Text style={{fontSize:50, fontWeight: '500', color:'#fff', marginTop: '12%'}}>{finalText}</Text>
 
         <View style={{width: '80%', height: '65%', alignItems: 'center', justifyContent: 'center'}}>
           <View style={styles.textArea}>
               <View style={styles.resultPlayer}>
-                <View style={styles.avatarPlayer}></View>
+              <Image style={styles.avatarPlayer} source={{uri: route.params.result[0].image ? route.params.result[0].image : ''}}></Image>
                 <View>
-                    <Text style={styles.namePlayer}>LucasTKP</Text>
-                    <Text style={styles.statistics}>7/10</Text>
+                    <Text style={styles.namePlayer}>{route.params.result[0].name ? route.params.result[0].name : ''}</Text>
+                    <Text style={styles.statistics}>{route.params.result[0].correct ? route.params.result[0].correct + `/${route.params.total}`: ''}</Text>
                 </View>
-                <Text style={styles.medalsPlayer}>🥇</Text>
+                <Text style={styles.medalsPlayer}></Text>
               </View>
 
               <View style={styles.resultPlayer}>
-                <View style={styles.avatarPlayer}></View>
+              <Image style={styles.avatarPlayer} source={{uri: route.params.result[1].image ? route.params.result[1].image : ''}}></Image>
                 <View>
-                    <Text style={styles.namePlayer}>Vinicim</Text>
-                    <Text style={styles.statistics}>4/10</Text>
+                    <Text style={styles.namePlayer}>{route.params.result[1].name ? route.params.result[1].name : ''}</Text>
+                    <Text style={styles.statistics}>{route.params.result[1].correct ? route.params.result[1].correct + `/${route.params.total}`: ''}</Text>
                 </View>
-                <Text style={styles.medalsPlayer}>🥈</Text>
+                <Text style={styles.medalsPlayer}></Text>
               </View>
           </View>
-          <TouchableOpacity style={styles.buttonHome}>
+          <TouchableOpacity style={styles.buttonHome} onPress={() => navigation.navigate('Home')}>
                 <IconHouse  />
                 <Text style={{fontSize: 17, fontWeight: '500', color: 'rgba(145, 189, 216, 1)'}}>Home</Text>
           </TouchableOpacity>

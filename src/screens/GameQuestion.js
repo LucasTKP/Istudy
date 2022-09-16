@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent, Image} from 'react-native';
 import  TipHalf from '../../assets/ImageIcons/tipHalf.svg'
 import  TipCarts  from '../../assets/ImageIcons/tipCarts.svg'
 import useAxios from '../hooks/useAxios';
+import { UserContext } from '../../App';
 import io from "socket.io-client/dist/socket.io";
 
 export function GameQuestion({route ,navigation}) {
+  const {dataUser} = useContext(UserContext)
   const {callAxios, answerAxios} = useAxios()
   const [answered, setAnswered] = useState({letter: '', already: false, correct: false})
   const [question, setQuestion] = useState(0)
@@ -14,13 +16,30 @@ export function GameQuestion({route ,navigation}) {
   const [waiting, setWaiting] = useState(false)
   const [corrects, setCorrects] = useState(0)
   const [wrongs, setWrongs] = useState(0)
+  const [socket, setSocket] = useState('')
+  const [result, setResult] = useState([])
 
   useEffect(() => {
+    console.log(result)
+    if (result[1]) {
+      navigation.navigate('GameResult', {result, total: answerAxios.res[0].questions.length})
+    }
+  }, [result])
+
+  useEffect(() => {
+    setSocket(io("https://istudy-online.fly.dev", {
+      transports: ["websocket"]
+    }))
     async function questions() {
       await callAxios('cards/questions/' + flashId, '', 'get')
     }
     questions()
   }, [])
+
+  function finishGame() {
+    socket.emit('finish_game', {room_id: roomId, results: {name: dataUser.name , correct: corrects, wrong: wrongs, image: dataUser.image}})
+    socket.on('resEnd', (res) => setResult(prev => [...prev, res])).on('disconnect')
+  }
 
   function answer(letter) {
     if(answerAxios.res[0].questions[question].correct_letter == letter) {
@@ -33,22 +52,22 @@ export function GameQuestion({route ,navigation}) {
       setWrongs(wrongs + 1)
     }
     socket.emit('answer_game', {room_id: roomId})
+
+    socket.on('resAnswer', (msg) => {
+      if(msg.ready) {
+        setAnswered({letter: '', already: false, correct: false})
+        setAlready(false)
+        setWaiting(false)
+        if(question + 1 < answerAxios.res[0].questions.length) {
+          setQuestion(question + 1)
+        } else {
+          finishGame()
+        }
+      } else {
+        setWaiting(true)
+      }
+    })
   }
-
-  const socket = io("https://istudy-online.fly.dev", {
-    transports: ["websocket"]
-  });
-
-  socket.on('resAnswer', (msg) => {
-    if(msg.ready) {
-      setQuestion(question + 1)
-      setAnswered({letter: '', already: false, correct: false})
-      setAlready(false)
-      setWaiting(false)
-    } else {
-      setWaiting(true)
-    }
-  })
 
   return (
     <View style={{flex:1, backgroundColor: '#005483'}}>
@@ -63,7 +82,7 @@ export function GameQuestion({route ,navigation}) {
 
        <View style={{width: '80%', alignItems: 'center'}}>
         {waiting ? <Text style={{fontSize: 20, color: 'white'}}>Aguardando o outro jogador...</Text> : <Text></Text>}
-        <Text style={styles.initialText}> 1/10 </Text>
+        <Text style={styles.initialText}> {question + 1 + '/' + answerAxios.res[0].questions.length} </Text>
 
         <View style={styles.textArea}>
           <ScrollView nestedScrollEnabled contentContainerStyle={{width: '100%'}}>

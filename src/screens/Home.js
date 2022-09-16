@@ -29,10 +29,11 @@ export function Home({ navigation }) {
       });
       socket.emit('find_room', {flash_id: id, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
       socket.on('resFindRoom', (msg) => {
+        console.log(msg)
       if(msg.ready) {
           navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
         } else {
-          navigation.navigate('WaitingPlayer', {name: title})
+          navigation.navigate('WaitingPlayer', {name: title, roomId: msg.room})
         }
       })
     } catch (e) {
