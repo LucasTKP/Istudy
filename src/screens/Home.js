@@ -88,10 +88,10 @@ export function Home({ navigation }) {
                 </View>
             )}) : <Text></Text>}
           </View>
-        <Text style={{fontSize: 20, fontWeight: '400', color: '#D7E3EA', marginTop: 20}}>Matérias</Text>
-        <View style={{width: 50, height: 3, backgroundColor: '#D7E3EA'}}></View>
+        <Text style={{fontSize: 20, fontWeight: '400', color: '#D7E3EA', marginTop: 20, alignSelf: 'center'}}>Matérias</Text>
+        <View style={{width: 50, height: 3, backgroundColor: '#D7E3EA', alignSelf: 'center'}}></View>
           <View style={{width: '90%', alignSelf: 'center'}}>
-              <View style={{flexDirection: 'row', marginTop: 10}}>
+              <View style={{flexDirection: 'row', marginTop: 10, alignSelf: 'center'}}>
                 <TouchableOpacity style={styles.boxMetter}>
                   <Text style={styles.TextMetter}>️⌛ História</Text>
                 </TouchableOpacity>
@@ -109,7 +109,7 @@ export function Home({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', alignSelf: 'center'}}>
                 <TouchableOpacity style={styles.boxMetter}>
                   <Text style={styles.TextMetter}>🗺️ Geografia</Text>
                 </TouchableOpacity>
