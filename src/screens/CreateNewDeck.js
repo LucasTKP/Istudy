@@ -105,8 +105,8 @@ export function CreateNewDeck({ navigation }) {
 
 
   return (
-    <ScrollView contentContainerStyle={{paddingBottom: 50, backgroundColor: '#005483'}} >
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
+    <View style={{backgroundColor:'#005483', flex:1}}>
+    <ScrollView contentContainerStyle={{height:'100%', width:'100%', alignItems: 'center'}}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -218,8 +218,8 @@ export function CreateNewDeck({ navigation }) {
           </TouchableOpacity> 
         </View>
       </View>
-    </View>
     </ScrollView>
+    </View>
   );
 }
 

@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         width: 4, 
         backgroundColor: '#004973', 
         position: 'absolute', 
-        left: 40
+        left: 50
     },
     ContentPlayer: {
         flexDirection: 'row', 
