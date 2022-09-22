@@ -92,6 +92,8 @@ export function Profile() {
  async  function AlterTableName(){
       Validar()
     if(newName === "" || newName === name) {
+      setAlert(true)
+      setMessage("Não á possivel alterar para um nome vazio")
 
     } else {
       if (Validar() === true) {
@@ -169,7 +171,7 @@ async function Exit(){
             {tradeName ?
             <View style={{flexDirection: 'row'}}>
               <View style={{borderWidth: 2, borderColor: '#F9B84F', alignItems: 'center', borderRadius: 10, width: 150}}>
-                <TextInput style={{ width: '90%', fontSize: 16}} onChangeText={(Text) => setNewName(Text)} placeholder="Digite o Nome"></TextInput>
+                <TextInput style={{ width: '90%', fontSize: 20, color: '#fff'}} onChangeText={(Text) => setNewName(Text)} placeholder="Digite o Nome" placeholderTextColor={'#fff'}></TextInput>
               </View>
               <TouchableOpacity style={styles.AlterCancel} onPress={() => (setTradeName(false)) }>
                  <Text style={{fontSize: 20, color:'#972F2F', fontWeight: 'bold'}}> X </Text>

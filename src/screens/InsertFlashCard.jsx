@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Keyboard} from 'react-native';
 import { UserContext } from '../../App';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
@@ -107,31 +107,37 @@ export function InsertFlashCard({ navigation, route  }) {
 
         <View style={{width:291, height: 168, backgroundColor: '#23709D', borderRadius: 30, marginTop: 38, alignItems: 'center'}}>
             <View style={{width: '90%'}}>
-                <TextInput onChangeText={(Text) => setQuestion(Text)} value={question} placeholderTextColor="#91BDD8" multiline = {true} numberOfLines = {4} placeholder = 'Pergunta' style={{fontSize: 16, fontWeight: '400', color: '#fff'}}></TextInput>
+                <TextInput  
+                    blurOnSubmit={true} 
+                    onSubmitEditing={()=>{Keyboard.dismiss()}} 
+                    keyboardType='default' 
+                    onChangeText={(Text) => setQuestion(Text)} 
+                    value={question} 
+                    placeholderTextColor="#91BDD8" 
+                    multiline = {true} 
+                    numberOfLines = {7} 
+                    placeholder = 'Pergunta' 
+                    style={{fontSize: 16, fontWeight: '400', color: '#fff', height: '100%', marginTop: 20}}>
+                </TextInput>
             </View>
         </View>
 
         <View style={{width:291, height: 190, backgroundColor: '#7BACC9', marginTop: -50, borderRadius: 30, alignItems: 'center', zIndex: -1, justifyContent: 'center'}}>
             <View style={{width: '90%', }}>
-                <TextInput onChangeText={(Text) => setAnswer(Text)} value={answer} placeholderTextColor="#4B82A3" multiline = {true} numberOfLines = {4} placeholder = 'Resposta' style={{fontSize: 16, fontWeight: '800', color: '#fff'}}></TextInput>
+                <TextInput 
+                    blurOnSubmit={true}
+                    onSubmitEditing={()=>{Keyboard.dismiss()}} 
+                    keyboardType='default' 
+                    onChangeText={(Text) => setAnswer(Text)} 
+                    value={answer} 
+                    placeholderTextColor="#4B82A3"
+                    multiline = {true} 
+                    numberOfLines = {7} 
+                    placeholder = 'Resposta' 
+                    style={{fontSize: 16, fontWeight: '800', color: '#fff', height: '100%', marginTop: '50%'}}>
+                 </TextInput>
             </View>
         </View>
-
-        {/* <View style={{width: 174, height: 45, backgroundColor: '#005483', borderWidth: 3, borderColor: '#23709D', borderRadius: 100, marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>   
-            <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '85%', alignItems: 'center'}}>
-                <TouchableOpacity>
-                    <Octicons name="pencil" size={24} color="black" />
-                </TouchableOpacity>
-                <View style={{width: 1, height: 20, backgroundColor: '#fff'}}></View>
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20, fontWeight: '600', color: '#7BACC9'}}>B</Text>
-                </TouchableOpacity>
-                <View style={{width: 1, height: 20, backgroundColor: '#fff'}}></View>
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20, fontWeight: '600', color: '#7BACC9'}}>I</Text>
-                </TouchableOpacity>
-            </View>
-        </View> */}
 
         <View style={{width: 213, height: 53, backgroundColor: '#2785BD', borderWidth: 2, borderColor: '#91BDD8', borderRadius: 20, marginTop: 60, alignItems: 'center', justifyContent: 'center'}}>
             <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '85%', alignItems: 'center'}}>
