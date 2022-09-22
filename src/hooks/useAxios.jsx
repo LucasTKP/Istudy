@@ -16,7 +16,7 @@ function useAxios() {
 
   const callAxios = React.useCallback(async(url, data, type) =>{
     
-    const urlAxios = "https://istudy-back-production.up.railway.app/api/v1/" + url 
+    const urlAxios = "https://istudy-back.fly.dev/api/v1/" + url 
 
     const config = {
         headers:{

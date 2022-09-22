@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent, Image} from 'react-native';
+import { Text, View, StyleSheet, ScrollView} from 'react-native';
 import  TipHalf from '../../assets/ImageIcons/tipHalf.svg'
 import  TipCarts  from '../../assets/ImageIcons/tipCarts.svg'
 import useAxios from '../hooks/useAxios';
