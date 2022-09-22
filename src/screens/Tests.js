@@ -277,7 +277,7 @@ function DateConfig(dia){
       <View style={{width:'85%', alignSelf: 'center',}}>
         <Text style={{fontSize: 30, fontWeight: '500', color: '#fff', marginTop: 50}}>Calendário</Text>
         <Calendar style={{width: '100%', alignSelf: 'center', marginTop: 50, borderRadius: 10, backgroundColor: "#0368A0"}}
-        minDate={ "2022-09-01" }
+        minDate={ today }
         theme={{
           backgroundColor: '#ffffff',
           calendarBackground: '#0368A0',
@@ -363,7 +363,7 @@ function DateConfig(dia){
         <TouchableOpacity style={styles.buttonExit} onPress={() => (setModal(!modal), edit ? setEdit(!edit) : <></>)}>
           <TouchableOpacity activeOpacity={1} style={styles.box}>
             <View style={{width: '80%', alignSelf: 'center'}}>
-              <Text style={{fontSize: 20, fontWeight: '400', color: '#91BDD8', marginTop: 10}}>{edit ? answerAxios.res[index].date : date}</Text>
+              <Text style={{fontSize: 20, fontWeight: '400', color: '#91BDD8', marginTop: 10}}>{edit ? (alterEvents ? returnedEventConclued[index].date : returnedNextEvent[index].date) : date}</Text>
               <TextInput placeholder='Titulo: ' maxLength={18} onChangeText={(Text) => setAnnotation({...annotation, title:(Text)})} placeholderTextColor={'rgba(0, 73, 115, 1)'} style={{fontSize: 18, fontWeight: 'bold', color: 'rgba(0, 73, 115, 1)', marginTop: 20}}></TextInput>
               <View style={{width:'100%', height: 3, backgroundColor: '#004973', marginTop: 3}}></View>
               <TextInput placeholder='Descrição: ' maxLength={18} onChangeText={(Text) => setAnnotation({...annotation, desc:(Text)})} placeholderTextColor={'rgba(0, 73, 115, 1)'} style={{fontSize: 18, fontWeight: 'bold', color: 'rgba(0, 73, 115, 1)', marginTop: 20}}></TextInput>

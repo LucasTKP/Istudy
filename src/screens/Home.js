@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components/native'
+import Loading from '../components/Loading'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/arrow.svg'
@@ -11,12 +12,20 @@ import io from "socket.io-client/dist/socket.io";
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
   const [select, setSelect] = useState({on: false, index: 5})
-
+  const [visible, setVisible] = useState(false)
   const {dataUser, profile, setProfile} = useContext(UserContext)
 
   useEffect(() => {
       async function topCards() {
-        await callAxios('cards/top', '', 'get')
+        try {
+          setVisible(true)
+          await callAxios('cards/top', '', 'get')
+        } catch (e) {
+          console.log(e)
+        } finally {
+          setVisible(false)
+        }
+        
       }
 
       topCards()
@@ -44,6 +53,7 @@ export function Home({ navigation }) {
   return (
     <View style={styles.Container}>
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
+      <Loading visible={visible}/>
       <ScrollView style={{width: '100%'}}>
         <TouchableOpacity  onPress={() => setProfile(!profile)} style={styles.DivHeader}>
           <View style={styles.ButtonHeader} onPress={() => setProfile(true)}>
@@ -93,7 +103,7 @@ export function Home({ navigation }) {
         <View style={{width: 50, height: 3, backgroundColor: '#D7E3EA', alignSelf: 'center'}}></View>
           <View style={{width: '90%', alignSelf: 'center'}}>
               <View style={{flexDirection: 'row', marginTop: 10, alignSelf: 'center'}}>
-                <TouchableOpacity style={styles.boxMetter}>
+                <TouchableOpacity onPress={() => navigation.navigate("FilterMaterial")} style={styles.boxMetter}>
                   <Text style={styles.TextMetter}>️⌛ História</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.boxMetter}>
