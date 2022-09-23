@@ -8,6 +8,7 @@ export function GameResult({route ,navigation}) {
   const [finalText, setFinalText] = useState('')
 
   useEffect(() => {
+    console.log(route.params.result)
     const myResults = route.params.result.find((stats) => stats.name == dataUser.name)
     const otherResults = route.params.result.find((stats) => stats.name != dataUser.name)
 
