@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components/native'
 import Loading from '../components/Loading'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
@@ -7,30 +6,39 @@ import Arrow from '../../assets/ImageNavBar/arrow.svg'
 import { Profile } from '../components/Profile'
 import { ScrollView } from 'react-native-gesture-handler';
 import useAxios from '../hooks/useAxios';
+import useEvent from '../components/useEvent'
 import io from "socket.io-client/dist/socket.io";
+
 
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
+  const {returnedNextEvent, callEvent} = useEvent()
   const [select, setSelect] = useState({on: false, index: 5})
   const [visible, setVisible] = useState(false)
   const {dataUser, profile, setProfile} = useContext(UserContext)
+  const {nextEvent, setNextEvent} = useState(false)
+  
+  useEffect(() => {
+    console.log(returnedNextEvent)
+    if(returnedNextEvent !=  "") {
+      setNextEvent(true)
+    }
+}, [returnedNextEvent])
+
 
   useEffect(() => {
       async function topCards() {
         try {
-          setVisible(true)
           await callAxios('cards/top', '', 'get')
         } catch (e) {
           console.log(e)
         } finally {
-          setVisible(false)
-        }
-        
-      }
 
+        }
+      }
       topCards()
   }, [])
-
+  
   function play(id, title) {
     try{
       const socket = io("https://istudy-online.fly.dev", {
@@ -49,6 +57,7 @@ export function Home({ navigation }) {
       console(e)
     }
   }
+
 
   return (
     <View style={styles.Container}>
@@ -129,10 +138,16 @@ export function Home({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.BoxRemember}>
+              <View  style={styles.BoxRemember}>
                 <View style={styles.DetailsBoxRemember}></View>
-                <Text style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingVertical: 10, paddingLeft: 20}}>Lembretes: 📝  </Text>
-                <Text style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingRight: 20}}>Próxima prova 21/05</Text>
+                {nextEvent ? 
+                  <>
+                    <Text onPress={() => GetNextEvent()} style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingVertical: 10, paddingLeft: 20}}>Lembretes: 📝  </Text>
+                    <Text style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingRight: 20}}>{"Próximo Evento" +  returnedNextEvent[0].date}</Text>
+                  </>
+                :
+                <Text></Text>
+                }
               </View>
           </View>
         </View>

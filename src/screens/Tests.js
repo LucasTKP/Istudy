@@ -62,7 +62,7 @@ function DateConfig(dia){
     }
   }
 
-  
+
   useEffect( () => {
     setFinalObject({})
     if(answerAxios.delete){
@@ -84,11 +84,9 @@ function DateConfig(dia){
        setActiveMap(false)
      }
    }
-
-   
   },[answerAxios])
 
-  //Inserindo as imagens no html Proximos Eventos e Eventos Concluidos
+  //Inserindo as informações no html Proximos Eventos e Eventos Concluidos
   async function AgroupDate(){
     const arrayOfDatasDefault = []
     arrayOfDatasDefault.push(dataAtualFormatada())
@@ -207,11 +205,7 @@ function DateConfig(dia){
       setAlert(true)
       setContentAlert({...contentAlert, message: "Preencha todos os campos para criar um evento", typeAlert: "erro"})
     }
-
-    
   }
-
-
   //Inserindo cor verde para nextEvent e vermelho para EventConclued
 
   async function MarkedEventConclued(){
