@@ -12,19 +12,19 @@ import io from "socket.io-client/dist/socket.io";
 
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
-  const {returnedNextEvent, callEvent} = useEvent()
+  const {returnedEventsOrderBy} = useEvent()
   const [select, setSelect] = useState({on: false, index: 5})
   const [visible, setVisible] = useState(false)
   const {dataUser, profile, setProfile} = useContext(UserContext)
-  const {nextEvent, setNextEvent} = useState(false)
+  const [nextEvent, setNextEvent] = useState(false)
   
   useEffect(() => {
-    console.log(returnedNextEvent)
-    if(returnedNextEvent !=  "") {
-      setNextEvent(true)
-    }
-}, [returnedNextEvent])
-
+    if(returnedEventsOrderBy != undefined){
+      if(returnedEventsOrderBy.NextEvent.length){
+        setNextEvent(true)
+      }   
+    } 
+},[returnedEventsOrderBy])
 
   useEffect(() => {
       async function topCards() {
@@ -32,8 +32,6 @@ export function Home({ navigation }) {
           await callAxios('cards/top', '', 'get')
         } catch (e) {
           console.log(e)
-        } finally {
-
         }
       }
       topCards()
@@ -46,7 +44,6 @@ export function Home({ navigation }) {
       });
       socket.emit('find_room', {flash_id: id, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
       socket.on('resFindRoom', (msg) => {
-        console.log(msg)
       if(msg.ready) {
           navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
         } else {
@@ -138,17 +135,17 @@ export function Home({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              <View  style={styles.BoxRemember}>
+              <TouchableOpacity onPress={() => navigation.navigate("Tests")} style={styles.BoxRemember}>
                 <View style={styles.DetailsBoxRemember}></View>
                 {nextEvent ? 
                   <>
-                    <Text onPress={() => GetNextEvent()} style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingVertical: 10, paddingLeft: 20}}>Lembretes: 📝  </Text>
-                    <Text style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingRight: 20}}>{"Próximo Evento" +  returnedNextEvent[0].date}</Text>
+                    <Text style={{fontSize: 15, fontWeight: '600', color: '#7BACC9', paddingVertical: 10, paddingLeft: 20}}>Lembretes: 📝  </Text>
+                    <Text style={{fontSize: 15, fontWeight: '600', color: '#7BACC9', paddingRight: 20}}>{returnedEventsOrderBy.NextEvent[0].title + " " + returnedEventsOrderBy.NextEvent[0].date}</Text>
                   </>
                 :
-                <Text></Text>
+                <Text style={{fontSize: 18, fontWeight: '600', color: '#7BACC9', padding: 5, textAlign: 'center'}}>Anote seus próximos eventos escolares</Text>
                 }
-              </View>
+              </TouchableOpacity>
           </View>
         </View>
 

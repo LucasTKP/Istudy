@@ -12,7 +12,9 @@ function useEvent() {
   const {dataUser, profile, setProfile} = useContext(UserContext)
   const [returnedNextEvent, setReturnedNextEvent] = useState([])
   const [returnedEventConclued, setReturnedEventConclued] = useState([])
-  const [allEvents, setAllEvents] = useState("")
+  const [allEvents, setAllEvents] = useState()
+  const [returnedEventsOrderBy, setReturnedEventsOrderBy] = useState()
+
 
   
 
@@ -28,7 +30,6 @@ function useEvent() {
 
   useEffect(() => {
     getEvents()
-    
   },[])
 
   async function getEvents() {
@@ -40,29 +41,29 @@ function useEvent() {
       await callAxios ("calendar/" + dataUserFilter.id, data, "get")
     }catch(e){
         console.log(e)
-    } finally {
-      setAllEvents(answerAxios.res)
     }
   }
   useEffect( () => {
-    if(answerAxios.delete){
-      GetTests()
+    if(answerAxios.res){
+      if(answerAxios.res.length){
+        setAllEvents(answerAxios.res)
+        if(answerAxios.delete){
+          GetTests()
+        }
+        if(answerAxios.create || answerAxios.update) {
+         GetTests()
+        }
+      }
     }
-
-    if(answerAxios.create || answerAxios.update) {
-     GetTests()
-    }
-
-   if(answerAxios.res && dataUser.id){
-     setAllEvents(answerAxios.res)
-
-     if(answerAxios.res.length > 0) {
+  },[answerAxios])
+  
+  useEffect( () => {
+     if(allEvents != undefined) {
       returnedNextEvent.splice(0, returnedNextEvent.length)
       returnedEventConclued.splice(0, returnedEventConclued.length)
        AgroupDate()
      }
-   }
-  },[answerAxios])
+  },[allEvents])
 
 
   async function AgroupDate(){
@@ -85,13 +86,16 @@ function useEvent() {
   }
 
   function InsertNextEvent(filtered){
+    var NoRepeat = 10
     const indexToday = filtered.indexOf(dataAtualFormatada())
 
     for(let i = indexToday + 1; i < filtered.length; i++) {
-        const findedData = answerAxios.res.find((data) => data.date == filtered[i])
-        returnedNextEvent.push(findedData)
+      const findedData = allEvents.findIndex((data) => data.date == filtered[i] && NoRepeat != data.id) 
+      returnedNextEvent.push(answerAxios.res[findedData])
+      NoRepeat = answerAxios.res[findedData].id
     }
   }
+
 
   function InsertEventConcluded(filtered){
     const indexToday = filtered.indexOf(dataAtualFormatada())
@@ -100,15 +104,14 @@ function useEvent() {
         const findedData = answerAxios.res.find((data) => data.date == filtered[i])
         returnedEventConclued.push(findedData)
     }
-    if (returnedEventConclued[0]){
-      setActiveMap(true)
-    }
+    setReturnedEventsOrderBy({NextEvent: returnedNextEvent,  EventConclued: returnedEventConclued})
   }
 
   const callEvent = React.useCallback(async(url, data, type) =>{
+    getEvents()
     })
   return { 
-    returnedNextEvent,
+    returnedEventsOrderBy,
     callEvent
   }
 }

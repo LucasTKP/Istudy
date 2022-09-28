@@ -14,6 +14,7 @@ import {WaitingPlayer} from '../screens/WaitingPlayer'
 import {GameQuestion} from '../screens/GameQuestion'
 import {GameResult} from '../screens/GameResult'
 import { FilterMaterial } from '../screens/FilterMaterial'
+import { Tests } from '../screens/Tests'
 
 import { Decks } from '../screens/Decks';
  
@@ -57,6 +58,20 @@ export function StackRoutes() {
               headerShadowVisible: false,
               headerStyle: {backgroundColor: '#005483', borderWidth:0},
               headerLeft: null
+            }}
+          />
+
+          <Stack.Screen
+            name="Tests"
+            component={Tests}
+            options={{
+              unmountOnBlur: true,
+              title: 'Provas',
+              headerTitleStyle: {color: '#004973'},
+              headerTintColor: '#FFF',
+              headerShown: true,
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#004973', borderWidth:0, height: 10},
             }}
           />
 

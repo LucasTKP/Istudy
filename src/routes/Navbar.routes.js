@@ -60,7 +60,7 @@ export function NavRoutes() {
         )}
       >
 
-    <Tab.Screen
+      <Tab.Screen
           name="Provas"
           component={Tests}
           options={{
