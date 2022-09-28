@@ -3,47 +3,30 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView, Alert} fro
 import Clock from '../../assets/ImagePages/clock.svg'
 import io from "socket.io-client/dist/socket.io";
 
-
 export function WaitingPlayer({route, navigation}) {
-  const [socket, setSocket] = useState('')
   const {name} = route.params
   const {roomId} = route.params
-
-  useEffect(() => {
-    setSocket(io("https://istudy-online.fly.dev", {
-      transports: ["websocket"]
-    }))
-  }, [])
+  const {type} = route.params
 
   useEffect(
-    () =>
+    () => {
       navigation.addListener('beforeRemove', (e) => {
         e.preventDefault();
-
-        Alert.alert(
-          'Sair?',
-          'Deseja mesmo deixar a fila de espera?',
-          [
-            { text: "Não sair", style: 'cancel', onPress: () => {} },
-            {
-              text: 'Sair',
-              style: 'destructive',
-              onPress: () => {
-                socket.emit('finish_game', {room_id: roomId})
-                socket.on('disconnect')
-                navigation.dispatch(e.data.action)
-              },
-            },
-          ]
-        );
-      }),
-    [navigation, socket]
+        const socket = io("https://istudy-online.fly.dev", {
+          transports: ["websocket"]
+        })
+        socket.emit('finish_game', {room_id: roomId})
+        socket.on('disconnect')
+        navigation.dispatch(e.data.action)
+      })
+    },
+    [navigation]
   );
 
   return (
     <ScrollView contentContainerStyle={{width: '100%', height: '100%', backgroundColor: '#005483', alignItems: 'center'}}>
       <View style={{width: '70%', alignItems: 'center'}}>
-        <Text onPress={() => navigation.navigate('GameQuestion')} style={{fontWeight: '600', fontSize:20, color: '#fff', marginTop:36, alignSelf: 'flex-start'}}>Esperando Por Jogadores...</Text>
+        <Text onPress={() => navigation.navigate('GameQuestion')} style={{fontWeight: '600', fontSize:20, color: '#fff', marginTop:36, alignSelf: 'flex-start'}}>{type ? `Compartilhe o código: ${roomId}, com seu amigo!` : 'Aguardando outro jogador...'}</Text>
         <View style={{width: 70, height: 3, backgroundColor: '#fff', alignSelf: 'flex-start', marginTop: 5}}></View>
         <TouchableOpacity style={styles.buttons}><Text style={{fontSize:20, color: '#fff', fontWeight: '400'}}>{name}</Text></TouchableOpacity>
         <Clock style={{marginTop: 180}}/>

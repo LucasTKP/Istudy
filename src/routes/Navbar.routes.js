@@ -117,6 +117,7 @@ export function NavRoutes() {
           component={Ranks}
           options={{
             title: 'Ranks',
+            unmountOnBlur: true,
             headerTintColor: '#FFF',
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#004973', borderWidth:0},

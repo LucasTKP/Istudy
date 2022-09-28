@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-import { Text, View, StyleSheet, ScrollView, Modal, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Modal, TouchableOpacity, Alert} from 'react-native';
 import  TipHalf from '../../assets/ImageIcons/tipHalf.svg'
 import  TipCarts  from '../../assets/ImageIcons/tipCarts.svg'
 import  A  from '../../assets/ImageIcons/Group-1.svg'
@@ -9,6 +9,7 @@ import  Back  from '../../assets/ImageIcons/Group.svg'
 import useAxios from '../hooks/useAxios';
 import { UserContext } from '../../App';
 import io from "socket.io-client/dist/socket.io";
+
 
 export function GameQuestion({route ,navigation}) {
   const {dataUser} = useContext(UserContext)
@@ -31,6 +32,7 @@ export function GameQuestion({route ,navigation}) {
   const [alert, setAlert] = useState(false)
   const [cardSelected, setCardSelected] = useState()
   const [quantityWrongs, setQuantityWrongs] = useState(0)
+  const [a, setA] = useState(false)
   
   const cards = [<Back width='50'/>, <A width='50'/>, <Two width='50'/>, <Three width='50'/>]
 
@@ -41,14 +43,54 @@ export function GameQuestion({route ,navigation}) {
   }, [result])
 
   useEffect(() => {
+    if(socket != '') {
+      socket.emit('left_game', {room_id: 6931, afk: false})
+      socket.on('resAfk', (msg) => {
+        if(msg.afk && a == false) {
+          navigation.navigate('Home')
+        }
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
     setSocket(io("https://istudy-online.fly.dev", {
       transports: ["websocket"]
     }))
+
     async function questions() {
       await callAxios('cards/questions/' + flashId, '', 'get')
     }
     questions()
   }, [])
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+        if(a == false) {
+          Alert.alert(
+            'Deixar partida?',
+            'Deseja mesmo deixar a partida? (Se não clicou em nenhum botão para sair, possivelmente seu adversario está AFK)',
+            [
+              { text: "Não sair", style: 'cancel', onPress: () => {} },
+              {
+                text: 'Sair',
+                style: 'destructive',
+                onPress: () => {
+                  setA(true)
+                  socket.emit('finish_game', {room_id: roomId})
+                  socket.on('disconnect')
+                  socket.emit('left_game', {room_id: 6931, afk: true})
+                  navigation.dispatch(e.data.action)
+                },
+              },
+            ]
+          )
+        };
+      }),
+    [navigation, socket]
+  );
 
   useEffect(() => {
     if(resetCount == false) {

@@ -3,33 +3,74 @@ import styled from 'styled-components/native'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/arrow.svg'
+import { TextInput } from 'react-native-gesture-handler';
 import { Profile } from '../components/Profile'
 import { ScrollView } from 'react-native-gesture-handler';
 import useAxios from '../hooks/useAxios';
 import io from "socket.io-client/dist/socket.io";
+import ImageChooseGame from '../../assets/ImagePages/chooseGame.svg'
+import IconSearch from '../../assets/ImageIcons/iconSearch.svg'
+import IconPen from '../../assets/ImageIcons/iconPen.svg'
+import { AntDesign } from '@expo/vector-icons'; 
 
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
   const [select, setSelect] = useState({on: false, index: 5})
-
   const {dataUser, profile, setProfile} = useContext(UserContext)
+  const [openModal, setOpenModal] = useState(false)
+  const [dataFlash, setDataFlash] = useState({card_id: '', card_title: ''})
+  const [roomCode, setRoomCode] = useState('')
+  const [socket, setSocket] = useState('')
 
   useEffect(() => {
       async function topCards() {
         await callAxios('cards/top', '', 'get')
       }
+      
+      setSocket(io("https://istudy-online.fly.dev", {
+        transports: ["websocket"]
+      }))
 
       topCards()
   }, [])
 
+  useEffect(() => {
+    if(roomCode.length == 4) {
+      try{
+        socket.emit('join_room', {room_id: Number(roomCode), name: dataUser.name, foto: 'https://conteudo.imguol.com.br'})
+        socket.on('resJoinRoom', (msg) => {
+          console.log(msg)
+          if(msg.ready) {
+              navigation.navigate('GameQuestions', {roomId: msg.room, flashId: msg.flashId})
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }, [roomCode])
+
+  function create(id, title) {
+    try{
+      socket.emit('create_room', {flash_id: id, name: dataUser.name, foto: 'https://conteudo.imguol.com.br'})
+
+      socket.on('resJoinRoom', (msg) => {
+        if (msg.ready) {
+          navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
+        }
+      })
+      socket.on('resCreateRoom', (msg) => {
+        navigation.navigate('WaitingPlayer', {name: title, roomId: msg.room, type: 'create', flashId: id})
+      }) 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   function play(id, title) {
     try{
-      const socket = io("https://istudy-online.fly.dev", {
-        transports: ["websocket"]
-      });
       socket.emit('find_room', {flash_id: id, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
       socket.on('resFindRoom', (msg) => {
-        console.log(msg)
       if(msg.ready) {
           navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
         } else {
@@ -43,6 +84,45 @@ export function Home({ navigation }) {
 
   return (
     <View style={styles.Container}>
+      
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={openModal}
+        onRequestClose={() => {
+          setOpenModal(!openModal);
+        }}
+        >
+          <TouchableOpacity onPress={() => setOpenModal(!openModal)} style={styles.Modal}>
+            <TouchableOpacity activeOpacity={1} style={styles.CheckBox}>
+              <View style={{width: '80%'}}>
+                <Text onPress={() => setOpenModal(!openModal)} style={{fontSize: 35, color: '#fff', position: 'absolute', right: -20}}>✖</Text>
+                <ImageChooseGame style={{marginTop: 20, alignSelf: 'center'}}/>
+                <View style={{width: '70%', flexDirection: 'row', backgroundColor: 'rgba(145, 189, 216, .15)', justifyContent: 'space-between', marginTop: 20, borderWidth: 3,borderColor: '#91BDD8',borderRadius: 6, alignSelf: 'center'}}>
+                  <TextInput style={styles.InputSearchMatch} placeholderTextColor='#fff' onChangeText={(text) => setRoomCode(text)} placeholder="Digite a Sala"></TextInput>
+                  <TouchableOpacity style={styles.ButtonSearchMatch}><IconSearch /></TouchableOpacity>
+
+                </View>
+                <TouchableOpacity style={styles.CreateMatch} onPress={() => {create(dataFlash.card_id, dataFlash.card_title)
+                  setOpenModal(!openModal)
+                }}>
+                  <IconPen style={{marginLeft: 10}} />
+                  <Text style={{fontSize: 20, fontWeight: '400', color:'#91BDD8', marginRight: 10, paddingVertical: 5, paddingHorizontal: 10}}>Criar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => {play(dataFlash.card_id, dataFlash.card_title)
+                  setOpenModal(!openModal)
+                }} style={styles.CreateMatch}>
+                  <AntDesign name="play" size={28} style={{color:'#91BDD8', marginLeft: 10}} color="black" />
+                  <Text style={{fontSize: 20, fontWeight: '400', color:'#91BDD8', marginRight: 10, padding: 5}}>Jogar</Text>
+                </TouchableOpacity>
+                 
+              </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
+
+      </Modal>
+
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
       <ScrollView style={{width: '100%'}}>
         <TouchableOpacity  onPress={() => setProfile(!profile)} style={styles.DivHeader}>
@@ -82,7 +162,9 @@ export function Home({ navigation }) {
                                 <Text style={{fontWeight: '800'}}>10</Text>
                             </View>
                         </View>
-                        <TouchableOpacity style={styles.ButtonJogar} onPress={() => play(card.id, card.title)}>
+                        <TouchableOpacity style={styles.ButtonJogar} onPress={() => {setOpenModal(!openModal)
+                        setDataFlash({card_id: card.id, card_title: card.title})
+                        }}>
                             <Text style={{color: 'white', fontSize: 20}}>Jogar</Text>
                         </TouchableOpacity>
                   </View>
@@ -138,6 +220,46 @@ const styles = StyleSheet.create({
   backgroundColor: '#005483',
   alignItems: 'center',
   }, 
+  Modal: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1
+  },
+  CheckBox: {
+    width: 350,
+    height: 400,
+    backgroundColor: '#004973',
+    borderRadius: 10,
+    borderWidth: 2, 
+    borderColor: '#fff',
+    alignItems: 'center',
+  },
+  ButtonSearchMatch: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 6
+  },
+  InputSearchMatch: {
+    width: '75%',
+    height: 30,
+    padding: 4, 
+    color: '#fff',
+    fontSize: 16
+  },
+  CreateMatch: {
+    borderWidth: 3,
+    borderColor: '#91BDD8',
+    borderRadius: 6,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20, 
+    flexDirection: 'row',
+    backgroundColor: 'rgba(145, 189, 216, .15)'
+  },
   DivHeader: {
     width: '100%',
     marginTop: -4,
