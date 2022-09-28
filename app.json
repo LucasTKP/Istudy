@@ -1,9 +1,9 @@
 
 {
   "expo": {
-    "name": "IStudy",
-    "slug": "IStudy",
-    "scheme": "IStudy",
+    "name": "istudy",
+    "slug": "istudy",
+    "scheme": "istudy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
