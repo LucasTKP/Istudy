@@ -183,8 +183,8 @@ function DateConfig(dia){
   LocaleConfig . defaultLocale  =  'fr' ;
   return (
     <View style={{backgroundColor: '#004973', height:'100%', width:'100%'}}>
-      <BoxAlert message={contentAlert.message} type={contentAlert.typeAlert}/>
       <Loading visible={visible}/>
+      <BoxAlert message={contentAlert.message} type={contentAlert.typeAlert}/>
       <ScrollView>
         <View style={{width:'85%', alignSelf: 'center',}}>
           <Text style={{fontSize: 30, fontWeight: '500', color: '#fff', marginTop: 50}}>Calendário</Text>
