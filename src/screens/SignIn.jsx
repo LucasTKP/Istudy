@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { UserContext } from '../../App';
 import Google from '../components/Google'
 import Input from '../components/Input'
@@ -129,7 +129,7 @@ export function SignIn({navigation}) {
         <Loading visible={visible} />
         <BoxCode codeEmail={codeEmail} funcao={'Esqueceu a senha'} email={email} />
         <BoxAlert message={message} type={'erro'} />
-
+        <ScrollView>
             <View style={styles.containerLogo}>
             <ImageSignIn />
             </View>
@@ -177,6 +177,7 @@ export function SignIn({navigation}) {
               {/*<Text style={{fontSize: 16, marginTop:20, textAlign: 'right'}} onPress={() => navigation.navigate('SignUp')}>Quero me cadastrar</Text>*/}
               <Google/>
               </View>
+            </ScrollView>
     </View>
   );
 }

@@ -49,6 +49,8 @@ function DateConfig(dia){
     setFinalObject({})
   },[answerAxios])
 
+  
+
   //Create new Event
   async function CreateTests(){
     if (annotation.title != "", annotation.desc != ""){
@@ -184,82 +186,82 @@ function DateConfig(dia){
       <BoxAlert message={contentAlert.message} type={contentAlert.typeAlert}/>
       <Loading visible={visible}/>
       <ScrollView>
-      <View style={{width:'85%', alignSelf: 'center',}}>
-        <Text style={{fontSize: 30, fontWeight: '500', color: '#fff', marginTop: 50}}>Calendário</Text>
-        <Calendar style={{width: '100%', alignSelf: 'center', marginTop: 50, borderRadius: 10, backgroundColor: "#0368A0"}}
-        minDate={ "2022-09-01" }
-        theme={{
-          backgroundColor: '#ffffff',
-          calendarBackground: '#0368A0',
-          textSectionTitleColor: '#fff',
-          textSectionTitleDisabledColor: '#fff',
-          selectedDayBackgroundColor: '#fff',
-          selectedDayTextColor: '#fff',
-          todayTextColor: '#ffffff',
-          dayTextColor: '#fff',
-          textDisabledColor: '#7BACC9',
-          selectedDotColor: 'black',
-          arrowColor: '#7BACC9',
-          disabledArrowColor: 'white',
-          monthTextColor: '#fff',
-          indicatorColor: 'black',
-          textDayFontFamily: 'monospace',
-          textMonthFontFamily: 'monospace',
-          textDayHeaderFontFamily: 'monospace',
-          textDayFontWeight: '400',
-          textMonthFontWeight: 'bold',
-          textDayHeaderFontWeight: '300',
-          textDayFontSize: 18,
-          textMonthFontSize: 20,
-          textDayHeaderFontSize: 16,
-        }}
-        onDayPress = { dia  =>  { DateConfig(dia) }}  
-        hideArrows = { false } 
-        // // renderArrow={direction => <Arrow />}
-        hideExtraDays = { true } 
-        firstDay = { 7 } 
-        markedDates={finalObject}
-        />
-        
-      </View>
-      <View style={{backgroundColor: '#005483', width: '100%', height: '100%', minHeight: 150, marginTop:50, borderRadius: 40, marginBottom: 20}}>
-        <View style={{width: '80%', alignSelf: 'center'}}>
-          {activeMap ? 
-          <>
-            <Text  style={{fontSize: 25, fontWeight: '700', color: '#2785BD', alignSelf: 'center'}}>{alterEvents ? 'Eventos concluídos' : 'Próximos eventos'}</Text> 
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginTop: 10}}>
-              <TouchableOpacity onPress={() => setAlterEvents(!alterEvents)} 
-              style={{width:120, height: 35, backgroundColor: alterEvents ? '#005483' : '#0374B4', borderWidth: 3, borderColor: '#91BDD8', 
-              borderRadius: 8, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={{fontSize: 16, color: '#91BDD8', fontWeight: '400', marginLeft: 5,}}>Próximos</Text>
-                <IconNextEvent style={{marginRight: 10}}/>
-              </TouchableOpacity>
-              
-              <TouchableOpacity onPress={() => setAlterEvents(!alterEvents)} 
-              style={{width:120, height: 35, backgroundColor: alterEvents ? '#0374B4' : '#005483' , borderWidth: 3, borderColor: '#91BDD8', 
-              borderRadius: 8, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={{fontSize: 16, color: '#91BDD8', fontWeight: '400', marginLeft: 5,}}>Concluídos</Text>
-                <IconEventConclued />
-              </TouchableOpacity>
-            </View>
-          </>
-          :
-          <Text style={{fontSize: 22, fontWeight: '700', color: '#fff', marginTop: 20, alignSelf: 'center'}}>Crie um Evento</Text> }
-          {activeMap ? (alterEvents ? returnedEventsOrderBy.EventConclued : returnedEventsOrderBy.NextEvent).map((content, Index) => {
-            return(
-              <View  key={alterEvents ? content : Index} style={{width: 290, height: 88, backgroundColor:'#2785BD', borderRadius: 8, marginTop: 22, marginLeft: 25}}>
-                <View style={{width: 3, height: '100%', backgroundColor: '#005483', position: 'absolute', right: 50}}></View>
-                <View style={{justifyContent: 'center', height: '100%', marginLeft: 20, width: '70%'}}>
-                  <Text  style={{fontSize: 18, color: '#fff', fontWeight: '500'}}>{content.title}</Text>
-                  <Text  style={{fontSize: 18, color: '#fff', fontWeight: '500', marginTop: 10}}>{content.desc}</Text>
-                  <Text   style={{alignSelf: 'flex-end', fontSize: 14, color: '#A3CFE9'}}>{content.date}</Text>
-                </View>              
-                <IconTrash onPress={() => (setIndex(Index), setTypeIndex(alterEvents ? "conclued" : "next"), setModalDelet(!modalDelet))} style={{position: 'absolute', right: '6%', top: '10%'}} />
-                <IconEdit onPress={() => (setIndex(Index), setTypeIndex(alterEvents ? "conclued" : "next"), setEdit(!edit), setModal(!modal))} style={{position: 'absolute', right: '6%', bottom: '10%'}} />
-              </View>
-              )}) : <></>}
+        <View style={{width:'85%', alignSelf: 'center',}}>
+          <Text style={{fontSize: 30, fontWeight: '500', color: '#fff', marginTop: 50}}>Calendário</Text>
+          <Calendar style={{width: '100%', alignSelf: 'center', marginTop: 50, borderRadius: 10, backgroundColor: "#0368A0"}}
+          minDate={ "2022-09-01" }
+          theme={{
+            backgroundColor: '#ffffff',
+            calendarBackground: '#0368A0',
+            textSectionTitleColor: '#fff',
+            textSectionTitleDisabledColor: '#fff',
+            selectedDayBackgroundColor: '#fff',
+            selectedDayTextColor: '#fff',
+            todayTextColor: '#ffffff',
+            dayTextColor: '#fff',
+            textDisabledColor: '#7BACC9',
+            selectedDotColor: 'black',
+            arrowColor: '#7BACC9',
+            disabledArrowColor: 'white',
+            monthTextColor: '#fff',
+            indicatorColor: 'black',
+            textDayFontFamily: 'monospace',
+            textMonthFontFamily: 'monospace',
+            textDayHeaderFontFamily: 'monospace',
+            textDayFontWeight: '400',
+            textMonthFontWeight: 'bold',
+            textDayHeaderFontWeight: '300',
+            textDayFontSize: 18,
+            textMonthFontSize: 20,
+            textDayHeaderFontSize: 16,
+          }}
+          onDayPress = { dia  =>  { DateConfig(dia) }}  
+          hideArrows = { false } 
+          // // renderArrow={direction => <Arrow />}
+          hideExtraDays = { true } 
+          firstDay = { 7 } 
+          markedDates={finalObject}
+          />
+          
         </View>
-      </View>
+        <View style={{backgroundColor: '#005483', width: '100%', height: '100%', minHeight: 150, marginTop:50, borderRadius: 40, marginBottom: 20}}>
+          <View style={{width: '80%', alignSelf: 'center'}}>
+            {activeMap ? 
+            <>
+              <Text  style={{fontSize: 25, fontWeight: '700', color: '#2785BD', alignSelf: 'center'}}>{alterEvents ? 'Eventos concluídos' : 'Próximos eventos'}</Text> 
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginTop: 10}}>
+                <TouchableOpacity onPress={() => setAlterEvents(!alterEvents)} 
+                style={{width:120, height: 35, backgroundColor: alterEvents ? '#005483' : '#0374B4', borderWidth: 3, borderColor: '#91BDD8', 
+                borderRadius: 8, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <Text style={{fontSize: 16, color: '#91BDD8', fontWeight: '400', marginLeft: 5,}}>Próximos</Text>
+                  <IconNextEvent style={{marginRight: 10}}/>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => setAlterEvents(!alterEvents)} 
+                style={{width:120, height: 35, backgroundColor: alterEvents ? '#0374B4' : '#005483' , borderWidth: 3, borderColor: '#91BDD8', 
+                borderRadius: 8, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <Text style={{fontSize: 16, color: '#91BDD8', fontWeight: '400', marginLeft: 5,}}>Concluídos</Text>
+                  <IconEventConclued />
+                </TouchableOpacity>
+              </View>
+            </>
+            :
+            <Text style={{fontSize: 22, fontWeight: '700', color: '#fff', marginTop: 20, alignSelf: 'center'}}>Crie um Evento</Text> }
+            {activeMap ? (alterEvents ? returnedEventsOrderBy.EventConclued : returnedEventsOrderBy.NextEvent).map((content, Index) => {
+              return(
+                <View  key={alterEvents ? content : Index} style={{width: 290, height: 88, backgroundColor:'#2785BD', borderRadius: 8, marginTop: 22, marginLeft: 25}}>
+                  <View style={{width: 3, height: '100%', backgroundColor: '#005483', position: 'absolute', right: 50}}></View>
+                  <View style={{justifyContent: 'center', height: '100%', marginLeft: 20, width: '70%'}}>
+                    <Text  style={{fontSize: 18, color: '#fff', fontWeight: '500'}}>{content.title}</Text>
+                    <Text  style={{fontSize: 18, color: '#fff', fontWeight: '500', marginTop: 10}}>{content.desc}</Text>
+                    <Text   style={{alignSelf: 'flex-end', fontSize: 14, color: '#A3CFE9'}}>{content.date}</Text>
+                  </View>              
+                  <IconTrash onPress={() => (setIndex(Index), setTypeIndex(alterEvents ? "conclued" : "next"), setModalDelet(!modalDelet))} style={{position: 'absolute', right: '6%', top: '10%'}} />
+                  <IconEdit onPress={() => (setIndex(Index), setTypeIndex(alterEvents ? "conclued" : "next"), setEdit(!edit), setModal(!modal))} style={{position: 'absolute', right: '6%', bottom: '10%'}} />
+                </View>
+                )}) : <></>}
+          </View>
+        </View>
       </ScrollView>
 
       <Modal

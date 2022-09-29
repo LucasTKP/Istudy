@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Logo from '../../assets/ImageAutentication/logo.svg'
 
 import * as Animatable from 'react-native-animatable'
@@ -8,43 +8,43 @@ import * as Animatable from 'react-native-animatable'
 export function Entry({navigation}) {
     return (
         <View style={styles.background}>
-           
-            <View style={styles.containerLogo}>
-                <Animatable.View delay={100}
-                    animation="flipInY"
-                    style={{ width: '100%' }}
-                    resizeMode="contain"
-                > 
-                <Logo />
-                </Animatable.View>
-            </View>
-
-            <View style={styles.containerForm}>
-                <Text style={styles.title}>
-                Seja bem-vindo ao Istudy
-                seu aplicativo de estudo com
-                flashcards!
-                </Text>
-
-                <View style={styles.containerButton}> 
-
-                <TouchableOpacity style={styles.buttonSingUp}
-                     onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={styles.buttonText}>Cadastrar</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.buttonSingIn}
-                    onPress={() => navigation.navigate('SignIn')}>
-                    
-                    <Text style={styles.buttonText}>Logar</Text>
-                </TouchableOpacity>
-
-                
-
+           <ScrollView>
+                <View style={styles.containerLogo}>
+                    <Animatable.View delay={100}
+                        animation="flipInY"
+                        style={{ width: '100%' }}
+                        resizeMode="contain"
+                    > 
+                    <Logo />
+                    </Animatable.View>
                 </View>
 
-            </View>
+                <View style={styles.containerForm}>
+                    <Text style={styles.title}>
+                    Seja bem-vindo ao Istudy
+                    seu aplicativo de estudo com
+                    flashcards!
+                    </Text>
 
+                    <View style={styles.containerButton}> 
+
+                    <TouchableOpacity style={styles.buttonSingUp}
+                        onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={styles.buttonText}>Cadastrar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.buttonSingIn}
+                        onPress={() => navigation.navigate('SignIn')}>
+                        
+                        <Text style={styles.buttonText}>Logar</Text>
+                    </TouchableOpacity>
+
+                    
+
+                    </View>
+
+                </View>
+            </ScrollView>
         </View>
     );
 }

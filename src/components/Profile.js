@@ -53,11 +53,9 @@ export function Profile() {
 
   //Verifica se o nome que esta sendo trocado esta correto de acordo com a regex
   function Validar(){
-    const regexName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/
-    if ( name.length > 4 && regexName.test(name) && newName.length === 0){
-        return true
-      } 
-    if ( newName.length > 4 && regexName.test(newName)){
+    const regexName = /^[^0-9][^@#]+$/
+
+    if ( newName.length > 2 && regexName.test(newName) && newName.length < 15){
         return true
     }  
       return false
@@ -109,7 +107,7 @@ export function Profile() {
             setVisible(false)
           }
       } else {
-        setMessage("Não foi possivel alterar seu nome, utilize um nome com 5 letras e nenhum caracter especial")
+        setMessage("Não foi possivel alterar seu nome, utilize um nome com no minimo 3 letras e nenhum caracter especial")
         setAlert(true)
       }
     }  
@@ -171,7 +169,7 @@ async function Exit(){
             {tradeName ?
             <View style={{flexDirection: 'row'}}>
               <View style={{borderWidth: 2, borderColor: '#F9B84F', alignItems: 'center', borderRadius: 10, width: 150}}>
-                <TextInput style={{ width: '90%', fontSize: 20, color: '#fff'}} onChangeText={(Text) => setNewName(Text)} placeholder="Digite o Nome" placeholderTextColor={'#fff'}></TextInput>
+                <TextInput maxLength={14} style={{ width: '90%', fontSize: 20, color: '#fff'}} onChangeText={(Text) => setNewName(Text)} placeholder="Digite o Nome" placeholderTextColor={'#fff'}></TextInput>
               </View>
               <TouchableOpacity style={styles.AlterCancel} onPress={() => (setTradeName(false)) }>
                  <Text style={{fontSize: 20, color:'#972F2F', fontWeight: 'bold'}}> X </Text>

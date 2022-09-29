@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Text, View, StyleSheet, Image, Br , TouchableOpacity, TextInput} from 'react-native';
+import { Text, View, StyleSheet, Image, Br , TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import IconRank from '../../assets/ImagePages/rank.svg';
@@ -38,37 +38,39 @@ export function Ranks() {
         }
     }
   return (
-    <View style={{backgroundColor:'#004973', height:'100%', width:'100%', alignItems: 'center'}}>
+    <View style={{backgroundColor:'#004973', height:'100%', width:'100%'}}>
         <Loading visible={visible}/>
-        <View style={{width:'80%', alignItems: 'center'}}>
-            <View style={{width: '100%', flexDirection: 'row',justifyContent: 'space-between'}}>
-                <View>
-                    <Text style={{fontSize:30, fontWeight:'500', color:'#fff'}}>Ranks</Text>
-                    <Text style={{fontSize: 15, fontWeight: '400', color: '#91BDD8', marginTop: 15}}>Os maiores vencedores {'\n'} de nossos flashcards!</Text>
-                </View>
-                <IconRank />
-            </View>
-            
-            <View style={styles.BoxRanks}>
-                {show ? answerAxios.map((player, index) =>{
-                    return (
-                        <>
-                <View style={styles.DetailsBoxRanks}></View>
-                <View style={styles.ContentPlayer}>
-                        <Text style={styles.NumberRank}>{index + 1}º</Text>
-                        <Text style={styles.NamePlayer}>{player.user.name}</Text>
-                    <View style={styles.DivPoints}>
-                        <IconTrophy />
-                        <Text style={styles.NumberPoins}>{player.wins}</Text>
+        <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+            <View style={{width:'80%', alignItems: 'center'}}>
+                <View style={{width: '100%', flexDirection: 'row',justifyContent: 'space-between'}}>
+                    <View>
+                        <Text style={{fontSize:30, fontWeight:'500', color:'#fff'}}>Ranks</Text>
+                        <Text style={{fontSize: 15, fontWeight: '400', color: '#91BDD8', marginTop: 15}}>Os maiores vencedores {'\n'} de nossos flashcards!</Text>
                     </View>
+                    <IconRank />
                 </View>
-                <View style={{height: 3, width: '100%', backgroundColor: '#004973'}}></View>
-                </>
-                    )
-                }) : <></>}
                 
+                <View style={styles.BoxRanks}>
+                    {show ? answerAxios.map((player, index) =>{
+                        return (
+                            <>
+                    <View style={styles.DetailsBoxRanks}></View>
+                    <View style={styles.ContentPlayer}>
+                            <Text style={styles.NumberRank}>{index + 1}º</Text>
+                            <Text style={styles.NamePlayer}>{player.user.name}</Text>
+                        <View style={styles.DivPoints}>
+                            <IconTrophy />
+                            <Text style={styles.NumberPoins}>{player.wins}</Text>
+                        </View>
+                    </View>
+                    <View style={{height: 3, width: '100%', backgroundColor: '#004973'}}></View>
+                    </>
+                        )
+                    }) : <></>}
+                    
+                </View>
             </View>
-        </View>
+        </ScrollView>
     </View>
   )
 }

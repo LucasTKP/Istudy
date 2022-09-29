@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { Text, Image, Alert, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import { Text, Image, Alert, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, ScrollView} from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import Google from '../components/Google'
 import Input from '../components/Input'
@@ -72,7 +72,7 @@ export function SignUp({navigation}) {
   
   //Validação dos inputs com regex
   function Validar(){
-    const regexName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/
+    const regexName = /^[^0-9][^@#]+$/
     const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const regexPassword = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/
 
@@ -138,6 +138,7 @@ export function SignUp({navigation}) {
       <Loading visible={visible} />
       <BoxCode codeEmail={codeEmail} email={email} funcao={'Cadastro'} password={password} name={name} />
       <BoxAlert message={message} type={"erro"}/>
+      <ScrollView>
 
 
       <View style={styles.containerLogo}>
@@ -158,7 +159,7 @@ export function SignUp({navigation}) {
           size={26} 
           color={"#444"}
           />
-          {errorName ? <Text style={{height:0}}></Text> : <Text style={styles.textError}>O nome tem que ter no minimo 4 letras</Text>}
+          {errorName ? <Text style={{height:0}}></Text> : <Text style={styles.textError}>O nome tem que ter no minimo 3 letras e nenhum caracter</Text>}
         
           <Input  
           //Config Input
@@ -211,7 +212,7 @@ export function SignUp({navigation}) {
 
 
           </KeyboardAvoidingView>
-
+            </ScrollView>
           </View>
         
   );
@@ -252,7 +253,8 @@ const styles = StyleSheet.create({
     width: 30
   },
   textError:{
-    color: 'white',
+    fontSize: 18,
+    color: '#FF7070',
     width: 300,
     textAlign: 'center',
   },

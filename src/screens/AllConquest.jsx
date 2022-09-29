@@ -14,35 +14,37 @@ export function AllConquest() {
     //conquistas que nao foram feitas
     const [conquistasBloqueadas, setConquistasBloqueadas] = useState([])
     //variavis  para calcular porcentagem ja feitas
-    const [porcentagem, setPorcentagem] = useState("0")
+    const [porcentagem, setPorcentagem] = useState("200")
     //Variavel Loading
     const [visible, setVisible] = useState(true)
+
     
  
 //executa apenas uma vez a funçao de exibir conquistas
 useEffect(() => {
   ImportConquestsConcluidas()
 }, [])
+
   //puxar e exibi todas as conquistas e as ja concluidas
   async function ImportConquestsConcluidas(){
     try{
-        const urlCadastrar = "https://istudy-back-production.up.railway.app/api/v1/user/achievement/" + dataUser.id            
+        const urlCadastrar = "https://istudy-back.fly.dev/api/v1/user/achievement/" + dataUser.id            
         const config = {
           headers:{
             Authentication: "donos_do_codigo"
           }
         }
         const resposta = await axios.get(urlCadastrar, config)
-        setPorcentagem(resposta.data.porcent)
+        console.log(resposta.data)
         setConquistasConcluidas(resposta.data.userMedals)
         setConquistasBloqueadas(resposta.data.userNotHaveMedals)
+        setPorcentagem(resposta.data.porcent)
       } catch(e)  {
         console.log(e)
       } finally {
         setVisible(false)
       }
   }
-  console.log(conquistasBloqueadas)
 
   return (
     <View style={{width: '100%', height: '100%', backgroundColor: '#004973'}}>
