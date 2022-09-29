@@ -1,18 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { Alert } from 'react-native';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
 
 
 
 function useAxios() {
-  const navigation = useNavigation();
   // Variavel de resposta do axios
-  const  [navigationAxios, setNavigationAxios] = useState(false)
-
   const  [answerAxios, setanswerAxios] = useState({})
-
-  
 
   const callAxios = React.useCallback(async(url, data, type) =>{
     
@@ -45,7 +38,6 @@ function useAxios() {
         }
     },[])
   return { 
-    navigationAxios,
     answerAxios,
     callAxios
   }

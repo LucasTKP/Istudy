@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { UserContext} from '../../App'
 import useAxios from '../hooks/useAxios';
 import Loading from '../components/Loading';
@@ -12,6 +12,8 @@ export function Decks({ navigation }) {
     const [menu, setMenu] = useState({on: false, index: ''})
     const {callAxios, answerAxios} = useAxios()
     const [visible, setVisible] = useState(true)
+    const [modalDelet, setModalDelet] = useState(false)
+    const [idFlashDelet, setIdFlashDelet] = useState()
 
     useEffect(() => {
         Cards()
@@ -28,10 +30,10 @@ export function Decks({ navigation }) {
         } 
     }
 
-    async function deleteCard (id){
+    async function deleteCard (){
         try{
             setVisible(true)
-            await callAxios('cards/' + id, '', 'delete')
+            await callAxios('cards/' + idFlashDelet, '', 'delete')
             Cards()
         } catch(error){
             console.log(error)
@@ -47,9 +49,8 @@ export function Decks({ navigation }) {
             {answerAxios.res && answerAxios.res[0] ? answerAxios.res.map((card, index) => {
                 return (
                 <View style={styles.box} key={card.id}>
-                <Image source={{uri: card.image_url}}
-                 style={{width: '100%', height: '100%'}}/>
-                
+                <Image source={{uri: card.image_url}} style={{width: '100%', height: '100%'}}/>
+            
                 <View style={styles.line}>
                         <Text style={styles.title}>{card.title}</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('ShowFlashCard',answerAxios.res[index].id)} style={styles.buttonPlay}>
@@ -71,7 +72,8 @@ export function Decks({ navigation }) {
                     </TouchableOpacity>
     
                     <TouchableOpacity style={styles.textEdit} onPress={() => {
-                        deleteCard(card.id)
+                        setIdFlashDelet(card.id)
+                        setModalDelet(!modalDelet)
                         setMenu({on: false, index})}}>
                         <Text style={{color:'#FFF', fontSize: 18}}> Excluir </Text>
                         <View style={{backgroundColor: '#FFF', width: 22, height: 2, marginLeft: 4,}}></View>
@@ -105,8 +107,30 @@ export function Decks({ navigation }) {
             </View>
         
         }
+
+        
            </ScrollView>
         }
+
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalDelet}
+            onRequestClose={() => {
+            setModalDelet(!modalDelet)
+            }}>
+
+            <TouchableOpacity style={styles.buttonExit} onPress={() => setModalDelet(!modalDelet)}>
+            <TouchableOpacity activeOpacity={1} style={styles.boxModal}>
+                <View style={{width: '80%', height: '100%', alignSelf: 'center', justifyContent: 'center'}}>
+                <Text style={{fontSize:20, fontWeight: '500', color: '#fff', textAlign: 'center'}}>Tem certeza que deseja excluir este evento?</Text>
+                <TouchableOpacity style={styles.buttonSave} onPress={() => (setModalDelet(!modalDelet), deleteCard())}>
+                    <Text style={styles.textButtonSave}>Sim</Text>
+                </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+            </TouchableOpacity>
+        </Modal>  
         </View>
     );
 }
@@ -171,5 +195,37 @@ const styles = StyleSheet.create({
         color: '#FFF'
     },
 
+  //Modal de Confirmação de deletar
+  buttonExit:{
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 73, 115, 0.79)',
+  },
+  boxModal:{
+    width:285,
+    height:225,
+    backgroundColor: 'rgba(75, 130, 163, 1)',
+    borderWidth: 2, 
+    borderColor: '#FFF',
+    borderRadius: 8,
+  },
+  buttonSave:{
+    width:123,
+    height:36,
+    borderRadius: 8,
+    backgroundColor: 'background: rgba(145, 189, 216, .2)',
+    borderWidth: 2,
+    borderColor: '#91BDD8',
+    alignItems: 'center',
+    marginTop: 30,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  textButtonSave:{
+    color: '#91BDD8',
+    fontSize: 18,
+  },
 
 })

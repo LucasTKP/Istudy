@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text, View, StyleSheet, Image, ScrollView, Modal , TouchableOpacity, TextInput} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
@@ -12,6 +13,8 @@ import {EditAnswer} from '../screens/editAnswer'
 import {WaitingPlayer} from '../screens/WaitingPlayer'
 import {GameQuestion} from '../screens/GameQuestion'
 import {GameResult} from '../screens/GameResult'
+import { FilterMaterial } from '../screens/FilterMaterial'
+import { Tests } from '../screens/Tests'
 
 import { Decks } from '../screens/Decks';
  
@@ -20,7 +23,11 @@ import { InsertFlashCard } from '../screens/InsertFlashCard';
 
 export function StackRoutes() {
   return (
-    <Stack.Navigator initialRouteName="Home">
+
+    <Stack.Navigator 
+    initialRouteName="Home"
+    
+    >
           <Stack.Screen
             name="Home"
             component={Home}
@@ -54,6 +61,20 @@ export function StackRoutes() {
             }}
           />
 
+          <Stack.Screen
+            name="Tests"
+            component={Tests}
+            options={{
+              unmountOnBlur: true,
+              title: 'Provas',
+              headerTitleStyle: {color: '#004973'},
+              headerTintColor: '#FFF',
+              headerShown: true,
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#004973', borderWidth:0, height: 10},
+            }}
+          />
+
       <Stack.Screen
           name="InsertFlashCard"
           component={InsertFlashCard}
@@ -83,7 +104,8 @@ export function StackRoutes() {
               title: '',
               headerTintColor: '#FFF',
               headerShadowVisible: false,
-              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+              headerStyleInterpolator:{backgroundColor: 'black'},
+              headerStyle: {backgroundColor: '#004973', borderWidth:0},
             }}
           />
      
@@ -157,7 +179,18 @@ export function StackRoutes() {
                 headerShadowVisible: false,
                 headerStyle: {backgroundColor: '#005483'},
               }}
-            />
+          />
+
+          <Stack.Screen
+            name="FilterMaterial"
+            component={FilterMaterial}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#004973'},
+            }}
+          />
     </Stack.Navigator>
   )
 }

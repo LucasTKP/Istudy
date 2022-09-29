@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components/native'
+import Loading from '../components/Loading'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/arrow.svg'
@@ -7,15 +7,31 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Profile } from '../components/Profile'
 import { ScrollView } from 'react-native-gesture-handler';
 import useAxios from '../hooks/useAxios';
+import useEvent from '../components/useEvent'
 import io from "socket.io-client/dist/socket.io";
 import ImageChooseGame from '../../assets/ImagePages/chooseGame.svg'
 import IconSearch from '../../assets/ImageIcons/iconSearch.svg'
 import IconPen from '../../assets/ImageIcons/iconPen.svg'
 import { AntDesign } from '@expo/vector-icons'; 
 
+
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
+  const {returnedEventsOrderBy} = useEvent()
   const [select, setSelect] = useState({on: false, index: 5})
+
+  const [visible, setVisible] = useState(false)
+  const {dataUser, profile, setProfile} = useContext(UserContext)
+  const [nextEvent, setNextEvent] = useState(false)
+  
+  useEffect(() => {
+    if(returnedEventsOrderBy != undefined){
+      if(returnedEventsOrderBy.NextEvent.length){
+        setNextEvent(true)
+      }   
+    } 
+},[returnedEventsOrderBy])
+
   const {dataUser, profile, setProfile} = useContext(UserContext)
   const [openModal, setOpenModal] = useState(false)
   const [dataFlash, setDataFlash] = useState({card_id: '', card_title: ''})
@@ -24,9 +40,14 @@ export function Home({ navigation }) {
 
   useEffect(() => {
       async function topCards() {
-        await callAxios('cards/top', '', 'get')
+        try {
+          await callAxios('cards/top', '', 'get')
+        } catch (e) {
+          console.log(e)
+        }
       }
-      
+
+     
       setSocket(io("https://istudy-online.fly.dev", {
         transports: ["websocket"]
       }))
@@ -66,7 +87,6 @@ export function Home({ navigation }) {
       console.log(e)
     }
   }
-
   function play(id, title) {
     try{
       socket.emit('find_room', {flash_id: id, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
@@ -81,6 +101,7 @@ export function Home({ navigation }) {
       console(e)
     }
   }
+
 
   return (
     <View style={styles.Container}>
@@ -124,6 +145,7 @@ export function Home({ navigation }) {
       </Modal>
 
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
+      <Loading visible={visible}/>
       <ScrollView style={{width: '100%'}}>
         <TouchableOpacity  onPress={() => setProfile(!profile)} style={styles.DivHeader}>
           <View style={styles.ButtonHeader} onPress={() => setProfile(true)}>
@@ -175,7 +197,7 @@ export function Home({ navigation }) {
         <View style={{width: 50, height: 3, backgroundColor: '#D7E3EA', alignSelf: 'center'}}></View>
           <View style={{width: '90%', alignSelf: 'center'}}>
               <View style={{flexDirection: 'row', marginTop: 10, alignSelf: 'center'}}>
-                <TouchableOpacity style={styles.boxMetter}>
+                <TouchableOpacity onPress={() => navigation.navigate("FilterMaterial")} style={styles.boxMetter}>
                   <Text style={styles.TextMetter}>️⌛ História</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.boxMetter}>
@@ -201,11 +223,17 @@ export function Home({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.BoxRemember}>
+              <TouchableOpacity onPress={() => navigation.navigate("Tests")} style={styles.BoxRemember}>
                 <View style={styles.DetailsBoxRemember}></View>
-                <Text style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingVertical: 10, paddingLeft: 20}}>Lembretes: 📝  </Text>
-                <Text style={{fontSize: 17, fontWeight: '600', color: '#7BACC9', paddingRight: 20}}>Próxima prova 21/05</Text>
-              </View>
+                {nextEvent ? 
+                  <>
+                    <Text style={{fontSize: 15, fontWeight: '600', color: '#7BACC9', paddingVertical: 10, paddingLeft: 20}}>Lembretes: 📝  </Text>
+                    <Text style={{fontSize: 15, fontWeight: '600', color: '#7BACC9', paddingRight: 20}}>{returnedEventsOrderBy.NextEvent[0].title + " " + returnedEventsOrderBy.NextEvent[0].date}</Text>
+                  </>
+                :
+                <Text style={{fontSize: 18, fontWeight: '600', color: '#7BACC9', padding: 5, textAlign: 'center'}}>Anote seus próximos eventos escolares</Text>
+                }
+              </TouchableOpacity>
           </View>
         </View>
 

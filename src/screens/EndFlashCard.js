@@ -5,13 +5,15 @@ import  IconCorrect  from '../../assets/ImageIcons/correct.svg'
 import  IconIncorrect  from '../../assets/ImageIcons/incorrect.svg'
 import  Iconclock  from '../../assets/ImageIcons/iconClock.svg'
 import  Refresh from '../../assets/ImageIcons/refresh.svg'
+import { ScrollView } from 'react-native-gesture-handler'
 
 
 
 export function EndFlashCard({ route, navigation  }) {
   return (
     <View style={styles.Container}>
-        <View style={{width:'70%'}} >
+        <ScrollView style={{width:'100%'}}>
+        <View style={{width:'70%', alignSelf: 'center'}} >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.Title}>Revolução Francesa</Text>
                 <Flag />
@@ -53,22 +55,22 @@ export function EndFlashCard({ route, navigation  }) {
                         <Text style={{fontSize: 8, paddingRight: 2}}>🟢</Text>
                     </View>
                 </View>
-                    <View style={{marginTop: 10, flexDirection: 'row', width: '90%', alignSelf: 'center', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
+                <View style={{marginTop: 10, flexDirection: 'row', width: '90%', alignSelf: 'center', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
 
-                            <View style={styles.DivDataDecks}>
-                                <Text>⭐</Text>
-                                <Text style={{fontWeight: '800'}}>10</Text>
-                            </View>
-
-                            <View style={styles.DivDataDecks}>
-                                <Text>🕓</Text>
-                                <Text style={{fontWeight: '800'}}>10</Text>
-                            </View>
+                        <View style={styles.DivDataDecks}>
+                            <Text>⭐</Text>
+                            <Text style={{fontWeight: '800'}}>10</Text>
                         </View>
-                        <TouchableOpacity style={styles.ButtonJogar}>
-                            <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
-                        </TouchableOpacity>
+
+                        <View style={styles.DivDataDecks}>
+                            <Text>🕓</Text>
+                            <Text style={{fontWeight: '800'}}>10</Text>
+                        </View>
+                    </View>
+                    <TouchableOpacity style={styles.ButtonJogar}>
+                        <Text style={{color: 'white', fontSize: 20}}> Jogar</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -76,6 +78,7 @@ export function EndFlashCard({ route, navigation  }) {
                 <Refresh />
                 </TouchableOpacity>
         </View>
+        </ScrollView>
     </View>
   )
 }
@@ -83,9 +86,7 @@ export function EndFlashCard({ route, navigation  }) {
 const styles = StyleSheet.create({
     Container: { 
       backgroundColor:'#005483', 
-      width:'100%', 
-      height:'100%', 
-      alignItems: 'center',
+      paddingBottom: 20
     },
     Title: {
         color: '#fff', 

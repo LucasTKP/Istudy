@@ -1,14 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import styled from 'styled-components/native'
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 import Input from '../components/Input'
 import BoxAlert from '../components/BoxAlert'
 import { UserContext } from '../../App';
-import ImageNewPassword from '../../assets/ImageNavBar/arrow.svg'
+import ImageNewPassword from '../../assets/ImageAutentication/imageNewPassword.svg'
 import ArrowRight from '../../assets/ImageNavBar/arrow.svg'
-import ImageGoogle from '../../assets/ImageNavBar/arrow.svg'
 
 export function ResetPassword({navigation, route}) {
      //Variavel global
@@ -109,7 +108,7 @@ export function ResetPassword({navigation, route}) {
   return (
     <View style={styles.container}>
       <BoxAlert message={message} type={typeAlert} />
-
+      <ScrollView>
       <View style={styles.containerLogo}>
         <ImageNewPassword />
       </View>
@@ -150,7 +149,7 @@ export function ResetPassword({navigation, route}) {
       <ArrowRight />
      </TouchableOpacity>
      </View>
-
+     </ScrollView>
     </View>
   );
 }

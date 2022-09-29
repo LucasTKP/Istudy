@@ -60,7 +60,7 @@ export function NavRoutes() {
         )}
       >
 
-    <Tab.Screen
+      <Tab.Screen
           name="Provas"
           component={Tests}
           options={{
@@ -117,6 +117,7 @@ export function NavRoutes() {
           component={Ranks}
           options={{
             title: 'Ranks',
+            headerTitleStyle: {color: '#004973'},
             unmountOnBlur: true,
             headerTintColor: '#FFF',
             headerShadowVisible: false,

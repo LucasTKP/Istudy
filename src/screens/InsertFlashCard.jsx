@@ -6,6 +6,7 @@ import Loading from '../components/Loading'
 import BoxAlert from '../components/BoxAlert'
 import { Octicons, Feather } from '@expo/vector-icons'; 
 import Interrogation from '../../assets/ImagePages/interrogation.svg'
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -30,7 +31,6 @@ export function InsertFlashCard({ navigation, route  }) {
     },[answerAxios])
   
      function NextPage(){
-
         if(Validate()){
             setPreviousPage(true)
             if(page  < flashCard.length && page != -1){
@@ -75,32 +75,51 @@ export function InsertFlashCard({ navigation, route  }) {
         }
     }
     async function UpdateInfo(){
-        NextPage()
-        try{
-            setVisible(true)
-            await callAxios ("cards/answers/" + idFlashCard , flashCard, "post")
-        }catch(e){
-            console.log(e)
-        }finally{
-            setVisible(false)
-        }
+        if(Validate()){
+            DeleteFlashEmpty()
+            NextPage()
+            try{
+                setVisible(true)
+                await callAxios ("cards/answers/" + idFlashCard , flashCard, "post")
+            }catch(e){
+                console.log(e)
+            }finally{
+                setVisible(false)
+            }
+        } else {
+            setMessage('Preencha os campos de pergunta e resposta')
+            setAlert(true)
+        }  
     }
-
     function Validate(){
         if(question != "" && answer != ""){
+            console.log('a')
             return true
         }
         return false
     }
 
+    function DeleteFlashEmpty() {
+        flashCard.forEach((dados, index) => {
+            if(dados.answer === "" || dados.question === ""){
+                flashCard.splice(index, 1)
+            }
+            
+        })
+    }
+
+
+
+
   return (
     <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
         <BoxAlert message={message} type={'erro'}/>
         <Loading visible={visible}/>
+        <ScrollView>
         <View style={{flexDirection: 'row', width: '80%'}}>
             <View>
                 <Text style={{fontSize: 30, color: '#fff', paddingBottom: 20}}>Perguntas</Text>
-                <Text style={{fontSize: 14, color: '#91BDD8', width: 216}}> Escreva perguntas relacionadas matéria e suas respostas com suas próprias palavras.</Text>
+                <Text onPress={() => Validate()} style={{fontSize: 14, color: '#91BDD8', width: 216}}>Escreva perguntas relacionadas matéria e suas respostas com suas próprias palavras.</Text>
             </View>   
             <Interrogation />
         </View>
@@ -117,7 +136,7 @@ export function InsertFlashCard({ navigation, route  }) {
                     multiline = {true} 
                     numberOfLines = {7} 
                     placeholder = 'Pergunta' 
-                    style={{fontSize: 16, fontWeight: '400', color: '#fff', height: '100%', marginTop: 20}}>
+                    style={{fontSize: 16, fontWeight: '400', color: '#fff'}}>
                 </TextInput>
             </View>
         </View>
@@ -134,12 +153,12 @@ export function InsertFlashCard({ navigation, route  }) {
                     multiline = {true} 
                     numberOfLines = {7} 
                     placeholder = 'Resposta' 
-                    style={{fontSize: 16, fontWeight: '800', color: '#fff', height: '100%', marginTop: '50%'}}>
+                    style={{fontSize: 16, fontWeight: '800', color: '#fff'}}>
                  </TextInput>
             </View>
         </View>
 
-        <View style={{width: 213, height: 53, backgroundColor: '#2785BD', borderWidth: 2, borderColor: '#91BDD8', borderRadius: 20, marginTop: 60, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{width: 213, alignSelf: 'center', height: 53, backgroundColor: '#2785BD', borderWidth: 2, borderColor: '#91BDD8', borderRadius: 20, marginTop: 60, alignItems: 'center', justifyContent: 'center'}}>
             <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '85%', alignItems: 'center'}}>
             {previousPage ? 
             <TouchableOpacity onPress={() => PreviousPage()}> 
@@ -160,6 +179,7 @@ export function InsertFlashCard({ navigation, route  }) {
             :   <Octicons name="arrow-right" size={30} color="#7BACC9" /> }
             </View>
         </View>
+        </ScrollView>
     </View>
   );
 }
