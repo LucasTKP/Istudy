@@ -29,6 +29,7 @@ export function Profile() {
 
 
   const [exitAlert, setExitAlert] = useState(false)
+  console.log(dataUser)
 
 
 
@@ -185,21 +186,21 @@ async function Exit(){
             <Text style={{color: '#91BDD8', fontSize: 20, marginTop: 37, paddingBottom: 20}}> Estatisticas: </Text>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> 
               <View style={styles.Statistics}>
-                <Text style={{color:'#004973', fontSize: 32, fontWeight: 'bold'}}>0</Text>
+                <Text style={{color:'#004973', fontSize: 32, fontWeight: 'bold'}}>{dataUser.wins}</Text>
                 <Text style={{color:'#fff', fontSize: 16, fontWeight: 'bold'}}>Vítorias</Text>
               </View> 
 
               <View style={{width: 3, height: 30, backgroundColor: '#fff', marginTop: 10}} />
 
               <View style={styles.Statistics}>
-                <Text style={{color:'#004973', fontSize: 32, fontWeight: 'bold'}}>0</Text>
+                <Text style={{color:'#004973', fontSize: 32, fontWeight: 'bold'}}>{dataUser.defeats}</Text>
                 <Text style={{color:'#fff', fontSize: 16, fontWeight: 'bold'}}>Derrotas</Text>
               </View>
 
               <View style={{width: 3, height: 30, backgroundColor: '#fff', marginTop: 10}} />
 
               <View style={styles.Statistics}>
-                <Text style={{color:'#004973', fontSize: 32, fontWeight: 'bold'}}>0</Text>
+                <Text style={{color:'#004973', fontSize: 32, fontWeight: 'bold'}}>{dataUser.matches}</Text>
                 <Text style={{color:'#fff', fontSize: 16, fontWeight: 'bold'}}>Jogadas</Text>
               </View>
             </View>

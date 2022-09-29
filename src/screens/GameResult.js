@@ -2,20 +2,41 @@ import React, {useState, useEffect, useContext} from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent, Image} from 'react-native';
 import IconHouse from '../../assets/ImageIcons/iconHouse.svg'
 import { UserContext } from '../../App';
+import useAxios from '../hooks/useAxios';
 
 export function GameResult({route ,navigation}) {
-  const {dataUser} = useContext(UserContext)
+  const {callAxios } = useAxios()
+  const {dataUser, setDataUser} = useContext(UserContext)
   const [finalText, setFinalText] = useState('')
 
   useEffect(() => {
     const myResults = route.params.result.find((stats) => stats.name == dataUser.name)
     const otherResults = route.params.result.find((stats) => stats.name != dataUser.name)
 
-    if(myResults.correct >= otherResults.correct) {
-      setFinalText('PARABENS!!!')
-    } else {
-      setFinalText('DERROTA!!!')
+    async function result() {
+      if(myResults.correct > otherResults.correct) {
+        await callAxios('user/stats/' + dataUser.id, {"type": "win"}, 'put')
+        dataUser.wins = dataUser.wins + 1
+        dataUser.matches = dataUser.matches + 1
+        const newData = dataUser
+        setDataUser(newData)
+        setFinalText('PARABENS!!!')
+      } else if(myResults.correct == otherResults.correct) {
+        dataUser.matches = dataUser.matches + 1
+        const newData = dataUser
+        setDataUser(newData)
+        setFinalText('EMPATE!!!')
+      } else {
+        await callAxios('user/stats/' + dataUser.id, {"type": "lose"}, 'put')
+        dataUser.defeats = dataUser.defeats + 1
+        dataUser.matches = dataUser.matches + 1
+        const newData = dataUser
+        setDataUser(newData)
+        setFinalText('DERROTA!!!')
+      }
     }
+
+    result()
   }, [])
 
   return (

@@ -1,10 +1,15 @@
 import React, {useEffect, useState, useContext} from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, Container, ScrollViewBase, ScrollViewComponent, Image} from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Modal, TouchableOpacity, Alert} from 'react-native';
 import  TipHalf from '../../assets/ImageIcons/tipHalf.svg'
 import  TipCarts  from '../../assets/ImageIcons/tipCarts.svg'
+import  A  from '../../assets/ImageIcons/Group-1.svg'
+import  Two  from '../../assets/ImageIcons/Group-3.svg'
+import  Three  from '../../assets/ImageIcons/Group-2.svg'
+import  Back  from '../../assets/ImageIcons/Group.svg'
 import useAxios from '../hooks/useAxios';
 import { UserContext } from '../../App';
 import io from "socket.io-client/dist/socket.io";
+
 
 export function GameQuestion({route ,navigation}) {
   const {dataUser} = useContext(UserContext)
@@ -17,24 +22,107 @@ export function GameQuestion({route ,navigation}) {
   const [corrects, setCorrects] = useState(0)
   const [wrongs, setWrongs] = useState(0)
   const [socket, setSocket] = useState('')
+  const [resetCount, setResetCount] = useState(false)
   const [result, setResult] = useState([])
+  const [count, setCount] = useState(50)
+  const [afk, setAfk] = useState(0)
+  const [clicked1, setClicked1] = useState(false)
+  const [clicked2, setClicked2] = useState(false)
+  const [wrongQuestions, setWrongsQuestions] = useState([])
+  const [alert, setAlert] = useState(false)
+  const [cardSelected, setCardSelected] = useState()
+  const [quantityWrongs, setQuantityWrongs] = useState(0)
+  const [a, setA] = useState(false)
+  
+  const cards = [<Back width='50'/>, <A width='50'/>, <Two width='50'/>, <Three width='50'/>]
 
   useEffect(() => {
-    console.log(result)
     if (result[1]) {
       navigation.navigate('GameResult', {result, total: answerAxios.res[0].questions.length})
     }
   }, [result])
 
   useEffect(() => {
+    if(socket != '') {
+      socket.emit('left_game', {room_id: 6931, afk: false})
+      socket.on('resAfk', (msg) => {
+        if(msg.afk && a == false) {
+          navigation.navigate('Home')
+        }
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
     setSocket(io("https://istudy-online.fly.dev", {
       transports: ["websocket"]
     }))
+
     async function questions() {
       await callAxios('cards/questions/' + flashId, '', 'get')
     }
     questions()
   }, [])
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        e.preventDefault();
+        if(a == false) {
+          Alert.alert(
+            'Deixar partida?',
+            'Deseja mesmo deixar a partida? (Se não clicou em nenhum botão para sair, possivelmente seu adversario está AFK)',
+            [
+              { text: "Não sair", style: 'cancel', onPress: () => {} },
+              {
+                text: 'Sair',
+                style: 'destructive',
+                onPress: () => {
+                  setA(true)
+                  socket.emit('finish_game', {room_id: roomId})
+                  socket.on('disconnect')
+                  socket.emit('left_game', {room_id: 6931, afk: true})
+                  navigation.dispatch(e.data.action)
+                },
+              },
+            ]
+          )
+        };
+      }),
+    [navigation, socket]
+  );
+
+  useEffect(() => {
+    if(resetCount == false) {
+      const interval = setInterval(() => {
+        if(count == 0) {
+          setAfk(afk + 1)
+          endQuestion()
+        } else {
+          setCount(count - 1)
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [count])
+
+  useEffect(() => {
+    if(wrongQuestions.find((letter) => letter == answerAxios.res[0].questions[question].correct_letter)) {
+      tips(2)
+    } 
+  }, [wrongQuestions])
+
+  function tips(n) {
+    const letters = ['A', 'B', 'C', 'D']
+    setWrongsQuestions(letters
+    .map(x => ({ x, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map(a => a.x)
+    .slice(0, quantityWrongs > 0 ? quantityWrongs : n))
+
+    setTimeout(() => setAlert(false), 1000)
+  }
 
   function finishGame() {
     socket.emit('finish_game', {room_id: roomId, results: {name: dataUser.name , correct: corrects, wrong: wrongs, image: dataUser.image}})
@@ -51,6 +139,11 @@ export function GameQuestion({route ,navigation}) {
       setAlready(true)
       setWrongs(wrongs + 1)
     }
+    setResetCount(true)
+    endQuestion()
+  }
+
+  function endQuestion() {
     socket.emit('answer_game', {room_id: roomId})
 
     socket.on('resAnswer', (msg) => {
@@ -58,6 +151,10 @@ export function GameQuestion({route ,navigation}) {
         setAnswered({letter: '', already: false, correct: false})
         setAlready(false)
         setWaiting(false)
+        setResetCount(false)
+        setWrongsQuestions([])
+        setQuantityWrongs(0)
+        setCount(50)
         if(question + 1 < answerAxios.res[0].questions.length) {
           setQuestion(question + 1)
         } else {
@@ -71,12 +168,59 @@ export function GameQuestion({route ,navigation}) {
 
   return (
     <View style={{flex:1, backgroundColor: '#005483'}}>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={alert}
+        onRequestClose={() => {
+          setAlert(!alert);
+        }}>
+
+        <View style={styles.buttonSair}>
+          <View style={styles.box}>
+            <Text style={styles.textWarning}>Escolha uma carta</Text>
+            <View style={styles.cards}>
+              <View onTouchStart={() => {
+                setCardSelected(1) 
+                setQuantityWrongs(Math.floor(Math.random() * (3 - 0 + 1)) + 0)
+                setClicked1(true)
+                tips()
+              }} style={{marginRight: 8}}>{cardSelected == 1 ? cards[quantityWrongs] : <Back width='50'/>}</View>
+              <View onTouchStart={() => {
+                setCardSelected(2) 
+                setQuantityWrongs(Math.floor(Math.random() * (3 - 0 + 1)) + 0)
+                setClicked1(true)
+                tips()
+              }} style={{marginRight: 8}}>{cardSelected == 2 ? cards[quantityWrongs] : <Back width='50'/>}</View>
+              <View onTouchStart={() => {
+                setCardSelected(3) 
+                setQuantityWrongs(Math.floor(Math.random() * (3 - 0 + 1)) + 0)
+                setClicked1(true)
+                tips()
+              }} style={{marginRight: 8}}>{cardSelected == 3 ? cards[quantityWrongs] : <Back width='50'/>}</View>
+              <View onTouchStart={() => {
+                setCardSelected(4) 
+                setQuantityWrongs(Math.floor(Math.random() * (3 - 0 + 1)) + 0)
+                setClicked1(true)
+                tips()
+              }}>{cardSelected == 4 ? cards[quantityWrongs] : <Back width='50'/>}</View>
+            </View>
+            {cardSelected ? <Text></Text> : <TouchableOpacity style={styles.buttonOk} onPress={() => {setAlert(!alert)
+            setClicked1(false)}}>
+              <Text style={styles.textButtonOk}>Cancelar</Text>
+            </TouchableOpacity>}
+          </View>
+        </View>
+      </Modal>
+
+
       {answerAxios.res && answerAxios.res[0] ?
         <ScrollView contentContainerStyle={{width: '100%', alignItems: 'center'}}>
           <View style={styles.header}>
-            <Text onPress={() => navigation.navigate('GameAnswer')} style={{color: '#fff', fontSize: 20, fontWeight: '500', marginTop: 25}}>0:30</Text>
+            <Text onPress={() => navigation.navigate('GameAnswer')} style={{color: '#fff', fontSize: 20, fontWeight: '500', marginTop: 25}}>{`0:${count}`}</Text>
             <View style={{width: '94%', height: 3, backgroundColor: 'rgba(193, 193, 193, 1)'}}>
-              <View style={{width: '50%', height: '100%', backgroundColor: '#fff'}}></View>
+              <View style={{width: `${count + count}%`, height: '100%', backgroundColor: '#fff'}}></View>
             </View>
           </View>
 
@@ -91,8 +235,16 @@ export function GameQuestion({route ,navigation}) {
         </View>
 
         <View style={{width: '80%', flexDirection: 'row', justifyContent: 'space-between', marginTop: 15}}>
-          <TipCarts />
-          <TipHalf />
+          <View style={{opacity: clicked1 ? 0.3 : 1}} onTouchStart={() => {
+            if(clicked1 == false && already == false) {
+              setAlert(true)
+              setClicked1(true)
+          }}}><TipCarts /></View>
+          <View style={{opacity: clicked2 ? 0.3 : 1}} onTouchStart={() => {
+            if(clicked2 == false && already == false) {
+            tips(2)
+            setClicked2(true)
+          }}}><TipHalf /></View>
         </View>
       
           <View style={styles.answerArea}>
@@ -101,7 +253,7 @@ export function GameQuestion({route ,navigation}) {
               <View style={{
                 width: 230, 
                 height: 40, 
-                backgroundColor:  'rgba(158, 222, 254, 1)', 
+                backgroundColor:  wrongQuestions[0] && wrongQuestions.includes('A') ? '#C53E' : 'rgba(158, 222, 254, 1)', 
                 borderRadius: 8, 
                 alignItems:'center', 
                 justifyContent: 'center', 
@@ -120,7 +272,7 @@ export function GameQuestion({route ,navigation}) {
               <View style={{
                 width: 230, 
                 height: 40, 
-                backgroundColor: 'rgba(158, 222, 254, 1)', 
+                backgroundColor: wrongQuestions[0] && wrongQuestions.includes('B') ? '#C53E' : 'rgba(158, 222, 254, 1)', 
                 borderRadius: 8, 
                 alignItems:'center', 
                 justifyContent: 'center', 
@@ -139,7 +291,7 @@ export function GameQuestion({route ,navigation}) {
               <View style={{
                 width: 230, 
                 height: 40, 
-                backgroundColor: 'rgba(158, 222, 254, 1)', 
+                backgroundColor: wrongQuestions[0] && wrongQuestions.includes('C') ? '#C53E' : 'rgba(158, 222, 254, 1)', 
                 borderRadius: 8, 
                 alignItems:'center', 
                 justifyContent: 'center', 
@@ -158,7 +310,7 @@ export function GameQuestion({route ,navigation}) {
               <View style={{
                 width: 230, 
                 height: 40, 
-                backgroundColor: 'rgba(158, 222, 254, 1)', 
+                backgroundColor: wrongQuestions[0] && wrongQuestions.includes('D') ? '#C53E' : 'rgba(158, 222, 254, 1)', 
                 borderRadius: 8, 
                 alignItems:'center', 
                 justifyContent: 'center', 
@@ -179,6 +331,45 @@ export function GameQuestion({route ,navigation}) {
   )
 }
 const styles = StyleSheet.create({
+
+  buttonSair:{
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.80)',
+  },
+  cards: {
+    flexDirection: 'row'
+  },
+  box:{
+    width:300,
+    padding: 20,
+    backgroundColor: '#004973',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2, 
+    borderColor: '#FFF',
+    borderRadius: 8,
+  },
+  textWarning:{
+    width: 227,
+    fontSize: 20,
+    color: '#FFF',
+    textAlign: 'center',
+  },
+  buttonOk:{
+    width:91,
+    height:32,
+    borderRadius: 8,
+    backgroundColor: '#91BDD8',
+    alignItems: 'center'
+  },
+  textButtonOk:{
+    color: 'black',
+    fontSize: 20,
+  },
+
+
   header: {
     width: '100%', 
     height: 93, 

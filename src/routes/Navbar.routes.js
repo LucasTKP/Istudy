@@ -118,6 +118,7 @@ export function NavRoutes() {
           options={{
             title: 'Ranks',
             headerTitleStyle: {color: '#004973'},
+            unmountOnBlur: true,
             headerTintColor: '#FFF',
             headerShadowVisible: false,
             headerStyle: {backgroundColor: '#004973', borderWidth:0},

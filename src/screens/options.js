@@ -4,10 +4,9 @@ import { TextInput } from 'react-native-gesture-handler';
 import ImageChooseGame from '../../assets/ImagePages/chooseGame.svg'
 import IconSearch from '../../assets/ImageIcons/iconSearch.svg'
 import IconPen from '../../assets/ImageIcons/iconPen.svg'
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 
-export function teste({navigation}) {
+export function Options({navigation}) {
   const [chooseGame, setChooseGame] = React.useState(true)
   return (
     <TouchableOpacity onPress={() => setChooseGame(!chooseGame)} style={{width: '100%', height: '100%', backgroundColor: 'blue'}}>
