@@ -17,12 +17,16 @@ import { AntDesign } from '@expo/vector-icons';
 
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
-  const {returnedEventsOrderBy} = useEvent()
+  const {returnedEventsOrderBy, visibleTests} = useEvent()
   const [select, setSelect] = useState({on: false, index: 5})
 
   const [visible, setVisible] = useState(false)
   const {dataUser, profile, setProfile} = useContext(UserContext)
   const [nextEvent, setNextEvent] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+  const [dataFlash, setDataFlash] = useState({card_id: '', card_title: ''})
+  const [roomCode, setRoomCode] = useState('')
+  const [socket, setSocket] = useState('')
   
   useEffect(() => {
     if(returnedEventsOrderBy != undefined){
@@ -32,11 +36,6 @@ export function Home({ navigation }) {
     } 
 },[returnedEventsOrderBy])
 
-  const {dataUser, profile, setProfile} = useContext(UserContext)
-  const [openModal, setOpenModal] = useState(false)
-  const [dataFlash, setDataFlash] = useState({card_id: '', card_title: ''})
-  const [roomCode, setRoomCode] = useState('')
-  const [socket, setSocket] = useState('')
 
   useEffect(() => {
       async function topCards() {
@@ -145,7 +144,7 @@ export function Home({ navigation }) {
       </Modal>
 
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
-      <Loading visible={visible}/>
+      <Loading visible={visible || visibleTests}/>
       <ScrollView style={{width: '100%'}}>
         <TouchableOpacity  onPress={() => setProfile(!profile)} style={styles.DivHeader}>
           <View style={styles.ButtonHeader} onPress={() => setProfile(true)}>

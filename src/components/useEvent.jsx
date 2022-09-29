@@ -14,6 +14,7 @@ function useEvent() {
   const [returnedEventConclued, setReturnedEventConclued] = useState([])
   const [allEvents, setAllEvents] = useState()
   const [returnedEventsOrderBy, setReturnedEventsOrderBy] = useState()
+  const [visibleTests, setVisibleTests] = useState(false)
 
 
   
@@ -38,9 +39,12 @@ function useEvent() {
 
     var data = ""
     try{
+      setVisibleTests(true)
       await callAxios ("calendar/" + dataUserFilter.id, data, "get")
     }catch(e){
         console.log(e)
+    } finally {
+      setVisibleTests(false)
     }
   }
   useEffect( () => {
@@ -112,7 +116,8 @@ function useEvent() {
     })
   return { 
     returnedEventsOrderBy,
-    callEvent
+    callEvent, 
+    visibleTests
   }
 }
 export default useEvent

@@ -29,7 +29,7 @@ export function Tests() {
   const [finalObject, setFinalObject] = useState({})
   const [edit, setEdit] = useState(false)
   const [alterEvents, setAlterEvents] = useState(false)
-  const {returnedEventsOrderBy, callEvent} = useEvent()
+  const {returnedEventsOrderBy, callEvent, visibleTests} = useEvent()
 
 function DateConfig(dia){
   setDate(dia.dateString.split('-').reverse().join('-'))
@@ -184,7 +184,7 @@ function DateConfig(dia){
   return (
     <View style={{backgroundColor: '#004973', height:'100%', width:'100%'}}>
       <BoxAlert message={contentAlert.message} type={contentAlert.typeAlert}/>
-      <Loading visible={visible}/>
+      <Loading visible={visible || visibleTests}/>
       <ScrollView>
         <View style={{width:'85%', alignSelf: 'center',}}>
           <Text style={{fontSize: 30, fontWeight: '500', color: '#fff', marginTop: 50}}>Calendário</Text>
