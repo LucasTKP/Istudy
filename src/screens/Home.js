@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Loading from '../components/Loading'
 import { UserContext } from '../../App';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
+import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity, StatusBar  } from "react-native";
 import Arrow from '../../assets/ImageNavBar/arrow.svg'
 import { TextInput } from 'react-native-gesture-handler';
 import { Profile } from '../components/Profile'
@@ -104,7 +104,7 @@ export function Home({ navigation }) {
 
   return (
     <View style={styles.Container}>
-      
+      <StatusBar backgroundColor={'#004973'}/>
       <Modal
         animationType="slide"
         transparent={true}
