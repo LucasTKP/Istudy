@@ -54,7 +54,7 @@ export function Ranks() {
                     {show ? answerAxios.map((player, index) =>{
                         return (
                             <>
-                    <View style={styles.DetailsBoxRanks}></View>
+                    <View key={player} style={styles.DetailsBoxRanks}></View>
                     <View style={styles.ContentPlayer}>
                             <Text style={styles.NumberRank}>{index + 1}º</Text>
                             <Text style={styles.NamePlayer}>{player.user.name}</Text>
@@ -77,7 +77,7 @@ export function Ranks() {
 
 const styles = StyleSheet.create({
     BoxRanks: {
-        width: 280, 
+        width: 330, 
         height: 400, 
         backgroundColor: '#006299', 
         borderRadius: 12, 
@@ -107,14 +107,15 @@ const styles = StyleSheet.create({
     DivPoints: {
         flexDirection: 'row', 
         alignItems: 'center', 
-        width: '23%', 
-        justifyContent: 'space-between'
+        width: 40, 
+        justifyContent: 'space-between',
+        marginRight: 10
     },
     NamePlayer: {
         fontSize: 18,
         fontWeight: '500',
         color: '#7BACC9',
-         width: '50%'
+         width: '60%'
     }, 
     NumberRank: {
         fontSize: 18,
@@ -126,5 +127,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: '#7BACC9',
+        marginLeft: 5
     }, 
 })
