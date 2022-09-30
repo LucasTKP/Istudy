@@ -13,12 +13,14 @@ function useAxios() {
 
     const config = {
         headers:{
-          Authentication: "donos_do_codigo"
+          Authentication: "donos_do_codigo",
         }
       }
 
+
       try {
         if (url != ""){
+          
           if(type === "post") {
             const answer = await axios.post(urlAxios, data, config)
             setanswerAxios(answer.data)
@@ -34,7 +36,8 @@ function useAxios() {
           }
         }
         } catch (e) {
-            console.log(e)
+          console.log(e)
+        } finally {
         }
     },[])
   return { 
