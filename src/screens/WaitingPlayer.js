@@ -12,7 +12,8 @@ export function WaitingPlayer({route, navigation}) {
     () => {
       navigation.addListener('beforeRemove', (e) => {
         e.preventDefault();
-        const socket = io("https://istudy-online.fly.dev", {
+
+        const socket = io("https://istudy-online-production.up.railway.app", {
           transports: ["websocket"]
         })
         socket.emit('finish_game', {room_id: roomId})

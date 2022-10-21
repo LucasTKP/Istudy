@@ -33,6 +33,9 @@ export function GameQuestion({route ,navigation}) {
   const [cardSelected, setCardSelected] = useState()
   const [quantityWrongs, setQuantityWrongs] = useState(0)
   const [a, setA] = useState(false)
+  const [yourTime, setYourTime] = useState(route.params.first)
+
+  console.log(yourTime)
   
   const cards = [<Back width='50'/>, <A width='50'/>, <Two width='50'/>, <Three width='50'/>]
 
@@ -44,7 +47,7 @@ export function GameQuestion({route ,navigation}) {
 
   useEffect(() => {
     if(socket != '') {
-      socket.emit('left_game', {room_id: 6931, afk: false})
+      socket.emit('left_game', {room_id: roomId, afk: false})
       socket.on('resAfk', (msg) => {
         if(msg.afk && a == false) {
           navigation.navigate('Home')
@@ -54,7 +57,7 @@ export function GameQuestion({route ,navigation}) {
   }, [socket])
 
   useEffect(() => {
-    setSocket(io("https://istudy-online.fly.dev", {
+    setSocket(io("https://istudy-online-production.up.railway.app", {
       transports: ["websocket"]
     }))
 
@@ -214,9 +217,9 @@ export function GameQuestion({route ,navigation}) {
         </View>
       </Modal>
 
-
       {answerAxios.res && answerAxios.res[0] ?
-        <ScrollView contentContainerStyle={{width: '100%', alignItems: 'center'}}>
+        <View>
+          {yourTime ? <ScrollView contentContainerStyle={{width: '100%', alignItems: 'center'}}>
           <View style={styles.header}>
             <Text onPress={() => navigation.navigate('GameAnswer')} style={{color: '#fff', fontSize: 20, fontWeight: '500', marginTop: 25}}>{`0:${count}`}</Text>
             <View style={{width: '94%', height: 3, backgroundColor: 'rgba(193, 193, 193, 1)'}}>
@@ -325,8 +328,10 @@ export function GameQuestion({route ,navigation}) {
             </View>
           </View>
         </View> 
-      </ScrollView>
+      </ScrollView> : <Text>Esperando</Text>}
+        </View>
       : <Text></Text>}
+      
     </View>
   )
 }

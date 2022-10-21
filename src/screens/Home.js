@@ -13,16 +13,16 @@ import ImageChooseGame from '../../assets/ImagePages/chooseGame.svg'
 import IconSearch from '../../assets/ImageIcons/iconSearch.svg'
 import IconPen from '../../assets/ImageIcons/iconPen.svg'
 import { AntDesign } from '@expo/vector-icons'; 
-
+import { Card } from '../components/card'
 
 export function Home({ navigation }) {
   const {callAxios, answerAxios} = useAxios()
   const {returnedEventsOrderBy} = useEvent()
-  const [select, setSelect] = useState({on: false, index: 5})
 
   const [visible, setVisible] = useState(false)
   const {dataUser, profile, setProfile} = useContext(UserContext)
   const [nextEvent, setNextEvent] = useState(false)
+  const [select, setSelect] = useState({on: false, index: 5})
   
   useEffect(() => {
     if(returnedEventsOrderBy != undefined){
@@ -33,7 +33,7 @@ export function Home({ navigation }) {
 },[returnedEventsOrderBy])
 
   const [openModal, setOpenModal] = useState(false)
-  const [dataFlash, setDataFlash] = useState({card_id: '', card_title: ''})
+  const [dataFlash, setDataFlash] = useState('')
   const [roomCode, setRoomCode] = useState('')
   const [socket, setSocket] = useState('')
 
@@ -47,7 +47,7 @@ export function Home({ navigation }) {
       }
 
      
-      setSocket(io("https://istudy-online.fly.dev", {
+      setSocket(io("https://istudy-online-production.up.railway.app", {
         transports: ["websocket"]
       }))
 
@@ -57,10 +57,11 @@ export function Home({ navigation }) {
   useEffect(() => {
     if(roomCode.length == 4) {
       try{
+        setVisible(true)
         socket.emit('join_room', {room_id: Number(roomCode), name: dataUser.name, foto: 'https://conteudo.imguol.com.br'})
         socket.on('resJoinRoom', (msg) => {
-          console.log(msg)
           if(msg.ready) {
+              setVisible(false)
               navigation.navigate('GameQuestions', {roomId: msg.room, flashId: msg.flashId})
           }
         })
@@ -72,14 +73,17 @@ export function Home({ navigation }) {
 
   function create(id, title) {
     try{
+      setVisible(true)
       socket.emit('create_room', {flash_id: id, name: dataUser.name, foto: 'https://conteudo.imguol.com.br'})
 
       socket.on('resJoinRoom', (msg) => {
         if (msg.ready) {
+          setVisible(false)
           navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
         }
       })
       socket.on('resCreateRoom', (msg) => {
+        setVisible(false)
         navigation.navigate('WaitingPlayer', {name: title, roomId: msg.room, type: 'create', flashId: id})
       }) 
     } catch (e) {
@@ -88,11 +92,14 @@ export function Home({ navigation }) {
   }
   function play(id, title) {
     try{
+      setVisible(true)
       socket.emit('find_room', {flash_id: id, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
       socket.on('resFindRoom', (msg) => {
       if(msg.ready) {
+          setVisible(false)
           navigation.navigate('GameQuestions', {roomId: msg.room, flashId: id})
         } else {
+          setVisible(false)
           navigation.navigate('WaitingPlayer', {name: title, roomId: msg.room})
         }
       })
@@ -100,7 +107,6 @@ export function Home({ navigation }) {
       console(e)
     }
   }
-
 
   return (
     <View style={styles.Container}>
@@ -165,31 +171,10 @@ export function Home({ navigation }) {
           <View style={{flexDirection: 'row', width: 235, height: 211,}}>
             {answerAxios.top3 && answerAxios.top3[0] ? answerAxios.top3.map((card, index) => {
               return (
-                <View key={index} onTouchStart={() => setSelect({on: true, index: index})} style={{width: 235, marginTop: 10 ,height: 211, backgroundColor: select.index == index && select.on == true ? '#23709D' : '#20638A' ,borderRadius: 20, position: 'absolute', zIndex: select.index == index && select.on == true ? 100 : card.stars, left: index == 1 ? 65 : index == 2 ? 135 : 0}}>
-                  <Image style={styles.ImageFlashCard} source={{uri: card.image_url}}/>
-                  <View style={styles.DivConfigComponents}>
-                    <Text style={{ fontSize: 15, color: '#F5F5F5'}}>{card.title}</Text>
-                  </View>
-                    <View style={styles.DivConfigComponents}>
-                        <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
-
-                            <View style={styles.DivDataDecks}>
-                                <Text>⭐</Text>
-                                <Text style={{fontWeight: '800'}}>{card.stars}</Text>
-                            </View>
-                            <View style={styles.DivDataDecks}>
-                                <Text>🕓</Text>
-                                <Text style={{fontWeight: '800'}}>10</Text>
-                            </View>
-                        </View>
-                        <TouchableOpacity style={styles.ButtonJogar} onPress={() => {setOpenModal(!openModal)
-                        setDataFlash({card_id: card.id, card_title: card.title})
-                        }}>
-                            <Text style={{color: 'white', fontSize: 20}}>Jogar</Text>
-                        </TouchableOpacity>
-                  </View>
+                <View onTouchStart={() => setSelect({on: true, index: index})} style={{ position: 'absolute', zIndex: select.index == index && select.on == true ? 100 : card.stars, left: index == 1 ? 65 : index == 2 ? 135 : 0}}>
+                  <Card key={card.id} id={card.id} title={card.title} image={card.image_url} stars={card.stars} index={index} />
                 </View>
-            )}) : <Text></Text>}
+              )}) : <Text></Text>}
           </View>
         <Text style={{fontSize: 20, fontWeight: '400', color: '#D7E3EA', marginTop: 20, alignSelf: 'center'}}>Matérias</Text>
         <View style={{width: 50, height: 3, backgroundColor: '#D7E3EA', alignSelf: 'center'}}></View>

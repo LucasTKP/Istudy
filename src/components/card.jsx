@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import Loading from '../components/Loading'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
-import Arrow from '../../assets/ImageNavBar/arrow.svg'
 import { TextInput } from 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import io from "socket.io-client/dist/socket.io";
@@ -17,22 +16,22 @@ export function Card({ id, title, image, stars }) {
   const navigation = useNavigation();
   const [openModal, setOpenModal] = useState(false)
   const [roomCode, setRoomCode] = useState('')
-  const [socket, setSocket] = useState('')
-
-  useEffect(() => {     
-      setSocket(io("https://istudy-online.fly.dev", {
-        transports: ["websocket"]
-      }))
-  }, [])
+  const [visible, setVisible] = useState(false)
+  const [first, setFirst] = useState(false)
 
   useEffect(() => {
     if(roomCode.length == 4) {
       try{
+        setVisible(true)
+        const socket = io("https://istudy-online-production.up.railway.app", {
+          transports: ["websocket"]
+        })
+
         socket.emit('join_room', {room_id: Number(roomCode), name: dataUser.name, foto: 'https://conteudo.imguol.com.br'})
         socket.on('resJoinRoom', (msg) => {
-          console.log(msg)
           if(msg.ready) {
-              navigation.navigate('GameQuestions', {roomId: msg.room, flashId: msg.flashId})
+              setVisible(false)
+              navigation.navigate('GameQuestions', {roomId: msg.room, flashId: msg.flashId, first: first})
           }
         })
       } catch (e) {
@@ -43,28 +42,45 @@ export function Card({ id, title, image, stars }) {
 
   function create(flashId, flashTitle) {
     try{
+      setVisible(true)
+      const socket = io("https://istudy-online-production.up.railway.app", {
+          transports: ["websocket"]
+      })
+
       socket.emit('create_room', {flash_id: flashId, name: dataUser.name, foto: 'https://conteudo.imguol.com.br'})
 
       socket.on('resJoinRoom', (msg) => {
         if (msg.ready) {
-          navigation.navigate('GameQuestions', {roomId: msg.room, flashId: flashId})
+          setVisible(false)
+          navigation.navigate('GameQuestions', {roomId: msg.room, flashId: flashId, first: first})
         }
       })
       socket.on('resCreateRoom', (msg) => {
+        setVisible(false)
         navigation.navigate('WaitingPlayer', {name: flashTitle, roomId: msg.room, type: 'create', flashId: flashId})
+        setFirst(true)
       }) 
     } catch (e) {
       console.log(e)
     }
   }
+
   function play(flashId, flashTitle) {
     try{
+      setVisible(true)
+      const socket = io("https://istudy-online-production.up.railway.app", {
+          transports: ["websocket"]
+      })
+
       socket.emit('find_room', {flash_id: flashId, name: dataUser.name, foto: 'https://i1.sndcdn.com/avatars-000396781371-h4mpjo-t500x500.jpg'})
       socket.on('resFindRoom', (msg) => {
       if(msg.ready) {
-          navigation.navigate('GameQuestions', {roomId: msg.room, flashId: flashId})
+          setVisible(false)
+          navigation.navigate('GameQuestions', {roomId: msg.room, flashId: flashId, first: first})
         } else {
+          setVisible(false)
           navigation.navigate('WaitingPlayer', {name: flashTitle, roomId: msg.room})
+          setFirst(true)
         }
       })
     } catch (e) {
@@ -72,10 +88,10 @@ export function Card({ id, title, image, stars }) {
     }
   }
 
-
   return (
     <View style={styles.Container}>
       <ScrollView>
+      <Loading visible={visible}/>
       <Modal
         animationType="slide"
         transparent={true}
@@ -112,30 +128,29 @@ export function Card({ id, title, image, stars }) {
             </TouchableOpacity>
           </TouchableOpacity>
         </Modal>
-
-      <View style={{width: 235, marginTop: 10 , marginBottom: 10 ,height: 211, backgroundColor: '#23709D' ,borderRadius: 20}}>
-                  <Image style={styles.ImageFlashCard} source={{uri: image}}/>
-                  <View style={styles.DivConfigComponents}>
-                    <Text style={{ fontSize: 15, color: '#F5F5F5'}}>{title}</Text>
-                  </View>
-                    <View style={styles.DivConfigComponents}>
-                        <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
-
-                            <View style={styles.DivDataDecks}>
-                                <Text>⭐</Text>
-                                <Text style={{fontWeight: '800'}}>{stars}</Text>
-                            </View>
-                            <View style={styles.DivDataDecks}>
-                                <Text>🕓</Text>
-                                <Text style={{fontWeight: '800'}}>10</Text>
-                            </View>
-                        </View>
-                        <TouchableOpacity style={styles.ButtonJogar} onPress={() => {setOpenModal(!openModal)
-                        }}>
-                            <Text style={{color: 'white', fontSize: 20}}>Jogar</Text>
-                        </TouchableOpacity>
-                  </View>
+                <View style={{width: 235, marginTop: 10 , marginBottom: 10 ,height: 211, backgroundColor: '#20638A' , borderRadius: 20 }}>
+                <Image style={styles.ImageFlashCard} source={{uri: image}}/>
+                <View style={styles.DivConfigComponents}>
+                  <Text style={{ fontSize: 15, color: '#F5F5F5'}}>{title}</Text>
                 </View>
+                  <View style={styles.DivConfigComponents}>
+                      <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between'}} >
+
+                          <View style={styles.DivDataDecks}>
+                              <Text>⭐</Text>
+                              <Text style={{fontWeight: '800'}}>{stars}</Text>
+                          </View>
+                          <View style={styles.DivDataDecks}>
+                              <Text>🕓</Text>
+                              <Text style={{fontWeight: '800'}}>10</Text>
+                          </View>
+                      </View>
+                      <TouchableOpacity style={styles.ButtonJogar} onPress={() => {setOpenModal(!openModal)
+                      }}>
+                          <Text style={{color: 'white', fontSize: 20}}>Jogar</Text>
+                      </TouchableOpacity>
+                </View>
+              </View>
       </ScrollView>
     </View>
   );
