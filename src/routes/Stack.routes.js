@@ -1,80 +1,126 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
+const Stack = createStackNavigator();
 
-import { SignIn } from '../screens/SignIn';
-import { SignUp} from '../screens/SignUp';
 import { Home } from '../screens/Home';
-import { Entry } from '../screens/Entry';
-import { ResetPassword } from '../screens/ResetPassword';
 import { AllConquest } from '../screens/AllConquest';
 import { CreateNewDeck } from '../screens/CreateNewDeck';
 import { ShowFlashCard } from '../screens/ShowFlashCard';
-import { Filter } from '../screens/Filter';
+import { EndFlashCard } from '../screens/EndFlashCard';
+import {EditDeck} from '../screens/EditDeck'
+import {EditAnswer} from '../screens/editAnswer'
+
+import { Decks } from '../screens/Decks';
  
-const { Navigator, Screen } = createNativeStackNavigator();
+
+import { InsertFlashCard } from '../screens/InsertFlashCard';
 
 export function StackRoutes() {
   return (
-      <Navigator>
-        <Screen
-          name="CreateNewDeck"
-          component={CreateNewDeck}
+    <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: '',
+              headerTransparent: true,
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="ShowFlashCard"
+            component={ShowFlashCard}
+            options={{
+              unmountOnBlur: true,
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
+          />
+
+
+        <Stack.Screen
+            name="EndFlashCard"
+            component={EndFlashCard}
+            options={{
+              title: '',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+              headerLeft: null
+            }}
+          />
+
+      <Stack.Screen
+          name="InsertFlashCard"
+          component={InsertFlashCard}
           options={{
             title: '',
-            headerTransparent: true,
             headerTintColor: '#FFF',
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
           />
-       
-
-<Screen
-          name="Entry"
-          component={Entry}
-        />
-
-<Screen
-          name="Home"
-          component={Home}
+          
+          <Stack.Screen
+            name="AllConquest"
+            component={AllConquest}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483', borderWidth:0},
+            }}
+          />
+     
+          <Stack.Screen
+          name="Decks"
+          component={Decks}
           options={{
-            title: '',
-            headerTransparent: true,
-            headerShown: false
+            unmountOnBlur: true,
+            title: 'Seus',
+            headerTintColor: '#FFF',
+            headerShown: false,
+            headerShadowVisible: false,
+            headerStyle: {backgroundColor: '#005483', borderWidth:0},
           }}
-        />
-
-        <Screen
-          name="SignIn"
-          component={SignIn}
-        />  
-
-        <Screen
-          name="SignUp"
-          component={SignUp}
-        />
-
-        <Screen
-          name="ResetPassword"
-          component={ResetPassword}
-          />    
-        
-        <Screen
-          name="AllConquest"
-          component={AllConquest}
-        />
-
-        <Screen
-          name="ShowFlashCard"
-          component={ShowFlashCard}
           />
 
-        
+          <Stack.Screen
+            name="CreateNewDeck"
+            component={CreateNewDeck}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
+            }}
+            />
 
-        <Screen
-          name="Filter"
-          component={Filter}
-          />
+          <Stack.Screen
+            name="EditDeck"
+            component={EditDeck}
+            options={{
+              title: '',
+              headerTintColor: '#FFF',
+              headerShadowVisible: false,
+              headerStyle: {backgroundColor: '#005483'},
+            }}
+            />
 
-      </Navigator>
+          <Stack.Screen
+              name="EditAnswer"
+              component={EditAnswer}
+              options={{
+                title: '',
+                headerTintColor: '#FFF',
+                headerShadowVisible: false,
+                headerStyle: {backgroundColor: '#005483'},
+              }}
+            />
+    </Stack.Navigator>
   )
 }
+
+
 

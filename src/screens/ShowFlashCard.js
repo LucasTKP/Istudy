@@ -1,16 +1,19 @@
 import React, {useState, useEffect } from 'react';
-import Button from '../components/Button'
-import styled from 'styled-components/native'
-import { Text, Alert} from 'react-native';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
+import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView} from 'react-native';
+import  Eye  from '../../assets/ImageIcons/eye.svg'
+import  IconCorrect  from '../../assets/ImageIcons/correct.svg'
+import  IconIncorrect  from '../../assets/ImageIcons/incorrect.svg'
+import * as Animatable from 'react-native-animatable'
 
 
 
 
-export function ShowFlashCard({ navigation }) {
+
+export function ShowFlashCard({ navigation, route }) {
   //Variavel Informação do axios
-  const {navigationAxios, callAxios, answerAxios} = useAxios()
+  const {callAxios, answerAxios} = useAxios()
   //Variaveis de informação do flashCard
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
@@ -18,30 +21,36 @@ export function ShowFlashCard({ navigation }) {
   const [materia, setMateria] = useState("")  
   //Variavel com a resposta do axios
   const [dataFlash, setDataFlash] = useState("")
-  //Variavel para verificar se é pra trocar de pagina ou exibir resposta
-  const [proxPage, setProxPage] = useState(true)
   //Variavel para contar as paginas que ja foram exibidas
   const [numberFlash, setNumberFlash] = useState(50)
+  const [answerIncorrect, setAnswerIncorrect] = useState(0)
   //Variavel Loading
   const [visible, setVisible] = useState(false)
-
+  const [showAnsewer, setShowAnsewer] = useState(false)
   //Executa a função de puxar os flahs apenas uma vez após abrir o app
-  useEffect(()=>{
-    showQuestionCard()
-  },[])
+  const [totalPage, setTotalPage] = useState(0)
+  const [timeStart, setTimeStart] = useState(0)
+  const [porcentageComplete, setPorcentageComplete] = useState(0)
 
-
+  useEffect(() => {
+    return navigation.addListener("focus", () => {
+      showQuestionCard()
+      setAnswerIncorrect(0)
+      setNumberFlash(50)
+    });
+}, [navigation]);
 
   //Seta a resposta do axios na variavel dataFlash
-  useEffect(()=>{
-    
+  useEffect(()=>{ 
     if(answerAxios.res){
     setMateria(answerAxios.res.category[0].name)
     setDataFlash(answerAxios.res.card_Answer)
     setTitle(answerAxios.res.title)
+    setTotalPage(answerAxios.res.card_Answer.length)
+    setTimeStart((new Date()))
     }
   },[answerAxios])
-
+ 
   //Executa a função de exibir o flash card após chegar as informaçoes dos flashcards
   useEffect(()=>{
   if(dataFlash[0]){
@@ -55,9 +64,10 @@ export function ShowFlashCard({ navigation }) {
       setFlashCard()
     }
     },[numberFlash])
-
   //Faz a logica para passar de pagina ou exibir a resposta  
-  function setFlashCard(){
+   function setFlashCard(){
+    
+    setPorcentageComplete(numberFlash * (100 / dataFlash.length ))
     if(numberFlash < dataFlash.length) {
       if(numberFlash >= 0){
         setQuestion(dataFlash[numberFlash].question)
@@ -66,22 +76,24 @@ export function ShowFlashCard({ navigation }) {
         navigation.navigate('Home')
       }
     } else{
-      setNumberFlash(numberFlash - 1)
-      Alert.alert(
-        "Falha ao ir pro proximo",
-        "Você esta na ultima pagina" ,
-        [{ text: "OK"}]
-      ) 
+      const endTime = new Date()
+      const differenceTime = new Date( endTime - timeStart )
+      const Statistics = {
+        erros: answerIncorrect,
+        acertos: dataFlash.length - answerIncorrect, 
+        tempo: differenceTime.getMinutes() + ':' +  differenceTime.getSeconds(),
+        idDeck: route.params
+      }
+      navigation.navigate('EndFlashCard', Statistics)
     }
   }
-
   //Axios puxando os flashCads no banco de dados
   async function showQuestionCard(){
     const data = {
     } 
     try{
       setVisible(true)
-      await callAxios ("cards/one/" + 5, data, "get", false)
+      await callAxios ("cards/one/" + route.params, data, "get")
     }catch(e){
       console.log(e)
     }finally{
@@ -90,56 +102,128 @@ export function ShowFlashCard({ navigation }) {
   }
 
   return (
-    <Container>
-      <Loading visible={visible} />
-      <BugTeclado>
-        <DivShowTitle>
-          <Text style={{fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase'}}>{title}</Text>
-          <Text style={{fontSize: 20}}>{materia}</Text>
-        </DivShowTitle>
+    <ScrollView contentContainerStyle={{paddingBottom: '10%', backgroundColor: '#005483'}}>
+    <View style={styles.Container}>
+      <Loading visible={visible}/>
+      <View style={{width:'70%'}} >
+        <Text style={styles.Title}>{title}</Text>
+        <View style={styles.Incomplete}>
+          <View style={{ width: porcentageComplete + '%', height:5, backgroundColor:'#91BDD8', borderRadius: 8}}/>
+        </View>
+        <Text style={styles.Fracao}>{numberFlash + 1}/{totalPage}</Text>
+        <View style={{height: 400, alignItems: 'center'}}>
+          <View style={styles.Question}>
+              <View style={{width: '90%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{fontSize: 16, fontWeight: '400', color: '#fff'}}>{question}</Text>
+              </View>
+          </View>
+          {showAnsewer ? 
+          <Animatable.View  delay={100} animation={'fadeInDown'} style={{width:291, height: 190, backgroundColor: '#7BACC9', marginTop:-50 , borderRadius: 30, alignItems: 'center', zIndex: -1, justifyContent: 'center'}}>
+              <View style={{width: '90%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{fontSize: 16, fontWeight: '800', color: '#fff'}}>{answer}</Text>
+              </View>
+          </Animatable.View>
+          :
+          <View style={{width:291, height: 190, backgroundColor: '#7BACC9', marginTop: showAnsewer ? -50 : -168, borderRadius: 30, alignItems: 'center', zIndex: -1, justifyContent: 'center'}}>
+              <View style={{width: '90%', }}>
+                  <Text style={{fontSize: 16, fontWeight: '800', color: '#fff'}}>{answer}</Text>
+              </View>
+          </View>
+          }
 
-        <ShowTheme> 
-          {proxPage ? <TextShowQuestion>{question}</TextShowQuestion> : <TextShowQuestion>{answer}</TextShowQuestion> }
-        </ShowTheme>
-
-        { proxPage ? <Button Text= "Resposta" fontSize = {16} onPress={() => (setProxPage(!proxPage))}/>  :  <Button Text= "Proximo" fontSize = {16} onPress={() => (setProxPage(!proxPage), setNumberFlash(numberFlash + 1))}/>}
-        { proxPage ? <Button Text= "Voltar" fontSize = {16} onPress={() => (setProxPage(!proxPage), setNumberFlash(numberFlash - 1))} /> :  <Button Text= "Voltar" fontSize = {16}  onPress={() => (setProxPage(!proxPage))} />}
-        </BugTeclado>
-    </Container>
+        </View>  
+        {showAnsewer ?
+        <View style={styles.Feedback}>
+          <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1), setAnswerIncorrect(answerIncorrect + 1))} style={styles.ButtonIncorrect}>
+            <IconCorrect />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => (setShowAnsewer(!showAnsewer), setNumberFlash(numberFlash + 1))} style={styles.ButtonCorrect}>
+          <IconIncorrect />
+          </TouchableOpacity>
+        </View> 
+        :
+        <TouchableOpacity onPress={() => setShowAnsewer(!showAnsewer)} style={styles.ButtonEye}>
+          <Eye />
+        </TouchableOpacity>
+        }
+      </View>  
+    </View>
+    </ScrollView>
   );
 }
-const Container = styled.ScrollView `
-height:100%;
-background-color: #9EDEFE;
-`
 
-const BugTeclado = styled.KeyboardAvoidingView `
-align-items: center;
-width: 100%;
-height:100%;
-margin-bottom: 40px;
-`
+const styles = StyleSheet.create({
+  Container: { 
+    backgroundColor:'#005483', 
+    width:'100%', 
+    height:'100%', 
+    alignItems: 'center',
+  },
+  Title: {
+    color: '#fff', 
+    fontSize: 30, 
+    fontWeight: '500'
+  }, 
+  Incomplete: {
+    width:285,
+    height:5, 
+    backgroundColor: '#23709D',
+    marginTop: 30, 
+    borderRadius: 8,
+    alignSelf: 'center',
+  },
+  Fracao: {
+    alignSelf:'center', 
+    color: '#91BDD8', 
+    fontSize: 20, 
+    fontWeight: '500',
+  },
+  Question: {
+    width:291, 
+    height: 168, 
+    backgroundColor: '#23709D', 
+    borderRadius: 30, 
+    marginTop: 38, 
+    alignItems: 'center',
+  }, 
+  Feedback: {
+    width: 230, 
+    height: 57, 
+    backgroundColor: '#23709D', 
+    alignSelf: 'center', 
+    borderRadius: 20, 
+    flexDirection: 'row', 
+    borderWidth: 3, 
+    borderColor: '#49B715'
+  }, 
+  ButtonIncorrect: {
+    width: 124, 
+    height: 57,
+    marginLeft: -3, 
+    borderWidth: 3, 
+    marginTop: -3, 
+    borderColor: '#940000', 
+    borderRadius: 20, 
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+  ButtonCorrect: {
+    width: 100,
+    height: 51, 
+    borderRadius: 20, 
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+  ButtonEye: {
+    width: 102, 
+    height: 66, 
+    borderWidth: 3, 
+    borderColor: '#23709D', 
+    alignSelf: 'center', 
+    borderRadius: 20, 
+    alignItems: 'center', 
+    justifyContent: 'center'
+  }
 
-const DivShowTitle = styled.View `
-width: 100%;
-height: 129px;
-background-color: #42BEFB
-align-items: center;
-justifyContent: center;
-`
+})
 
-const ShowTheme = styled.View `
-width: 313px;
-height: 172px;
-background-color: #fff;
-margin-bottom:19px;
-margin-top: 50px;
-justifyContent: center;
-align-items: center;
-`
-const TextShowQuestion = styled.Text `
-width: 199px;
-font-size: 16px;
-text-align: center;
-text-transform: uppercase;
-`

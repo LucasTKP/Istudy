@@ -2,27 +2,30 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native'
 import { UserContext } from '../../App';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Image, TouchableOpacity  } from "react-native";
-import Arrow from '../../assets/ImageNavBar/Arrow.png'
+import Arrow from '../../assets/ImageNavBar/arrow.svg'
 import { Profile } from '../components/Profile'
-
-
 export function Home({ navigation }) {
-  const {setDataUser, profile, setProfile} = useContext(UserContext)
-  const {dataUser} = useContext(UserContext)
-  const [name, setName] = useState(dataUser.name)
+  const {dataUser, profile, setProfile} = useContext(UserContext)
   return (
     // Container = View / Body (html), criado com o styled component na linha 28.
     <Container>
       {profile ? <Profile /> : <Text style={{display: 'none'}}></Text> }
       <DivHeader style={{borderBottomRightRadius: 50, borderBottomLeftRadius: 50}}>
         <ButtonHeader onPress={() => setProfile(true)}>
-          <ImageProfile></ImageProfile>
-          <TextName>Bons Estudos {'Natã 🤞'}</TextName>
+          <View style={{width: 100, height: 100}}>
+            <ImageProfile source={{uri: dataUser.image}}></ImageProfile>
+          </View>
+          <TextName>Bons Estudos {dataUser.name}</TextName>
           <ButtonProfile>
-            <Image source={Arrow}></Image>
+            <Arrow  />
           </ButtonProfile>
         </ButtonHeader>
       </DivHeader>
+
+      <TouchableOpacity style={{marginTop: 100,}}
+        onPress={ () => navigation.navigate('Decks')}
+      >       
+      </TouchableOpacity>
     </Container>
   );
 }
@@ -50,9 +53,8 @@ flexDirection: row;
 `
 
 const ImageProfile = styled.Image `
-width:51px;
-height:51px;
-background-color: white;
+width:75px;
+height:75px;
 border-radius: 50px;
 `
 

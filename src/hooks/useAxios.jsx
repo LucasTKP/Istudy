@@ -35,33 +35,10 @@ function useAxios() {
           }  else if (type === "put"){
             const answer = await axios.put(urlAxios, data, config)
             setanswerAxios(answer.data)  
+          } else if (type === "delete"){
+            const answer = await axios.delete(urlAxios, config)
+            setanswerAxios(answer.data) 
           }
-          
-          // if (answer.data.status === 200){
-          //   if(answer.data.message){ 
-          //     Alert.alert(
-          //       "Sucesso ",
-          //       answer.data.message,
-          //       [{ text: "OK"}]
-          //     ) 
-          //   }
-          //   if(page != undefined){
-          //     if(page === 'Modal'){
-              
-          //       setNavigationAxios("Modal")
-          //     } else {
-          //       navigation.navigate(page)
-          //     }
-          //   } 
-            
-            
-          // } 
-          
-          // if (answer.data.status === 201){
-          //   setMessage("")
-          //   setMessage(answer.data.message)
-          // }
-           
         }
         } catch (e) {
             console.log(e)

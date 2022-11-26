@@ -1,10 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react';
+import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import styled from 'styled-components/native'
 import Loading from '../components/Loading'
 import useAxios from '../hooks/useAxios'
 import Input from '../components/Input'
 import BoxAlert from '../components/BoxAlert'
 import { UserContext } from '../../App';
+import ImageNewPassword from '../../assets/ImageNavBar/arrow.svg'
+import ArrowRight from '../../assets/ImageNavBar/arrow.svg'
+import ImageGoogle from '../../assets/ImageNavBar/arrow.svg'
 
 export function ResetPassword({navigation, route}) {
      //Variavel global
@@ -103,10 +107,17 @@ export function ResetPassword({navigation, route}) {
   } 
 
   return (
-    <Container>
+    <View style={styles.container}>
       <BoxAlert message={message} type={typeAlert} />
-     <Text> Redefinir Senha</Text>
+
+      <View style={styles.containerLogo}>
+        <ImageNewPassword />
+      </View>
+
+     
       <Loading visible={visible} />
+      <View style={styles.containerForm}>
+      <Text style={styles.title}> Redefinir Senha</Text>
         <Input 
         //Infor input
         onChangeText={(Text)=> (setPassword(Text))}
@@ -124,7 +135,7 @@ export function ResetPassword({navigation, route}) {
         <Input 
         //Infor input
         onChangeText={(Text)=> (setConfirmationPassword(Text))}
-        placeholder="Confirme suaSenha"
+        placeholder="Confirme sua Senha"
         secureTextEntry={viewPassword}
         //Info Icon
         onPress={()=> (setViewPassword(!viewPassword), VerifyEye())} 
@@ -135,13 +146,54 @@ export function ResetPassword({navigation, route}) {
         /> 
      {errorEqualsPassword ? <TextError>As senhas nao estão iguais</TextError> :  <Text style={{height:0}}></Text> }
      
-     <ButtonVerify onPress={() =>  AlterPassword()}>
-      <TextButtonVerify style={{color: 'white'}}>Redefinir</TextButtonVerify>
-     </ButtonVerify>
+     <TouchableOpacity style={styles.buttonVerify} onPress={() =>  AlterPassword()}>
+      <ArrowRight />
+     </TouchableOpacity>
+     </View>
 
-    </Container>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor: '#004973',
+  },
+  containerLogo:{
+    flex:1,
+    marginTop: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  title:{
+    fontSize: 30,
+    fontWeight:'bold',
+    color: '#FFFF', 
+    marginTop: 40,
+    width: '85%',
+  },
+  containerForm:{
+    flex:2,
+    marginTop: 0,
+    alignItems: 'center',
+  },
+  buttonVerify:{
+    marginTop: 48,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: "#007FC7",
+    borderRadius: 100,
+    paddingVertical: 25,
+    paddingHorizontal: 35,
+    width: 30  
+  },
+
+
+
+})
+
 
 const Container = styled.View `
   margin-top:101px; 
@@ -149,7 +201,7 @@ const Container = styled.View `
   height: 100%;
 `
 
-const Text = styled.Text `
+const Ttext = styled.Text `
 font-size:20px;
 text-align:center;
 width:80%;
