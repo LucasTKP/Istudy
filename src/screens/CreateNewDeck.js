@@ -1,38 +1,24 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Button from '../components/Button'
-import styled from 'styled-components/native'
-import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Modal} from 'react-native';
 import { UserContext } from '../../App';
 import useAxios from '../hooks/useAxios'
 import Loading from '../components/Loading'
 import BoxAlert from '../components/BoxAlert'
-import Cake from '../../assets/cake.png'
-import pen from '../../assets/ImageNavBar/pen.png'
+import Cake from '../../assets/ImagePages/cake.svg'
+import pen from '../../assets/ImageNavBar/pen.svg'
 import { Feather } from '@expo/vector-icons'; 
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
-export function CreateNewDeck({ navigation, route }) {
+export function CreateNewDeck({ navigation }) {
   //Variavel global
-  const {setDataUser, setModal, setAlert} = useContext(UserContext)
+  const {setAlert, dataUser} = useContext(UserContext)
   //Variavei com informação dos flashCards
   const [title, setTitle] = useState("")
-  const [question, setQuestion] = useState("")
-  const [answer, setAnswer] = useState("")
+  //Infos da categoria
   const [nameCategory, setNameCategory] = useState("")
   const [idCategory, setIdCategory] = useState("")
-  const [nameIcon, setNameIcon] = useState('https://istudy.sfo3.cdn.digitaloceanspaces.com/Categorys/ImageDefault.png')
-  //Variavel para verificar se é a primeira pagina, onde se cria o titulo, imagem entre outros
-  const [pageOne, setPageOne] = useState(true)
-  //Variavel que muda components após passar da primeira pagina
-  const [justify, setJustify] = useState("space-between")
-  //Variavel que junta as informações dos flash e envia para o banco de dados
-  const [flashCard, setFlashCard] = useState(null)
-  //Variaveis para limitar a quantidade de flash cards criadas
-  const [maxPage, setMaxPage] = useState(false)
-  const [Counter, setCounter] = useState(1)
-  //Variavel Global
-  const {dataUser} = useContext(UserContext)
   //Variavel Loading
   const [visible, setVisible] = useState(false)
   //Variavel Informação do axios
@@ -44,85 +30,17 @@ export function CreateNewDeck({ navigation, route }) {
   const [portugues, setPortugues] = useState(false)
   const [ciencias, setCiencias] = useState(false)
   const [ingles, setIngles] = useState(false)
-
-  // //Seta o id e o nome da materia selecionada 
-  // useEffect(()=>{
-  //   if(route.params != undefined){
-  //     setIdCategoria(route.params.idFilter)
-  //     setNameCategory(route.params.nameFilter)
-  //   }
-  // },[route.params])
-
-  // //Função que salva o flashCard no banco de dados
-  // async function SalvarCard(){
-  //   try{
-  //     setVisible(true)
-  //     await callAxios ("cards/answers/" + answerAxios.createCard.id , flashCard, "post")
-  //   }catch(e){
-  //     console.log(e)
-  //   }finally{
-  //   setVisible(false)
-  //   }
-  // }
-
-  // //Função que cria executa em ordem a função de criar e a de salvar no banco de dados
-  // async function Create(){
-  //   await Salvar()
-  //   SalvarCard()
-  // }
-  
-  // //Função que salva o flash card na Variavel flashCard
-  // async function Salvar(){
-  //   if (title != "" && question != "" && answer != "" && idCategoria != ""){
-  //     if (pageOne === false ){
-  //       const flashCardEnd = flashCard
-  //       flashCardEnd.push({question,answer})
-  //       setFlashCard(flashCardEnd)
-  //     }
-  //     if (pageOne === true){
-  //       const flashCardEnd = [flashCard] 
-  //       flashCardEnd.push({question,answer})
-  //       setFlashCard(flashCardEnd)
-  //       flashCardEnd.shift()
-
-  //       const data = {
-  //         id_user: dataUser.id,
-  //         id_category: idCategoria,
-  //         title: title,
-  //       } 
-
-  //       try{
-  //         setVisible(true)
-  //         await callAxios ("cards", data, "post") 
-  //       }catch(e){
-  //         console.log(e)
-  //       }finally{
-  //         setVisible(false)
-  //       }
-  //     }
-  //     setPageOne(false)
-  //     setJustify("center")
-  //     setQuestion("")
-  //     setAnswer("")
-  //     setCounter(Counter + 1)
-
-  //   if (Counter > 8) {  
-  //     setMaxPage(true)
-  //   }
-  
-  // } else {
-  //   setAlert(true)
-  // }
-  // }
+  const [imageDeck, setImageDeck] = useState('https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png')
+  const [modalImage, setModalImage] = useState(false)
 
   async function CreateDeck(){
     if (Validate()){
       const data = {
-        id_user: 1,
+        id_user: dataUser.id,
         id_category: idCategory,
         title: title,
+        image: imageDeck,
       } 
-
       try{
         setVisible(true)
         await callAxios ("cards", data, "post") 
@@ -146,7 +64,7 @@ export function CreateNewDeck({ navigation, route }) {
 
   useEffect(() => {
     if(answerAxios.status === 200){
-      navigation.navigate('ShowFlashCard')
+      navigation.navigate('InsertFlashCard', {id: answerAxios.createCard.id})
     }
   },[answerAxios])
 
@@ -179,23 +97,72 @@ export function CreateNewDeck({ navigation, route }) {
     }
   }
 
+  useEffect(()=>{
+    if(imageDeck != 'https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png'){
+      setModalImage(!modalImage)
+    }
+    },[imageDeck])
+
 
   return (
-    <View style={{backgroundColor:'#005483', height:'100%', width:'100%', alignItems: 'center'}}>
+    <View style={{backgroundColor:'#005483', flex:1}}>
+    <ScrollView contentContainerStyle={{height:'100%', width:'100%', alignItems: 'center'}}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalImage}
+        onRequestClose={() => {
+          setModalImage(!modalImage);
+        }}
+      >
+        <ScrollView>
+          <TouchableOpacity onPress={() => setModalImage(!modalImage)} style={styles.PageTradeAvatar}>
+        
+            <Text style={{ fontSize: 20, fontWeight: '500', marginTop: 20, marginBottom: 20, textAlign: 'center', color: 'white' }}>Selecione A Imagem do seu Deck</Text>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-1.discordapp.net/external/mQ4fekOE77byAKCyCeTlRa1JdV4tvSw63e_-bC8_89w/%3Falt%3Dmedia%26token%3Dca6095d8-121f-42b6-beaf-72a57369f9b4/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%281%29.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-1.discordapp.net/external/-t1Y7c1sUOJhrJ1bOR1Li7n8Y_k36e4ALx2gkTDWy0E/%3Falt%3Dmedia%26token%3D8f056608-373c-418e-8349-55805b2ead79/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%282%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-1.discordapp.net/external/-t1Y7c1sUOJhrJ1bOR1Li7n8Y_k36e4ALx2gkTDWy0E/%3Falt%3Dmedia%26token%3D8f056608-373c-418e-8349-55805b2ead79/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%282%29.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-2.discordapp.net/external/8pu7Kj-zkajKItaorhy9JF0AOExrDj6NpSNhFh_I1IM/%3Falt%3Dmedia%26token%3Dcea5df49-5a39-41c7-92f4-e28537c62ddc/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%283%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-2.discordapp.net/external/8pu7Kj-zkajKItaorhy9JF0AOExrDj6NpSNhFh_I1IM/%3Falt%3Dmedia%26token%3Dcea5df49-5a39-41c7-92f4-e28537c62ddc/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%283%29.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-2.discordapp.net/external/NwP1VpZWD6gfatqF6LQZxNy3pFrnvSEpPlU-9xP6Lzg/%3Falt%3Dmedia%26token%3D11fd4d13-7cb2-4ab0-8df2-43165d6b157a/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%284%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-2.discordapp.net/external/NwP1VpZWD6gfatqF6LQZxNy3pFrnvSEpPlU-9xP6Lzg/%3Falt%3Dmedia%26token%3D11fd4d13-7cb2-4ab0-8df2-43165d6b157a/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%284%29.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-2.discordapp.net/external/hk-6A74-wR6y7Jc9Ai7ZbH8JDTHzU23SSQ5yxE1AHFo/%3Falt%3Dmedia%26token%3D406e139e-4f8a-48b1-83c7-f14b18208959/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%285%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-2.discordapp.net/external/hk-6A74-wR6y7Jc9Ai7ZbH8JDTHzU23SSQ5yxE1AHFo/%3Falt%3Dmedia%26token%3D406e139e-4f8a-48b1-83c7-f14b18208959/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%285%29.png'}} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.NewImage} onPress={() => setImageDeck('https://images-ext-1.discordapp.net/external/sSGbYf1ya2H895v9aETiaRdHSUSHjdNuvY7B9xabiZU/%3Falt%3Dmedia%26token%3D44957bd3-78fd-492b-9698-7a9ad4b9fb04/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%286%29.png')}>
+              <Image style={{width: 295, height:118}} source={{uri: 'https://images-ext-1.discordapp.net/external/sSGbYf1ya2H895v9aETiaRdHSUSHjdNuvY7B9xabiZU/%3Falt%3Dmedia%26token%3D44957bd3-78fd-492b-9698-7a9ad4b9fb04/https/firebasestorage.googleapis.com/v0/b/istudy-f79b7.appspot.com/o/cards%252FGroup%2520%286%29.png'}} />
+            </TouchableOpacity>
+        
+          </TouchableOpacity>
+        </ScrollView>
+      </Modal>
+
+
       <Loading visible={visible}/>
       <BoxAlert message={message} type={'erro'}/>
-      <View style={{flexDirection:'row', marginTop: 50}}>
+      <View style={{flexDirection:'row'}}>
         <View style={{justifyContent: 'space-between', width:'50%'}}>
           <Text style={{fontSize: 30, color: 'white'}}>Criar</Text>
           <Text style={{width: 149, fontSize: 13, color:'#91BDD8'}}>Crie os seus próprios Flashcards para estudar como nunca antes!</Text>
         </View>
-        <Image source={Cake} />
+        <Cake />
       </View>
-      <View style={{width: 295, height:136, backgroundColor: '#7BACC9', marginTop: 50, borderRadius: 8}}>
-        <Image style={{height: '100%', width:'100%'}}source={{uri: 'https://istudy.sfo3.cdn.digitaloceanspaces.com/Cards/tom-hermans-9BoqXzEeQqM-unsplash%201.png'}}></Image>
+      <View style={{marginTop: 50}}>
+        <Image style={{width: 295, height:118}}source={{uri: imageDeck}}></Image>
         <View style={{alignItems: 'flex-end', justifyContent: 'flex-end', marginRight: 10, marginTop: -10}}>
           <View style={styles.TradeImage}>
-            <Feather name="edit-3" size={30} color="black" onPress={() => AlterTableName()} />
+            <Feather name="edit-3" size={30} color="black" onPress={() => setModalImage(!modalImage)} />
           </View>
         </View>
 
@@ -251,6 +218,7 @@ export function CreateNewDeck({ navigation, route }) {
           </TouchableOpacity> 
         </View>
       </View>
+    </ScrollView>
     </View>
   );
 }
@@ -318,6 +286,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     flexDirection: 'row'
+  },
+  PageTradeAvatar: {
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.80)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  //Modal de icones
+  BackgroundIcon:{
+    backgroundColor: '#005483', 
+    borderRadius: 16, 
+    justifyContent: 'center', 
+    alignItems: 'center'  
+  }, 
+  NewImage: {
+    marginTop: 10,
+    marginBottom: 20,
   }
-  
 });

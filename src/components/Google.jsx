@@ -1,44 +1,56 @@
-import styled from 'styled-components/native'
 import * as AuthSession from 'expo-auth-session'
-import  Icon  from 'react-native-vector-icons/Ionicons'
-import IconGoogle from '../../assets/iconGoogle.png'
-
-
+import Loading from '../components/Loading'
+import axios from 'axios';
 import React from 'react'
-import { View, Image } from 'react-native'
+import {Image, TouchableOpacity, StyleSheet, Text } from 'react-native'
+import useStoreCache from '../hooks/useStoreCache'
+import ImageGoogle from '../../assets/ImageAutentication/imageGoogle.svg'
 
 function Google() {
+  const [visible, setVisible] = React.useState(false)
+  //Variavel Informação do StoreCache
+  const {callStoreCache} = useStoreCache()
     async function SingUpGoogle(user){
         setVisible(true)
         try{
-            const urlCadastrar = "https://istudy-back-production.up.railway.app/api/v1/user"       
-            
-                  const data = {
-                    name: user.name,
-                    email: user.email,
-                    senha: user.id,
-                    image: user.picture
-                }
-                
-                const config = {
-                    headers:{
-                      Authentication: "donos_do_codigo"
-                    }
-                }
-    
-                const resposta = await axios.post(urlCadastrar, data, config)
-    
-                if (resposta.data.status == 200){
-                  StoreCache(resposta)
-                    navigation.navigate('Home')
-                }
-    
-            setVisible(false);
+          const urlCadastrar = "https://istudy-back-production.up.railway.app/api/v1/user/"       
+
+          const data = {
+            name: user.name,
+            email: user.email,
+            senha: user.id,
+            image: user.picture
+          }
+          
+          const config = {
+              headers:{
+                Authentication: "donos_do_codigo"
+              }
+          }
+
+          const resposta = await axios.post(urlCadastrar, data, config)
+
+          if (resposta.data.status == 200){
+            const User = {
+              id: resposta.data.data.id,
+              email:resposta.data.data.email,
+              name: resposta.data.data.name,
+              token: resposta.data.token,
+              image: resposta.data.data.image_url,
+              matches: resposta.data.statistics[0].playeds,
+              wins: resposta.data.statistics[0].wins,
+              defeats: resposta.data.statistics[0].loses
+            }
+            callStoreCache(User)
+          }
           } catch(e)  {
-            setVisible(false);
+            
             console.log(e)
+          } finally {
+            setVisible(false);
           }
       }
+
       async function handleGoogleSignIn(){
         try{
           const Client_ID = "799907269970-ensptj6ekngvivertamcgf5df9f384dd.apps.googleusercontent.com"
@@ -61,23 +73,37 @@ function Google() {
       }
 
   return (
-    <ButtonLogin onPress={() => handleGoogleSignIn()}>
-        <Image source={IconGoogle}  />
-    </ButtonLogin>
+    <>
+    <Loading visible={visible} />
+    <TouchableOpacity style={styles.buttonLogin} onPress={() => handleGoogleSignIn()}>
+        <ImageGoogle />
+        <Text style={styles.buttonText}>Entrar com o Google</Text>
+    </TouchableOpacity>
+    </>
   )
 }
 
+const styles = StyleSheet.create({
+  buttonLogin:{
+  marginTop: 20,
+  backgroundColor: "#FFF",
+  borderRadius: 20,
+  paddingVertical: 15,
+  paddingHorizontal: 20,
+  width: 262,
+  height: 54,
+  flexDirection: 'row',
+  },
+  buttonText:{
+    fontSize: 16,
+    color: '#004973',
+    marginLeft: 24,
+},
+buttonGoogle:{
+    alignSelf: 'center',
+},
 
-
-const ButtonLogin = styled.TouchableOpacity `
-  border-radius: 20px;
-  width: 55px;
-  height: 55px;
-  align-items: center;
-  justifyContent: center;
-  background-color: #FB8F8F;
-  margin-top: 10%;
-`
+})
 
 
 export default Google
