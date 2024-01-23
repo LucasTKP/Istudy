@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
+  "expoServerPort": null,
   "packagerPort": 19000,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://a3-k7s.logic2606.istudy-front.exp.direct",
+  "packagerNgrokUrl": "https://a3-k7s.logic2606.istudy-front.exp.direct",
+  "ngrokPid": 5222,
   "webpackServerPort": null
 }

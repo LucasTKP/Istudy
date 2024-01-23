@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import styled from 'styled-components/native'
-import { Text, KeyboardAvoidingView } from 'react-native';
+import { Text, KeyboardAvoidingView, StyleSheet, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { UserContext } from '../../App';
 import Google from '../components/Google'
 import Input from '../components/Input'
@@ -9,11 +8,12 @@ import Loading from '../components/Loading'
 import useStoreCache from '../hooks/useStoreCache';
 import BoxCode from '../components/BoxCode'
 import BoxAlert from '../components/BoxAlert'
-
+import ImageSignIn from '../../assets/ImageAutentication/imageSignIn.svg'
+import ArrowRight from '../../assets/ImageAutentication/arrowRight.svg'
 export function SignIn({navigation}) {
 
   //Variavel global
-  const {setDataUser, setModal, setAlert} = useContext(UserContext)
+  const {setReload, setModal, setAlert} = useContext(UserContext)
   // Variavel que recebe o campo email e o campo senha
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -120,14 +120,23 @@ export function SignIn({navigation}) {
         defeats: answerAxios.statistics[0].loses
       }
      callStoreCache(User)
-     navigation.navigate('Home')
+
+     setReload(true)
     }
+
   return (
-    <Container>
+    <View style={styles.container}>
         <Loading visible={visible} />
         <BoxCode codeEmail={codeEmail} funcao={'Esqueceu a senha'} email={email} />
         <BoxAlert message={message} type={'erro'} />
-            <TextLogar> Login </TextLogar>
+        <ScrollView>
+            <View style={styles.containerLogo}>
+            <ImageSignIn />
+            </View>
+
+            <Text style={styles.textTitle}> Login </Text>
+
+            <View style={styles.containerForm}>
 
                 <Input  
                 // Propriedade dos Inputs
@@ -154,65 +163,71 @@ export function SignIn({navigation}) {
                   color={"#444"}/>
 
                   {/* Erro De senha */}
-                  {errorPassword ? <Text style={{height:0}}></Text> : <TextError>A senha deve conter 8 letras, minusculas, maiusculas e numeros</TextError>}  
+                  {errorPassword ? <Text style={{height:0}}></Text> : <Text style={styles.TextError}>A senha deve conter 8 letras, minusculas, maiusculas e numeros</Text>}  
 
-              <ButtonForgetPassword onPress={() => ForgetPassword()}>
-              <TextForgetPassword>Esqueci minha senha</TextForgetPassword>
-              </ButtonForgetPassword>
+              <TouchableOpacity style={styles.buttonForgetPassword} onPress={() => ForgetPassword()}>
+              <Text style={styles.textForgetPassword}>Esqueci minha senha</Text>
+              </TouchableOpacity>
 
-              <Text style={{fontSize: 16, marginTop: 20}}>Outras formas de login</Text>
-              <Google />
-              <ButtonLogin style={{flexDirection: 'row'}}
+              <TouchableOpacity style={styles.buttonLogin}
                 onPress={() => Login()}>
-              <TextButton>Login</TextButton>
-              </ButtonLogin>
-              <Text style={{fontSize: 16, marginTop:20, textAlign: 'right'}} onPress={() => navigation.navigate('SignUp')}>Quero me cadastrar</Text>
-    </Container>
+                <ArrowRight />
+              </TouchableOpacity>
+              
+              {/*<Text style={{fontSize: 16, marginTop:20, textAlign: 'right'}} onPress={() => navigation.navigate('SignUp')}>Quero me cadastrar</Text>*/}
+              <Google/>
+              </View>
+            </ScrollView>
+    </View>
   );
 }
 
-const Container = styled.KeyboardAvoidingView `
-  align-items: center;
-  background: white;  
-`
-
-
-const TextLogar = styled.Text `
-font-size: 30px;
-margin-top: 20px;
-font-weight: bold;
-`
-const ButtonForgetPassword = styled.TouchableOpacity `
-`
-
-const TextForgetPassword = styled.Text `
-margin-top: 3px;
-margin-left: 100px;
-color: #0353BF
-font-size: 16px;
-text-align: right;
-`
-
-const ButtonLogin = styled.TouchableOpacity `
-  border: 1px solid black;
-  border-radius: 20px;
-  width: 295px;
-  height: 69px;
-  justifyContent: center;
-  align-items: center;
-  background-color: #0353BF;
-  margin-top: 50px;
-`
-const TextButton = styled.Text `
-font-size: 25px;
-font-size: 24px;
-color:white;
-`
-
-
-const TextError = styled.Text `
-color: red;
-width: 300px;
-text-align: center;
-`
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor: '#004973',
+    
+  },
+  containerLogo: {
+    flex:1,
+    marginTop: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textTitle:{
+    fontSize: 30,
+    fontWeight:'bold',
+    color: '#FFFF', 
+    marginTop: 40,
+    marginLeft: 40,
+  },
+  containerForm:{
+    flex:2,
+    marginTop: 0,
+    alignItems: 'center',
+  },
+  textForgetPassword:{
+    color: '#91BDD8',
+    fontSize: 14,
+  },
+  buttonForgetPassword:{
+    marginLeft: -180,
+    marginTop:10,
+  },
+  buttonLogin:{
+    marginTop: 48,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: "#007FC7",
+    borderRadius: 100,
+    paddingVertical: 25,
+    paddingHorizontal: 35,
+    width: 30,
+  },
+  TextError: {
+    color: 'white',
+    width: 300,
+    textAlign: 'center'
+  }
+})
 
