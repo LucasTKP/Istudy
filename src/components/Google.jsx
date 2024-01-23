@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
   marginTop: 20,
   backgroundColor: "#FFF",
   borderRadius: 20,
-  paddingVertical: 15,
+  paddingVertical: 10,
   paddingHorizontal: 20,
-  width: 262,
-  height: 54,
   flexDirection: 'row',
+  alignItems: 'center',
+
   },
   buttonText:{
     fontSize: 16,
